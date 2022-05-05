@@ -24,7 +24,7 @@ describe('defineStore', () => {
 
     actions = {
       setName(name){
-        this.name = name
+        this.state.name = name
       }
     }
   })

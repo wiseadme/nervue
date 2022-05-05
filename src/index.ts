@@ -16,8 +16,10 @@ export const defineState = <S = {}>(id: string, genState: () => S): S => {
 export const defineActions = <A = {}>(id: string, actions: A): A => {
   const state = storeHashMap.get(`${ id }-state`)
 
+  const context = state ? { state, ...actions } : actions
+
   Object.keys(actions).forEach((fn) => {
-    actions[fn] = actions[fn].bind(state)
+    actions[fn] = actions[fn].bind(context)
   })
 
   storeHashMap.set(`${ id }-actions`, actions)
