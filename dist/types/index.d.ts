@@ -1,4 +1,4 @@
-import { UnwrapRef } from 'vue'
+import { UnwrapRef, Plugin } from 'vue'
 
 export declare type Method = (...args: any[]) => any
 
@@ -24,3 +24,5 @@ export declare function defineState<S = {}>(key: string, genState: StateDefiniti
 export declare function defineActions<A = {}>(key: string, actions: ActionsDefinition<A>): A
 
 export declare function defineStore<S = {}, A = {}>(key: string, options?: StoreOptions<S, A>): () => Store<S, A>
+
+export declare function createVueZone(): Plugin

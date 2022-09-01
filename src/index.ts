@@ -1,20 +1,22 @@
 // Vue API
-import { reactive } from 'vue'
+import { reactive, toRefs, inject, ref, App } from 'vue'
 // Types
 import { Store, StoreOptions } from './types'
 
-const storeHashMap = new Map()
+const definesMap: Map<string, any> = new Map()
+const storesMap = {}
+const isInstalled = ref(false)
 
 export const defineState = <S = {}>(id: string, genState: () => S): S => {
   const state = reactive(genState() as any)
 
-  storeHashMap.set(`${ id }-state`, state)
+  definesMap.set(`${ id }-state`, state)
 
   return state
 }
 
 export const defineActions = <A = {}>(id: string, actions: A): A => {
-  const state = storeHashMap.get(`${ id }-state`)
+  const state = definesMap.get(`${ id }-state`)
 
   const context = state ? { state, ...actions } : actions
 
@@ -22,7 +24,7 @@ export const defineActions = <A = {}>(id: string, actions: A): A => {
     actions[fn] = actions[fn].bind(context)
   })
 
-  storeHashMap.set(`${ id }-actions`, actions)
+  definesMap.set(`${ id }-actions`, actions)
 
   return actions
 }
@@ -31,12 +33,26 @@ export const defineStore = <S = {}, A = {}>(id: string, options?: StoreOptions<S
   let state, actions
 
   if (!options) {
-    state = storeHashMap.get(`${ id }-state`)
-    actions = storeHashMap.get(`${ id }-actions`)
+    state = definesMap.get(`${ id }-state`)
+    actions = definesMap.get(`${ id }-actions`)
   } else {
     state = defineState(id, options.state)
     actions = defineActions(id, options.actions)
   }
 
-  return () => ({ state, ...actions })
+  storesMap[id] = { ...toRefs(state), ...actions }
+
+  return () => storesMap[id]
 }
+
+export const createVueZone = () => ({
+  install: (app: App) => {
+    if (isInstalled.value) return
+
+    isInstalled.value = true
+
+    app.provide('$vz', storesMap)
+  }
+})
+
+export const useVueZone = () => inject('$vz', null)

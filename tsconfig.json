@@ -5,7 +5,7 @@
     "strict": true,
     "allowJs": true,
     "incremental": true,
-    "noEmit": true,
+    "noEmit": false,
     "noImplicitAny": false,
     "noImplicitThis": false,
     "noEmitOnError": true,
@@ -55,11 +55,10 @@
   },
   "include": [
     "src/*.ts",
-    "dev/*.ts",
-    "dev/*.vue",
-    "tests/*.spec.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dev",
+    "tests"
   ]
 }
