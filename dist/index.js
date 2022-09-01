@@ -1,24 +1,18 @@
 // Vue API
-import { reactive, toRefs, inject, ref } from 'vue';
-const definesMap = new Map();
-const storesMap = {};
-const isInstalled = ref(false);
+import { reactive, inject } from 'vue';
+import { definesMap } from './defines-map';
+import { storesMap } from './stores-map';
+let isInstalled = false;
 export const defineState = (id, genState) => {
-    const state = reactive(genState());
-    definesMap.set(`${id}-state`, state);
-    return state;
+    definesMap.set(`${id}-state`, reactive(genState()));
+    return definesMap.get(`${id}-state`);
 };
 export const defineActions = (id, actions) => {
-    const state = definesMap.get(`${id}-state`);
-    const context = state ? { state, ...actions } : actions;
-    Object.keys(actions).forEach((fn) => {
-        actions[fn] = actions[fn].bind(context);
-    });
     definesMap.set(`${id}-actions`, actions);
-    return actions;
+    return definesMap.get(`${id}-actions`);
 };
 export const defineStore = (id, options) => {
-    let state, actions;
+    let state, actions, store;
     if (!options) {
         state = definesMap.get(`${id}-state`);
         actions = definesMap.get(`${id}-actions`);
@@ -27,15 +21,25 @@ export const defineStore = (id, options) => {
         state = defineState(id, options.state);
         actions = defineActions(id, options.actions);
     }
-    storesMap[id] = { ...toRefs(state), ...actions };
-    return () => storesMap[id];
+    store = { state, ...actions };
+    Object.keys(store).forEach(key => {
+        if (typeof store[key] === 'function') {
+            store[key] = store[key].bind(store);
+        }
+    });
+    storesMap[id] = store;
+    return () => store;
 };
 export const createVueZone = () => ({
     install: (app) => {
-        if (isInstalled.value) return;
-        isInstalled.value = true;
+        if (isInstalled)
+            return;
+        isInstalled = true;
         app.provide('$vz', storesMap);
     }
 });
-export const useVueZone = () => inject('$vz', null);
+export const useVueZone = (id) => {
+    const globalStore = inject('$vz', {});
+    return id ? globalStore[id] : globalStore;
+};
 //# sourceMappingURL=index.js.map

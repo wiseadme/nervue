@@ -26,3 +26,5 @@ export declare function defineActions<A = {}>(key: string, actions: ActionsDefin
 export declare function defineStore<S = {}, A = {}>(key: string, options?: StoreOptions<S, A>): () => Store<S, A>
 
 export declare function createVueZone(): Plugin
+
+export declare function useVueZone(id?: string): Store | any
