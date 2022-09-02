@@ -19,9 +19,9 @@ export declare type Store<S extends StateTree = {}, A = {}> = {
   [key in keyof A]: A[key]
 }
 
-export declare function defineStore<S = {}, A = {}>(key: string, options?: StoreOptions<S, A>): () => Store<S, A>
+export declare function defineStore<K extends string, S = {}, A = {}>(key: K, options?: StoreOptions<S, A>): () => Store<S, A>
 
-export declare function createVueZone(): Plugin
+export declare function createVueZone(): Plugin & { add(useStore: () => Store): void }
 
 export declare function useVueZone(id?: string): Store | any
 
