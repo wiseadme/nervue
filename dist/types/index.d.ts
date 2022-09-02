@@ -25,6 +25,6 @@ export declare function createVueZone(): Plugin & { add(useStore: () => Store): 
 
 export declare function useVueZone(id?: string): Store | any
 
-export declare function mapActions<A = {}>(id: string): A
-
-export declare function mapState<S = {}>(id: string): S
+// export declare function mapActions<A = {}>(id: string): A
+//
+// export declare function mapState<S = {}>(id: string): S

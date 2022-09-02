@@ -1,25 +1,22 @@
 <script lang="ts">
   import { defineComponent } from 'vue'
-  import { useVueZone, mapActions, mapState } from '../src/index'
+  // import { useVueZone } from '../src/index'
+  import { useUserStore } from './user-store'
 
   export default defineComponent({
     name: 'App',
-    setup() {
-      const vz = useVueZone()
+    setup(){
+      const store = useUserStore()
 
-      const state = mapState('user')
-      const { setName: setMyUserName } = mapActions('user')
-
-      console.log(vz)
-      setTimeout(() => setMyUserName('alex'), 3000)
+      setTimeout(() => store.setName('alex'), 3000)
 
       return {
-        state
+        store
       }
     }
   })
 </script>
 <template>
   <h1>VueZone</h1>
-  <span>{{ state.name }}</span>
+  <span>{{ store.name }}</span>
 </template>

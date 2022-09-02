@@ -8,23 +8,37 @@ export declare type ActionsTree = Record<string, Method>
 export declare type StateDefinition<S extends StateTree> = () => S
 export declare type ActionsDefinition<A> = ActionsTree extends A ? A : {}
 
-export declare type StoreOptions<S extends StateTree = () => ({}), A = {}> = {
+export declare type StoreOptions<S extends StateTree = {}, A = {}> = {
   state: StateDefinition<S>
   actions: ActionsTree extends A ? A : {}
 }
 
-export declare type Store<S extends StateTree = {}, A = {}> = {
+export declare type Store<
+  Id extends string = string,
+  S extends StateTree = {},
+  A extends ActionsDefinition = {}> = {
   state: UnwrapRef<S>
 } & {
   [key in keyof A]: A[key]
 }
 
-export declare function defineStore<K extends string, S = {}, A = {}>(key: K, options?: StoreOptions<S, A>): () => Store<S, A>
+export declare interface StoreDefinition<
+  Id extends string = string,
+  S extends StateTree = StateTree,
+  A extends ActionsTree = ActionsTree> {
+  (): Store<Id, S, A>
+  $id: K
+}
 
-export declare function createVueZone(): Plugin & { add(useStore: () => Store): void }
+export declare function defineStore<
+  Id extends string = string,
+  S extends StateTree = StateTree,
+  A extends ActionsTree = ActionsTree>(id: Id, options?: StoreOptions<S, A>): StoreDefinition<Id, S, A>
+
+export type VueZonePlugin = {
+  add(useStore: () => Store): void
+} & Plugin
+
+export declare function createVueZone(): VueZonePlugin
 
 export declare function useVueZone(id?: string): Store | any
-
-export declare function mapActions<A = {}>(id: string): A
-
-export declare function mapState<S = {}>(id: string): S

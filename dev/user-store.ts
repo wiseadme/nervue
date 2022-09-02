@@ -2,17 +2,18 @@ import { defineStore } from '../src'
 
 const state = () => ({
   name: '',
-  age: ''
+  age: '',
+  org: {}
 })
 
 const actions = {
-  async setName(name: string): Promise<void> {
+  async setName(name: string): Promise<void>{
+    this.name = name
     console.log(this)
-    this.state.name = name
   }
 }
 
-export const useUserStore = defineStore<string, {}, {}>('user', {
+export const useUserStore = defineStore('user', {
   state,
   actions
 })
