@@ -16,8 +16,9 @@ export declare type StoreOptions<S extends StateTree = {}, A = {}> = {
 export declare type Store<
   Id extends string = string,
   S extends StateTree = {},
-  A extends ActionsDefinition = {}> = {
+  A extends ActionsTree = {}> = {
   state: UnwrapRef<S>
+  $id: Id
 } & {
   [key in keyof A]: A[key]
 }
@@ -27,13 +28,14 @@ export declare interface StoreDefinition<
   S extends StateTree = StateTree,
   A extends ActionsTree = ActionsTree> {
   (): Store<Id, S, A>
-  $id: K
+  $id: Id
 }
 
 export declare function defineStore<
   Id extends string = string,
   S extends StateTree = StateTree,
-  A extends ActionsTree = ActionsTree>(id: Id, options?: StoreOptions<S, A>): StoreDefinition<Id, S, A>
+  A extends ActionsTree = ActionsTree
+  >(id: Id, options?: StoreOptions<S, A>): StoreDefinition<Id, S, A>
 
 export type VueZonePlugin = {
   add(useStore: () => Store): void

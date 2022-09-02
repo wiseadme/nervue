@@ -1,11 +1,14 @@
 import { mount } from '@vue/test-utils'
 import { defineComponent, h } from 'vue'
-import { defineActions, defineState, defineStore } from '../src/index'
+import { defineStore } from '../src/index'
 import 'regenerator-runtime/runtime'
 
 const TestComponent = defineComponent({
   props: {
-    value: [ String, Number, Boolean ]
+    value: {
+      type: [ String, Number, Boolean ],
+      default: null
+    }
   },
   setup(props){
     return () => h('div', {
@@ -52,17 +55,17 @@ describe('defineStore', () => {
     expect(wrapper.find('.container').text()).toEqual('Viktor')
   })
 
-  it('should test separate definition of actions and state', async () => {
-    const directState: any = defineState(key, state)
-    const directActions = defineActions(key, actions)
-
-    const wrapper = mountFunction({ props: { value: directState.name } })
-
-    directActions.setName('Vladimir')
-
-    await wrapper.setProps({ value: directState.name })
-
-    expect(directState.name).toEqual('Vladimir')
-    expect(wrapper.find('.container').text()).toEqual('Vladimir')
-  })
+  // it('should test separate definition of actions and state', async () => {
+  //   const directState: any = defineState(key, state)
+  //   const directActions = defineActions(key, actions)
+  //
+  //   const wrapper = mountFunction({ props: { value: directState.name } })
+  //
+  //   directActions.setName('Vladimir')
+  //
+  //   await wrapper.setProps({ value: directState.name })
+  //
+  //   expect(directState.name).toEqual('Vladimir')
+  //   expect(wrapper.find('.container').text()).toEqual('Vladimir')
+  // })
 })
