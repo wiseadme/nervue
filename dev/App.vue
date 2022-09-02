@@ -5,15 +5,15 @@
 
   export default defineComponent({
     name: 'App',
-    setup(){
+    setup() {
       const store = useUserStore()
-      const map = mapActions(useUserStore)
+      const { setName } = mapActions(useUserStore)
       const state = mapState(useUserStore)
 
-      console.log(map, state)
+      console.log(state)
 
-      setTimeout(() => store.setName('alex'), 3000)
-      setTimeout(() => state.name = 'suuuka', 5000)
+      setTimeout(() => setName('petux'), 3000)
+      // setTimeout(() => state.name = 'suuuka', 5000)
 
       return {
         store

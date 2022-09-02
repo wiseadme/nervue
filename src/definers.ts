@@ -1,20 +1,22 @@
 import { reactive } from 'vue'
 import { ActionsTree, StateTree } from './types'
 
-export const definesMap: Map<symbol, any> = new Map()
+export const definesMap: Map<string, any> = new Map()
+/**
+ * @param id - the key to save the created state
+ * @param genState - the function that creates the state
+ */
+export const defineState = <S = {}>(id: string, genState: () => S): StateTree => {
+  definesMap.set(`${ id }-state`, reactive(genState() as any))
 
-export const defineState = <S = {}>(id: string, genState: () => S): { state: StateTree, symbol: symbol } => {
-  const symbol = Symbol(`${ id }-state`)
-
-  definesMap.set(symbol, reactive(genState() as any))
-
-  return { state: definesMap.get(symbol), symbol }
+  return definesMap.get(`${ id }-state`)
 }
+/**
+ * @param id - the key to save the created actions
+ * @param actions - defined actions object
+ */
+export const defineActions = <A = {}>(id: string, actions: A): ActionsTree => {
+  definesMap.set(`${ id }-actions`, actions)
 
-export const defineActions = <A = {}>(id: string, actions: A): { actions: ActionsTree, symbol: symbol } => {
-  const symbol = Symbol(`${ id }-actions`)
-
-  definesMap.set(symbol, actions)
-
-  return { actions: definesMap.get(symbol), symbol }
+  return definesMap.get(`${ id }-actions`)
 }
