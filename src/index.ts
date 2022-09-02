@@ -7,20 +7,20 @@ import { Store, StoreOptions } from './types'
 
 let isInstalled: boolean = false
 
-export const defineState = <S = {}>(id: string, genState: () => S): S => {
+const defineState = <S = {}>(id: string, genState: () => S): S => {
   definesMap.set(`${ id }-state`, reactive(genState() as any))
 
   return definesMap.get(`${ id }-state`)
 }
 
-export const defineActions = <A = {}>(id: string, actions: A): A => {
+const defineActions = <A = {}>(id: string, actions: A): A => {
   definesMap.set(`${ id }-actions`, actions)
 
   return definesMap.get(`${ id }-actions`)
 }
 
-export const defineStore = <S = {}, A = {}>(id: string, options?: StoreOptions<S, A>): () => Store<S, A> => {
-  let state, actions, store
+export const defineStore = <K extends string, S = {}, A = {}>(id: K, options?: StoreOptions<S, A>): () => Store<S, A> => {
+  let state, actions
 
   if (!options) {
     state = definesMap.get(`${ id }-state`)
@@ -30,17 +30,10 @@ export const defineStore = <S = {}, A = {}>(id: string, options?: StoreOptions<S
     actions = defineActions(id, options.actions)
   }
 
-  store = { state, ...actions }
+  const useStore = () => ({ state, ...actions })
+  useStore.id = id
 
-  Object.keys(store).forEach(key => {
-    if (typeof store[key] === 'function') {
-      store[key] = store[key].bind(store)
-    }
-  })
-
-  storesMap[id] = store
-
-  return () => store
+  return useStore
 }
 
 export const createVueZone = () => ({
@@ -50,6 +43,18 @@ export const createVueZone = () => ({
     isInstalled = true
 
     app.provide('$vz', storesMap)
+  },
+
+  add(useStore) {
+    const store = useStore()
+
+    Object.keys(store).forEach(key => {
+      if (typeof store[key] === 'function') {
+        store[key] = store[key].bind(store)
+      }
+    })
+
+    storesMap[useStore.id] = store
   }
 })
 
@@ -58,3 +63,15 @@ export const useVueZone = (id?: string) => {
 
   return id ? globalStore[id] : globalStore
 }
+
+export const mapActions = (id: string) => {
+  const actions = definesMap.get(`${ id }-actions`)
+
+  Object.keys(actions).forEach(key => {
+    actions[key] = actions[key].bind(storesMap[id])
+  })
+
+  return actions
+}
+
+export const mapState = (id: string) => definesMap.get(`${ id }-state`)
