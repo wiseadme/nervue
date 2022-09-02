@@ -45,7 +45,7 @@ export const createVueZone = () => ({
     app.provide('$vz', storesMap)
   },
 
-  add(useStore) {
+  add(useStore){
     const store = useStore()
 
     Object.keys(store).forEach(key => {
@@ -58,13 +58,13 @@ export const createVueZone = () => ({
   }
 })
 
-export const useVueZone = (id?: string) => {
+export const useVueZone = (id?: string): Store | Record<string, Store> => {
   const globalStore = inject('$vz', {})
 
   return id ? globalStore[id] : globalStore
 }
 
-export const mapActions = (id: string) => {
+export const mapActions = <A = {}>(id: string): A => {
   const actions = definesMap.get(`${ id }-actions`)
 
   Object.keys(actions).forEach(key => {
@@ -74,4 +74,4 @@ export const mapActions = (id: string) => {
   return actions
 }
 
-export const mapState = (id: string) => definesMap.get(`${ id }-state`)
+export const mapState = <S = {}>(id: string): S => definesMap.get(`${ id }-state`)

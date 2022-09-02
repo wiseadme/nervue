@@ -6,7 +6,7 @@ const state = () => ({
 })
 
 const actions = {
-  setName(name) {
+  async setName(name: string): Promise<void> {
     console.log(this)
     this.state.name = name
   }

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { defineComponent } from 'vue'
   import { useVueZone, mapActions, mapState } from '../src/index'
 
@@ -6,12 +6,12 @@
     name: 'App',
     setup() {
       const vz = useVueZone()
-      const state = mapState('user')
 
-      const { setName } = mapActions('user')
+      const state = mapState('user')
+      const { setName: setMyUserName } = mapActions('user')
 
       console.log(vz)
-      setTimeout(() => setName('alex'), 3000)
+      setTimeout(() => setMyUserName('alex'), 3000)
 
       return {
         state
