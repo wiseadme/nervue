@@ -8,20 +8,24 @@
     setup() {
       const store = useUserStore()
       const { setName } = mapActions(useUserStore)
-      const state = mapState(useUserStore)
+
+      const state = mapState(useUserStore, ['name'])
 
       console.log(state)
 
-      setTimeout(() => setName('petux'), 3000)
-      // setTimeout(() => state.name = 'suuuka', 5000)
+      setTimeout(() => {
+        state.name = 'suuk'
+      }, 3000)
+
+      setTimeout(() => setName('gandi'), 5000)
 
       return {
-        store
+        state
       }
     }
   })
 </script>
 <template>
   <h1>VueZone</h1>
-  <span>{{ store.name }}</span>
+  <span>{{ state.name }}</span>
 </template>

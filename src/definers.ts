@@ -1,5 +1,5 @@
-import { reactive } from 'vue'
 import { ActionsTree, StateTree } from './types'
+import { convertToRefs } from './helpers'
 
 export const definesMap: Map<string, any> = new Map()
 /**
@@ -7,7 +7,7 @@ export const definesMap: Map<string, any> = new Map()
  * @param genState - the function that creates the state
  */
 export const defineState = <S = {}>(id: string, genState: () => S): StateTree => {
-  definesMap.set(`${ id }-state`, reactive(genState() as any))
+  definesMap.set(`${ id }-state`, convertToRefs(genState()))
 
   return definesMap.get(`${ id }-state`)
 }
