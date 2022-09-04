@@ -1,6 +1,6 @@
 import { App } from 'vue'
 import { rootStore } from './rootStore'
-import { Store } from '@/types'
+import { Store } from './types'
 
 export const createVueZone = () => ({
   install: (app: App) => {

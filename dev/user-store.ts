@@ -2,14 +2,17 @@ import { defineStore } from '../src'
 
 const state = () => ({
   name: '',
-  age: '',
+  age: 25,
   org: {}
 })
 
 const actions = {
   async setName(name: string): Promise<void>{
     this.name = name
-    console.log(this)
+  },
+
+  setAge(age) {
+    this.age = age
   }
 }
 
