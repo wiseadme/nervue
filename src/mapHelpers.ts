@@ -1,6 +1,6 @@
 import { ActionsTree, StateTree } from './types'
-import { definesMap } from './definers'
-import { wrapToProxy } from './helpers'
+// import { definesMap } from './definers'
+// import { wrapToProxy } from './helpers'
 
 /**
  * @param useStore
@@ -23,22 +23,26 @@ export const mapActions = (useStore): ActionsTree => {
  * @param mapOrKeys
  */
 export const mapState = (useStore, mapOrKeys): StateTree => {
-  const state = definesMap.get(`${ useStore.$id }-state`)
   const stateMap = {}
 
   if (Array.isArray(mapOrKeys)) {
     mapOrKeys.reduce((map, key) => {
-      map[key] = state[key]
+      map[key] = function() {
+        return useStore()[key]
+      }
 
       return map
     }, stateMap)
   } else {
     Object.keys(mapOrKeys).reduce((map, key) => {
-      map[key] = mapOrKeys[key](state)
+      map[key] = function() {
+        const store = useStore()
+        return mapOrKeys[key].call(this, store)
+      }
 
       return map
     }, stateMap)
   }
 
-  return wrapToProxy(stateMap)
+  return stateMap
 }

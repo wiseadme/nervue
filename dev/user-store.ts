@@ -13,7 +13,8 @@ const actions = {
   }
 }
 
-export const useUserStore = defineStore('user', {
+export const useUserStore = defineStore({
+  id: 'user',
   state,
   actions
 })

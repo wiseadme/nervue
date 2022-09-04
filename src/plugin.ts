@@ -7,7 +7,7 @@ import { wrapToProxy } from './helpers'
  * @param options
  */
 export const defineStore = <Id extends string, S extends StateTree = {}, A extends ActionsTree = {}>
-(id: Id, { state, actions }: StoreOptions<S, A>): StoreDefinition<Id, S, A> => {
+({ id, state, actions }: StoreOptions<Id, S, A>): StoreDefinition<Id, S, A> => {
 
   const store = {
     $id: id,

@@ -1,31 +1,38 @@
 <script lang="ts">
-  import { defineComponent } from 'vue'
   import { mapActions, mapState } from '../src/index'
   import { useUserStore } from './user-store'
 
-  export default defineComponent({
+  export default {
     name: 'App',
-    setup() {
-      const store = useUserStore()
-      const { setName } = mapActions(useUserStore)
+    data() {
+      return {}
+    },
 
-      const state = mapState(useUserStore, ['name'])
+    computed: {
+      ...mapState(useUserStore, {
+        name: store => store.name + 'Salam'
+      })
+    },
 
-      console.log(state)
+    mounted() {
+      setTimeout(() => this.setName('Alex'), 2000)
+      setTimeout(() => this.setName('Rovsh'), 4000)
+    },
 
-      setTimeout(() => {
-        state.name = 'suuk'
-      }, 3000)
+    methods: {
+      ...mapActions(useUserStore),
 
-      setTimeout(() => setName('gandi'), 5000)
+      setNewName() {
+        const store = useUserStore()
 
-      return {
-        state
+        store.name = 'Hohoho'
       }
-    }
-  })
+    },
+  }
 </script>
 <template>
   <h1>VueZone</h1>
-  <span>{{ state.name }}</span>
+  <span>{{ name }}</span>
+
+  <button @click="setNewName">CHANGE NAME</button>
 </template>
