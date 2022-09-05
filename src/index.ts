@@ -1,6 +1,7 @@
 export { createVueZone, useVueZone } from './createVueZone'
 export { defineStore } from './plugin'
 export { mapActions, mapState } from './mapHelpers'
+export { VueZoneComponent } from './component'
 export type {
   Store,
   StoreDefinition,
