@@ -1,21 +1,27 @@
-import { defineState, defineActions } from './definers';
-import { wrapToProxy } from './helpers';
+import { wrapIntoProxy, convertToRefs } from './helpers';
 /***
- * @param id
  * @param options
  */
 export const defineStore = ({ id, state, actions }) => {
-    const store = {
+    const _store = {
         $id: id,
-        ...(state && defineState(id, state)),
-        ...(actions && defineActions(id, actions))
+        ...convertToRefs(state?.() || {}),
+        ...actions
     };
-    const storeProxy = wrapToProxy(store);
+    /**
+     * Wrapping the store into proxy to access
+     * to the state properties via "this".
+     * Will also serve to develop further
+     * "guard" and "share" functionality.
+     */
+    const storeProxy = wrapIntoProxy(_store);
     actions && Object.keys(actions).forEach(key => {
-        store[key] = (...args) => actions[key].call(storeProxy, ...args);
+        _store[key] = function () {
+            return actions[key].call(storeProxy, ...arguments);
+        };
     });
     const useStore = () => storeProxy;
-    useStore.$id = id;
+    useStore.$id = _store.$id;
     return useStore;
 };
 //# sourceMappingURL=plugin.js.map

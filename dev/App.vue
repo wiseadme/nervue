@@ -49,11 +49,14 @@
   }
 </script>
 <template>
-  <h1>VueZone</h1>
+  <h1>Zikkurat state manager library for Vue 3</h1>
   <span>{{ name }}</span>
   <span>{{ items }}</span>
 
-  <v-zikkurat :store="user" v-slot="{name, age}">
+  <v-zikkurat
+    v-slot="{name, age}"
+    store="user"
+  >
     <h1>component</h1>
     <div>{{ name }} {{ age }}</div>
   </v-zikkurat>

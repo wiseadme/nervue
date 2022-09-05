@@ -1,5 +1,5 @@
 import { App } from 'vue'
-import { rootStore } from './rootStore'
+import { root } from './root'
 import { Store } from './types'
 
 export const createZikkurat = () => ({
@@ -7,14 +7,14 @@ export const createZikkurat = () => ({
     if ((createZikkurat as any).isInstalled) return
     (createZikkurat as any).isInstalled = true
 
-    app.provide('$z', rootStore)
+    app.provide('$Z', root)
   },
 
   add: (useStore) => {
-    rootStore[useStore.$id] = useStore()
+    root[useStore.$id] = useStore()
   }
 })
 
 export const useZikkurat = (id?: string): Store | Record<string, Store> => {
-  return id ? rootStore[id] : rootStore
+  return id ? root[id] : root
 }

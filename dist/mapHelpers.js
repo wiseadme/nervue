@@ -1,5 +1,3 @@
-// import { definesMap } from './definers'
-// import { wrapToProxy } from './helpers'
 /**
  * @param useStore
  * @param mapOrKeys
@@ -8,11 +6,30 @@ export const mapActions = (useStore, mapOrKeys) => {
     const store = useStore();
     const map = {};
     if (mapOrKeys) {
-        console.log(mapOrKeys);
+        /**
+         * if the map is just a simple array with
+         * keys of the actions of store
+         */
+        if (Array.isArray(mapOrKeys)) {
+            mapOrKeys.forEach(key => {
+                map[key] = store[key];
+            });
+            /**
+             * or it just simple keys map
+             * with custom namings
+             */
+        }
+        else {
+            Object.keys(mapOrKeys).forEach(key => {
+                map[key] = store[mapOrKeys[key]];
+            });
+        }
     }
-    for (const key of Object.keys(store)) {
-        if (typeof store[key] === 'function') {
-            map[key] = store[key];
+    else {
+        for (const key of Object.keys(store)) {
+            if (typeof store[key] === 'function') {
+                map[key] = store[key];
+            }
         }
     }
     return map;
@@ -22,15 +39,15 @@ export const mapActions = (useStore, mapOrKeys) => {
  * @param mapOrKeys
  */
 export const mapState = (useStore, mapOrKeys) => {
-    const stateMap = {};
+    const map = {};
     if (mapOrKeys) {
         /**
-         * if map is just simple array with
-         * keys of store state
+         * if the map is just a simple array with
+         * keys of the state of store
          */
         if (Array.isArray(mapOrKeys)) {
             mapOrKeys.forEach((key) => {
-                stateMap[key] = function () {
+                map[key] = function () {
                     return useStore()[key];
                 };
             });
@@ -38,13 +55,15 @@ export const mapState = (useStore, mapOrKeys) => {
         else {
             /**
              * if map of keys is the functions map
+             * or simple keys map
              */
             Object.keys(mapOrKeys).forEach((key) => {
-                stateMap[key] = function () {
+                map[key] = function () {
                     const store = useStore();
                     if (typeof mapOrKeys[key] === 'function') {
                         return mapOrKeys[key].call(this, store);
                     }
+                    return store[mapOrKeys[key]];
                 };
             });
         }
@@ -54,16 +73,16 @@ export const mapState = (useStore, mapOrKeys) => {
         /**
          * if map of keys doesn't exists
          * should return map of all state properties
-         * without any action functions from store
+         * without any action functions from the store
          */
         Object.keys(store).forEach((key) => {
             if (typeof store[key] !== 'function') {
-                stateMap[key] = function () {
+                map[key] = function () {
                     return store[key];
                 };
             }
         });
     }
-    return stateMap;
+    return map;
 };
 //# sourceMappingURL=mapHelpers.js.map

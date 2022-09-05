@@ -1,5 +1,7 @@
 build
 dev
+src
+dist
 node_modules
 tests
 

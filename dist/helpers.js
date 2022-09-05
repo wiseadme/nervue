@@ -1,16 +1,18 @@
-import { reactive, toRefs, isRef } from 'vue';
-export const wrapToProxy = store => new Proxy(store, {
+import { reactive, toRefs, isRef, isReactive } from 'vue';
+export const wrapIntoProxy = store => new Proxy(store, {
     get: (obj, prop) => {
         if (!obj[prop])
             return null;
-        return isRef(obj[prop]) ? Reflect.get(obj[prop], 'value') : Reflect.get(obj, prop);
+        if (isRef(obj[prop]) || isReactive(obj[prop])) {
+            return Reflect.get(obj[prop], 'value');
+        }
+        return Reflect.get(obj, prop);
     },
     set: (obj, prop, value) => {
-        Reflect.set(obj[prop], 'value', value);
-        return true;
+        return Reflect.set(obj[prop], 'value', value);
     }
 });
-export const convertToRefs = stateDefinerObject => {
-    return toRefs(reactive(stateDefinerObject));
+export const convertToRefs = stateDefiningObject => {
+    return toRefs(reactive(stateDefiningObject));
 };
 //# sourceMappingURL=helpers.js.map
