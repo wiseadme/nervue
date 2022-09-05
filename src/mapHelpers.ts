@@ -1,6 +1,4 @@
 import { ActionsTree, Method, StateTree, StoreDefinition } from './types'
-// import { definesMap } from './definers'
-// import { wrapToProxy } from './helpers'
 
 /**
  * @param useStore
@@ -15,15 +13,32 @@ export const mapActions = <
   mapOrKeys?: [ keyof A ] | { [p: string]: keyof A }
 ): ActionsTree => {
   const store = useStore()
-  const map = {}
+  const map: Record<string, Method> = {}
 
   if (mapOrKeys) {
-    console.log(mapOrKeys)
-  }
+    /**
+     * if the map is just a simple array with
+     * keys of the actions of store
+     */
+    if (Array.isArray(mapOrKeys)) {
+      mapOrKeys.forEach(key => {
+        map[key as string] = store[key]
+      })
+      /**
+       * or it just simple keys map
+       * with custom namings
+       */
+    } else {
+      Object.keys(mapOrKeys).forEach(key => {
+        map[key] = store[mapOrKeys[key]]
+      })
+    }
 
-  for (const key of Object.keys(store)) {
-    if (typeof store[key] === 'function') {
-      map[key] = store[key]
+  } else {
+    for (const key of Object.keys(store)) {
+      if (typeof store[key] === 'function') {
+        map[key] = store[key]
+      }
     }
   }
 
@@ -42,16 +57,16 @@ export const mapState = <
   useStore: StoreDefinition<Id, S, A>,
   mapOrKeys?: [ keyof S ] | { [key: string]: Method | keyof S }
 ): StateTree => {
-  const stateMap: Record<string, any> = {}
+  const map: Record<string, any> = {}
 
   if (mapOrKeys) {
     /**
-     * if map is just a simple array with
+     * if the map is just a simple array with
      * keys of the state of store
      */
     if (Array.isArray(mapOrKeys)) {
       (mapOrKeys as [ keyof S ]).forEach((key) => {
-        stateMap[key as string] = function (){
+        map[key as string] = function (){
           return useStore()[key]
         }
       })
@@ -61,7 +76,7 @@ export const mapState = <
        * or simple keys map
        */
       Object.keys(mapOrKeys).forEach((key) => {
-        stateMap[key] = function (){
+        map[key] = function (){
           const store = useStore()
           if (typeof mapOrKeys[key] === 'function') {
             return (mapOrKeys[key] as Method).call(this, store)
@@ -80,12 +95,12 @@ export const mapState = <
      */
     Object.keys(store).forEach((key) => {
       if (typeof store[key] !== 'function') {
-        stateMap[key] = function (){
+        map[key] = function (){
           return store[key]
         }
       }
     })
   }
 
-  return stateMap
+  return map
 }

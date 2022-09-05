@@ -15,6 +15,6 @@ export const wrapIntoProxy = store => new Proxy(store, {
   }
 })
 
-export const convertToRefs = stateDefinerObject => {
-  return toRefs(reactive(stateDefinerObject))
+export const convertToRefs = stateDefiningObject => {
+  return toRefs(reactive(stateDefiningObject))
 }
