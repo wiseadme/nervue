@@ -1,6 +1,6 @@
-import { createVueZone } from '../../src/index'
+import { createZikkurat } from '../../src/index'
 import { useUserStore } from '../user-store'
 
-export const store = createVueZone()
+export const store = createZikkurat()
 
 store.add(useUserStore)

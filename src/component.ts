@@ -1,11 +1,11 @@
 import { defineComponent, h } from 'vue'
-import { useVueZone } from './createVueZone'
+import { useZikkurat } from './createZikkurat'
 import { Store } from './types'
 
 type Maybe<S> = S | null
 
-export const VueZoneComponent = defineComponent({
-  name: 'VueZoneComponent',
+export const VZikkurat = defineComponent({
+  name: 'VZikkurat',
   props: {
     store: {
       type: [ String, Function ],
@@ -16,13 +16,13 @@ export const VueZoneComponent = defineComponent({
     let _store: Maybe<Store> = null
 
     if (typeof props.store === 'string') {
-      _store = useVueZone(props.store) as Store
+      _store = useZikkurat(props.store) as Store
     } else {
       _store = props.store()
     }
 
     return () => h('div', {
-      class: 'vue-zone-component'
+      class: 'v-zikkurat'
     }, {
       default: () => slots.default?.({..._store})
     })

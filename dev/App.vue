@@ -2,11 +2,11 @@
   import { mapActions, mapState } from '../src'
   import { useUserStore } from './user-store'
   import { useProductStore } from './product-store'
-  import { VueZoneComponent } from '../src'
+  import { VZikkurat } from '../src'
 
   export default {
     name: 'App',
-    components: { VueZoneComponent },
+    components: { VZikkurat },
     data(){
       this.user = useUserStore
       return {}
@@ -53,10 +53,10 @@
   <span>{{ name }}</span>
   <span>{{ items }}</span>
 
-  <vue-zone-component :store="user" v-slot="{name, age}">
+  <v-zikkurat :store="user" v-slot="{name, age}">
     <h1>component</h1>
     <div>{{ name }} {{ age }}</div>
-  </vue-zone-component>
+  </v-zikkurat>
 
   <button @click="setNewName">CHANGE NAME</button>
 </template>

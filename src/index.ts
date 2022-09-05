@@ -1,7 +1,7 @@
-export { createVueZone, useVueZone } from './createVueZone'
+export { createZikkurat, useZikkurat } from './createZikkurat'
 export { defineStore } from './plugin'
 export { mapActions, mapState } from './mapHelpers'
-export { VueZoneComponent } from './component'
+export { VZikkurat } from './component'
 export type {
   Store,
   StoreDefinition,

@@ -41,16 +41,16 @@ export declare function defineStore<
   A extends ActionsTree = ActionsTree>
 (options: StoreOptions<Id, S, A>): StoreDefinition<Id, S, A>
 
-export type VueZonePlugin = {
+export type ZikkuratPlugin = {
   add<
     Id extends string,
     S extends StateTree,
     A extends ActionsTree>(useStore: () => Store<Id, S, A>): void
 } & Plugin
 
-export declare function createVueZone(): VueZonePlugin
+export declare function createZikkurat(): ZikkuratPlugin
 
-export declare function useVueZone<Id extends string,
+export declare function useZikkurat<Id extends string,
   S extends StateTree,
   A extends ActionsTree>(id?: Id): Store<Id, S, A> | unknown
 

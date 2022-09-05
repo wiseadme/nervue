@@ -13,4 +13,4 @@ export const createVueZone = () => ({
 export const useVueZone = (id) => {
     return id ? rootStore[id] : rootStore;
 };
-//# sourceMappingURL=createVueZone.js.map
+//# sourceMappingURL=createZikkurat.js.map

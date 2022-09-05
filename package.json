@@ -1,7 +1,7 @@
 {
-  "name": "vuezone",
+  "name": "zikkurat",
   "version": "1.0.0",
-  "description": "Vue 3 composition API-compatible store plugin",
+  "description": "Vue 3 composition API-compatible store library",
   "sideEffects": false,
   "main": "dist/index.js",
   "module": "dist/index.js",
