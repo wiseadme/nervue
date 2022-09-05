@@ -24,17 +24,21 @@
 
       setTimeout(() => {
         this.setName('Ronald')
-        this.fetchItems()
+        this.fetchProductItems()
       }, 4000)
       console.log(this.font)
     },
 
     methods: {
       ...mapActions(useUserStore, [ 'setName' ]),
-      ...mapActions(useProductStore, [ 'fetchItems' ]),
+
+      ...mapActions(useProductStore, {
+        fetchProductItems: 'fetchItems'
+      }),
 
       setNewName(){
         const store = useUserStore()
+        console.log(this.fetchProductItems)
 
         store.name = 'Dmitriy'
       }
