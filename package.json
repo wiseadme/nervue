@@ -1,6 +1,6 @@
 {
-  "name": "zikkurat",
-  "version": "0.0.1",
+  "name": "nervue",
+  "version": "0.0.4",
   "description": "Vue 3 composition and options API-compatible lightweight store library",
   "sideEffects": false,
   "main": "dist/index.js",
@@ -17,26 +17,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wiseadme/vue-v-store.git",
+    "url": "git+https://github.com/wiseadme/nervue.git",
     "directory": "/"
   },
   "bugs": {
-    "url": "https://github.com/wiseadme/vue-v-store/issues",
+    "url": "https://github.com/wiseadme/nervue/issues",
     "email": "wiseadme@gmail.com"
   },
   "keywords": [
+    "nervue",
     "vue",
-    "zikkurat",
+    "vue3",
+    "vue3-composition-api",
     "store",
     "vue store",
-    "vue store",
     "composition-api",
-    "api",
-    "setup",
-    "state",
-    "typescript",
-    "ts",
-    "type"
+    "state manager"
   ],
   "author": {
     "name": "Anar Allakhverdiev",

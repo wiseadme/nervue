@@ -1,11 +1,11 @@
 import { defineComponent, h } from 'vue'
-import { useZikkurat } from './createZikkurat'
+import { useNervue } from './createNervue'
 import { Store } from './types'
 
 type Maybe<S> = S | null
 
-export const VZikkurat = defineComponent({
-  name: 'VZikkurat',
+export const VNervue = defineComponent({
+  name: 'VNervue',
   props: {
     store: {
       type: [ String, Function ],
@@ -16,13 +16,13 @@ export const VZikkurat = defineComponent({
     let _store: Maybe<Store> = null
 
     if (typeof props.store === 'string') {
-      _store = useZikkurat(props.store) as Store
+      _store = useNervue(props.store) as Store
     } else {
       _store = props.store()
     }
 
     return () => h('div', {
-      class: 'v-zikkurat'
+      class: 'v-nervue'
     }, {
       default: () => slots.default?.({..._store})
     })

@@ -1,4 +1,4 @@
-import { Plugin } from 'vue'
+import { Plugin, DefineComponent } from 'vue'
 
 export type Method = (...args: any[]) => any
 
@@ -41,16 +41,16 @@ export declare function defineStore<
   A extends ActionsTree = ActionsTree>
 (options: StoreOptions<Id, S, A>): StoreDefinition<Id, S, A>
 
-export type ZikkuratPlugin = {
+export type NervuePlugin = {
   add<
     Id extends string,
     S extends StateTree,
     A extends ActionsTree>(useStore: () => Store<Id, S, A>): void
 } & Plugin
 
-export declare function createZikkurat(): ZikkuratPlugin
+export declare function createNervue(): NervuePlugin
 
-export declare function useZikkurat<Id extends string,
+export declare function useNervue<Id extends string,
   S extends StateTree,
   A extends ActionsTree>(id?: Id): Store<Id, S, A> | unknown
 
@@ -71,3 +71,5 @@ export declare function mapState<
   useStore: StoreDefinition<Id, S, A>,
   mapOrKeys?: [ keyof S ] | { [key: string]: Method | keyof S }
 ): StateTree
+
+export declare const VNervue: DefineComponent<any, any, any>

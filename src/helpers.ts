@@ -18,3 +18,7 @@ export const wrapIntoProxy = store => new Proxy(store, {
 export const convertToRefs = stateDefiningObject => {
   return toRefs(reactive(stateDefiningObject))
 }
+
+export const warning = (msg: string) => {
+  console.warn(`%c [nervue]:`, 'color: #272727; font-weight: 600;', `${msg}`)
+}
