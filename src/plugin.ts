@@ -1,5 +1,14 @@
-import { ActionsTree, StateTree, Store, StoreDefinition, StoreOptions } from './types'
-import { wrapIntoProxy, convertToRefs } from './helpers'
+import {
+  ActionsTree,
+  GuardsTree,
+  StateTree,
+  Store,
+  StoreDefinition,
+  StoreOptions,
+  StoreProperties,
+} from './types'
+import { convertToRefs } from './helpers'
+import { proxify } from './proxify'
 
 /***
  * @param options
@@ -7,22 +16,33 @@ import { wrapIntoProxy, convertToRefs } from './helpers'
 export const defineStore = <
   Id extends string,
   S extends StateTree = {},
+  G extends GuardsTree = {},
   A extends ActionsTree = {}
-  >({ id, state, actions }: StoreOptions<Id, S, A>): StoreDefinition<Id, S, A> => {
-
-  const _store = {
-    $id: id as string,
+>(
+  { id, state, actions, guards }: StoreOptions<Id, S, G, A>
+): StoreDefinition<Id, S, G, A> => {
+  const { assign, defineProperties } = Object
+  /**
+   * Defining store properties
+   */
+  const _storeProperties = defineProperties({}, {
+    $id: { value: id, writable: false, configurable: false },
+    $guards: { value: guards, writable: true, configurable: true }
+  }) as StoreProperties<Id, S, G>
+  /**
+   * Defining store state and actions
+   * and fusion with store properties
+   */
+  const _store = assign(_storeProperties, {
     ...convertToRefs(state?.() || {}),
-    ...actions
-  } as Store
-
+  }, actions) as Store
   /**
    * Wrapping the store into proxy to access
    * to the state properties via "this".
    * Will also serve to develop further
    * "guard" and "share" functionality.
    */
-  const storeProxy = wrapIntoProxy(_store)
+  const storeProxy = proxify(_store) as Store<Id, S, G, A>
 
   actions && Object.keys(actions).forEach(key => {
     _store[key] = function() {
@@ -30,13 +50,9 @@ export const defineStore = <
     }
   })
 
-  const useStore = <
-    Id extends string,
-    S extends StateTree,
-    A extends ActionsTree
-    >() => storeProxy as Store<Id, S, A>
+  const useStore = () => storeProxy
 
   useStore.$id = _store.$id
 
-  return useStore as StoreDefinition<Id, S, A>
+  return useStore as StoreDefinition<Id, S, G, A>
 }

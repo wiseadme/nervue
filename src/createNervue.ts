@@ -1,7 +1,7 @@
 import { App } from 'vue'
 import { root } from './root'
 import { Store } from './types'
-import { warning } from './helpers'
+import { logWarning } from './helpers'
 
 export const createNervue = () => ({
   install: (app: App) => {
@@ -18,7 +18,7 @@ export const createNervue = () => ({
 
 export const useNervue = (id?: string): Store | Record<string, Store> | void => {
   if (!root[id!]) {
-    return warning(`"${ id }" id doesn't exists in the root store`)
+    return logWarning(`"${ id }" id doesn't exists in the root store`)
   }
 
   return id ? root[id] : root

@@ -16,8 +16,15 @@ const actions = {
   }
 }
 
+const guards = {
+  name: val => val.length > 10
+}
+
 export const useUserStore = defineStore({
   id: 'user',
   state,
-  actions
+  actions,
+  guards
 })
+
+// const store = useUserStore()

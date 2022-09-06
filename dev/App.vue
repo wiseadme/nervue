@@ -2,13 +2,13 @@
   import { mapActions, mapState } from '../src'
   import { useUserStore } from './user-store'
   import { useProductStore } from './product-store'
-  import { VNervue, useNervue } from '../src'
+  import { VNervue } from '../src'
 
   export default {
     name: 'App',
     components: { VNervue },
     data(){
-      this.user = useUserStore
+      this.user = useUserStore()
       return {}
     },
 
@@ -24,10 +24,11 @@
 
     mounted(){
       setTimeout(() => this.setName('Alex'), 2000)
-      useNervue('suu')
+
+      console.log(this.user)
 
       setTimeout(() => {
-        this.setName('Ronald')
+        this.setName('Ronaldinhos')
         this.fetchProductItems()
       }, 4000)
       console.log(this.font)
@@ -59,7 +60,7 @@
     store="user"
   >
     <h1>component</h1>
-    <div>{{ name }} {{ age }}</div>
+    <div>{{ name }} || {{ age }}</div>
   </v-nervue>
 
   <button @click="setNewName">CHANGE NAME</button>
