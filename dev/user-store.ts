@@ -17,11 +17,13 @@ const actions = {
 }
 
 const guards = {
-  name: val => val.length > 10
+  name: val => val.length > 10,
+  age: [val => !!val],
+  orgs: val => !!val
 }
 
 export const useUserStore = defineStore({
-  id: 'user',
+  id: 'USER',
   state,
   actions,
   guards

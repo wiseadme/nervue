@@ -3,18 +3,18 @@ import { Plugin, DefineComponent } from 'vue'
 type Maybe<T> = T | null
 
 export type Method = (...args: any[]) => any
+export type GuardMethod = (val: any) => boolean
 
 export type StateTree = Record<string | number | symbol, any>
 export type ActionsTree = Record<string, Method>
-export type GuardsTree = Record<string, Method | Method[]>
+export type GuardsTree = Record<string, GuardMethod | GuardMethod[]>
 
 export type StateDefinition<S extends StateTree> = () => S
 export type ActionsDefinition<A extends ActionsTree> = A
 export type GuardsDefinition<G extends GuardsTree> = G
-
-export type _State<S> = { [key in keyof S]: S[key] }
-export type _Actions<A> = { [key in keyof A]: A[key] }
-export type _Guards<G, S> = { [key in keyof S]: G[key] }
+export type _State<S> = { [K in keyof S]: S[K] }
+export type _Actions<A> = { [K in keyof A]: A[K] }
+export type _Guards<G, S> = Pick<Record<keyof S, GuardMethod | GuardMethod[]>, keyof G>
 
 export interface StoreOptions<
   Id extends string,

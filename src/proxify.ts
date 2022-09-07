@@ -28,7 +28,7 @@ export const proxify = (store) => {
          * of validator functions
          */
         if (Array.isArray($guards[prop])) {
-          isGuarded = $guards[prop].some(fn => !fn(value))
+          isGuarded = $guards[prop].every(fn => fn(value))
         } else {
           isGuarded = $guards[prop](value)
         }
