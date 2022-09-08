@@ -1,12 +1,9 @@
-export const createPatcher = (state) => {
-  console.log(state)
-  return (executor) => {
-    const executorType = typeof executor
+export function $patch(executor) {
+  const executorType = typeof executor
 
-    if (executorType === 'function') {
-      executor(state)
-    } else if (executorType === 'object') {
+  if (executorType === 'function') {
+    executor(this)
+  } else if (executorType === 'object') {
 
-    }
   }
 }

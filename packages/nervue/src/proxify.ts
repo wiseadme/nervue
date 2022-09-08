@@ -17,7 +17,10 @@ export const proxify = (store) => {
      * of state and check it before we
      * change the reactive state.
      */
-    set: (obj, prop, value) => {
+    set: (obj, prop, value, receiver) => {
+      if (prop) {
+        console.log(obj, prop, value, receiver)
+      }
       const { $guards } = store
 
       let isGuarded = true

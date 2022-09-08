@@ -2,7 +2,6 @@ import {
   ActionsTree,
   GuardsTree,
   StateTree,
-  Store,
   StoreDefinition,
   StoreOptions,
   _StoreWithProperties,
@@ -10,11 +9,13 @@ import {
 } from './types'
 import { convertToRefs } from './helpers'
 import { proxify } from './proxify'
+import { $patch } from './patch'
 
 /***
  * @param options
  */
-export const defineStore = <Id extends string,
+export const defineStore = <
+  Id extends string,
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
   A extends ActionsTree = {}>(
@@ -24,29 +25,38 @@ export const defineStore = <Id extends string,
   /**
    * Defining store properties
    */
+  const stateRefs = state ? convertToRefs(state()): {}
 
   const _storeProperties = defineProperties({}, {
-    $id: { writable: false, configurable: false, value: id, },
-    $guards: { writable: true, configurable: true, value: guards || {} },
-    $patch: { writable: false, configurable: false, value: (fn) => fn(storeProxy) }
+    $id: { writable: false, configurable: false, value: id },
+    $guards: { writable: false, configurable: false, value: guards || {} },
+    $patch: { value: $patch },
   }) as _StoreWithProperties<Id> & _StoreWithGuards<S, G>
+
   /**
    * Defining store state and actions
    * and fusion with store properties
    */
-  const _store = assign(_storeProperties, {
-    ...convertToRefs(state?.() || {}),
-  }, actions) as Store
+
+  const _store = assign(_storeProperties, stateRefs, actions)
+
+  // _store.$state = {}
+
+  Object.defineProperty(_store, '$state', {
+    get: () => storeProxy.$state,
+    set: (state) => {
+      Object.keys(state).forEach(key => storeProxy[key] = state[key])
+    }
+  })
+
   /**
    * Wrapping the store into proxy to access
    * to the state properties via "this".
-   * Will also serve to develop further
-   * "guard" and "share" functionality.
    */
-  const storeProxy = proxify(_store) as Store<Id, S, G, A>
+  const storeProxy = proxify(_store)
 
   actions && Object.keys(actions).forEach(key => {
-    _store[key] = function () {
+    (_store as any)[key] = function () {
       return actions[key].call(storeProxy, ...arguments)
     }
   })

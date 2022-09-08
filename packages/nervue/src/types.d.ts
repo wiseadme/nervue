@@ -1,4 +1,4 @@
-import { Plugin, DefineComponent } from 'vue'
+import { Plugin, DefineComponent, Ref } from 'vue'
 
 export type Method = (...args: any[]) => any
 export type GuardMethod = (val: any) => boolean
@@ -10,7 +10,7 @@ export type GuardsTree<S extends StateTree> = {
 }
 
 export type _State<S> = {
-  [K in keyof S]: S[K]
+  [K in keyof S]: Ref<S[K]>
 }
 
 export type _Actions<A> = {
@@ -27,7 +27,8 @@ export type _Guards<S, G> = {
 
 export type _StoreWithProperties<Id> = {
   $id: Id,
-  $patch: (state: StateTree) => void
+  $patch: (fn: (state) => void) => void
+  $state: StateTree
 }
 
 export type _StoreWithGuards<S, G> = {
