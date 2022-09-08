@@ -5,7 +5,8 @@ import {
   Store,
   StoreDefinition,
   StoreOptions,
-  StoreProperties,
+  _StoreWithProperties,
+  _StoreWithGuards,
 } from './types'
 import { convertToRefs } from './helpers'
 import { proxify } from './proxify'
@@ -16,7 +17,7 @@ import { proxify } from './proxify'
 export const defineStore = <
   Id extends string,
   S extends StateTree = {},
-  G extends GuardsTree = {},
+  G extends GuardsTree<S> = {},
   A extends ActionsTree = {}
 >(
   { id, state, actions, guards }: StoreOptions<Id, S, G, A>
@@ -28,7 +29,7 @@ export const defineStore = <
   const _storeProperties = defineProperties({}, {
     $id: { value: id, writable: false, configurable: false },
     $guards: { value: guards, writable: true, configurable: true }
-  }) as StoreProperties<Id, S, G>
+  }) as _StoreWithProperties<Id> & _StoreWithGuards<S, G>
   /**
    * Defining store state and actions
    * and fusion with store properties
