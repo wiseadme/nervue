@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "rootDir": ".",
-    "outDir": "dist",
+    "rootDir": "./packages/nervue",
+    "outDir": "packages/nervue/dist",
     "target": "esnext",
     "module": "esnext",
     "strict": true,
@@ -24,7 +24,7 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "declarationDir": "dist/types",
+    "declarationDir": "packages/nervue/dist/types",
     "composite": true,
     "skipLibCheck": true,
     "plugins": [

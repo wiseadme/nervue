@@ -7,7 +7,7 @@ import { ActionsTree, GuardsTree, Method, StateTree, StoreDefinition } from './t
 export const mapActions = <
   Id extends string,
   S extends StateTree,
-  G extends GuardsTree,
+  G extends GuardsTree<S>,
   A extends ActionsTree
 >(
   useStore: StoreDefinition<Id, S, G, A>,
@@ -53,7 +53,7 @@ export const mapActions = <
 export const mapState = <
   Id extends string,
   S extends StateTree,
-  G extends GuardsTree,
+  G extends GuardsTree<S>,
   A extends ActionsTree
 >(
   useStore: StoreDefinition<Id, S, G, A>,
