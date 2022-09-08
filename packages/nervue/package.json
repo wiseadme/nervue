@@ -1,6 +1,6 @@
 {
   "name": "nervue",
-  "version": "0.0.4",
+  "version": "0.0.7",
   "description": "Vue 3 composition and options API-compatible lightweight store library",
   "sideEffects": false,
   "main": "dist/index.js",
@@ -18,9 +18,6 @@
     "type": "git",
     "url": "git+https://github.com/wiseadme/nervue.git",
     "directory": "packages/nervue"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
   },
   "bugs": {
     "url": "https://github.com/wiseadme/nervue/issues",
@@ -43,38 +40,11 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.17.5",
-    "@babel/preset-env": "^7.16.11",
-    "@types/jest": "^27.4.1",
-    "@typescript-eslint/eslint-plugin": "^5.3.1",
-    "@typescript-eslint/parser": "^5.3.1",
     "@vue/compiler-sfc": "^3.2.31",
     "@vue/test-utils": "^2.0.0-rc.17",
-    "babel-loader": "^8.2.3",
-    "clean-webpack-plugin": "^4.0.0",
-    "copy-webpack-plugin": "^10.2.4",
-    "cross-env": "^7.0.3",
-    "editorconfig-checker": "^4.0.2",
-    "eslint": "^7.32.0",
-    "eslint-loader": "^4.0.2",
-    "eslint-plugin-vue": "^8.4.1",
-    "html-webpack-plugin": "^5.5.0",
-    "jest": "^26.5.2",
-    "jest-environment-jsdom-fourteen": "^1.0.1",
-    "jest-serializer-html": "^7.1.0",
-    "regenerator-runtime": "^0.13.9",
-    "terser-webpack-plugin": "^5.3.1",
-    "ts-jest": "^26.5.2",
-    "ts-loader": "^9.2.6",
-    "typescript": "^4.5.5",
     "vue": "^3.2.31",
     "vue-jest": "^5.0.0-alpha.10",
-    "vue-loader": "^17.0.0",
-    "webpack": "^5.69.1",
-    "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.7.4",
-    "webpack-merge": "^5.8.0",
-    "webpack-node-externals": "^3.0.0"
+    "vue-loader": "^17.0.0"
   },
   "peerDependencies": {
     "vue": "^3.2.31"
