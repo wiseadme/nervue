@@ -137,32 +137,14 @@ module.exports = {
       },
     ],
 
-    sidebar: {
-      '/': [
-        {
-          text: 'packages',
-          children: [
-            { text: 'pinia', link: '/api/modules/pinia.html' },
-            { text: '@pinia/nuxt', link: '/api/modules/pinia_nuxt.html' },
-            { text: '@pinia/testing', link: '/api/modules/pinia_testing.html' },
-          ],
-        },
-      ],
-      '/introduction': [
-        {
-          text: 'Introduction',
-          children: [
-            {
-              text: 'What is Pinia?',
-              link: '/introduction.html',
-            },
-            {
-              text: 'Getting Started',
-              link: '/getting-started.html',
-            },
-          ],
-        },
-      ]
-    }
+    sidebar: [
+      {
+        text: 'Guide',
+        items: [
+          { text: 'Introduction', link: '/introduction' },
+          { text: 'Getting Started', link: '/getting-started' },
+        ]
+      }
+    ]
   }
 }
