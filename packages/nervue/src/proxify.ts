@@ -36,7 +36,8 @@ export const proxify = (store) => {
 
       if (!isGuarded) {
         logWarning(
-          `{guards}: The value "${ value }" is not valid for mutation of "${ prop as string }"`
+          `{guards}: The value "${ value }" is not valid for mutation`,
+          `of state property "${ prop as string }" in the "${ store.$id }" store`
         )
       }
 

@@ -25,7 +25,9 @@
     mounted(){
       setTimeout(() => this.setName('Alex'), 2000)
 
-      console.log(this.user.age.prev)
+      this.user.$patch(store => {
+        store.name = 'Gandiniramsndbf'
+      })
 
       setTimeout(() => {
         this.setName('Ronaldinhos')

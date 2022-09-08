@@ -27,6 +27,7 @@ export type _Guards<S, G> = {
 
 export type _StoreWithProperties<Id> = {
   $id: Id,
+  $patch: (state: StateTree) => void
 }
 
 export type _StoreWithGuards<S, G> = {

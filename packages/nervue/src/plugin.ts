@@ -14,21 +14,21 @@ import { proxify } from './proxify'
 /***
  * @param options
  */
-export const defineStore = <
-  Id extends string,
+export const defineStore = <Id extends string,
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
-  A extends ActionsTree = {}
->(
+  A extends ActionsTree = {}>(
   { id, state, actions, guards }: StoreOptions<Id, S, G, A>
 ): StoreDefinition<Id, S, G, A> => {
   const { assign, defineProperties } = Object
   /**
    * Defining store properties
    */
+
   const _storeProperties = defineProperties({}, {
-    $id: { value: id, writable: false, configurable: false },
-    $guards: { value: guards || {}, writable: true, configurable: true }
+    $id: { writable: false, configurable: false, value: id, },
+    $guards: { writable: true, configurable: true, value: guards || {} },
+    $patch: { writable: false, configurable: false, value: (fn) => fn(storeProxy) }
   }) as _StoreWithProperties<Id> & _StoreWithGuards<S, G>
   /**
    * Defining store state and actions
@@ -46,7 +46,7 @@ export const defineStore = <
   const storeProxy = proxify(_store) as Store<Id, S, G, A>
 
   actions && Object.keys(actions).forEach(key => {
-    _store[key] = function() {
+    _store[key] = function () {
       return actions[key].call(storeProxy, ...arguments)
     }
   })

@@ -9,8 +9,8 @@ module.exports = {
   lang: 'en-US',
   description: 'The Vue Store that you will enjoy using',
   head: [
-    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
-    ['link', { rel: 'icon', type: 'image/png', href: '/logo.png' }],
+    [ 'link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' } ],
+    [ 'link', { rel: 'icon', type: 'image/png', href: '/logo.png' } ],
 
     [
       'meta',
@@ -122,10 +122,10 @@ module.exports = {
     // },
 
     nav: [
-      { text: 'Guide', link: '/introduction.html' },
+      { text: 'Руководство', link: '/introduction.html' },
       { text: 'API', link: '/api/' },
-      { text: 'Config', link: '/config/' },
-      { text: 'Plugins', link: '/plugins/' },
+      { text: 'Конфигурация', link: '/config/' },
+      { text: 'Плагины', link: '/plugins/' },
       {
         text: 'Links',
         items: [
@@ -137,14 +137,46 @@ module.exports = {
       },
     ],
 
-    sidebar: [
-      {
-        text: 'Guide',
-        items: [
-          { text: 'Introduction', link: '/introduction' },
-          { text: 'Getting Started', link: '/getting-started' },
-        ]
-      }
-    ]
+    sidebar: {
+      '/api/': [
+        {
+          text: 'api',
+          items: [
+            { text: 'Index', link: '/guide/' },
+            { text: 'One', link: '/api/one' },
+            { text: 'Two', link: '/api/two' }
+          ]
+        }
+      ],
+      '/config/': [
+        {
+          text: 'Config',
+          items: [
+            { text: 'Index', link: '/config/' },
+            { text: 'Three', link: '/config/three' },
+            { text: 'Four', link: '/config/four' }
+          ]
+        }
+      ],
+      '/': [
+        {
+          text: 'Введение',
+          items: [
+            // This shows `/api/index.md` page.
+            { text: 'Nervue', link: '/introduction.html' },
+            { text: '', link: '/getting-started.html' },
+          ]
+        },
+        {
+          text: 'Основные концепции',
+          items: [
+            { text: 'Store', link: '/core-concepts/index.html' },
+            { text: 'State', link: '/core-concepts/state.html' },
+            { text: 'Guards', link: '/core-concepts/guards.html' },
+            { text: 'Actions', link: '/core-concepts/actions.html' },
+          ],
+        },
+      ],
+    }
   }
 }
