@@ -2,7 +2,7 @@ import { defineStore } from '../nervue/src'
 
 const state = () => ({
   name: '',
-  age: 25,
+  age: 35,
   org: {}
 })
 

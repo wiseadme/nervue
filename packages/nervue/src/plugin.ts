@@ -28,7 +28,7 @@ export const defineStore = <
    */
   const _storeProperties = defineProperties({}, {
     $id: { value: id, writable: false, configurable: false },
-    $guards: { value: guards, writable: true, configurable: true }
+    $guards: { value: guards || {}, writable: true, configurable: true }
   }) as _StoreWithProperties<Id> & _StoreWithGuards<S, G>
   /**
    * Defining store state and actions

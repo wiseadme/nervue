@@ -6,9 +6,11 @@
   ],
   "scripts": {
     "dev": "lerna run dev",
+    "docs:dev": "lerna run docs:dev",
     "install": "lerna bootstrap --hoist",
     "setup": "npm install && npm run bootstrap",
-    "publish": "lerna publish --conventional-commits"
+    "publish": "lerna publish --conventional-commits",
+    "docs:build": "vuepress build docs"
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",

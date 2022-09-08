@@ -25,7 +25,7 @@
     mounted(){
       setTimeout(() => this.setName('Alex'), 2000)
 
-      console.log(this.user)
+      console.log(this.user.age.prev)
 
       setTimeout(() => {
         this.setName('Ronaldinhos')
@@ -57,7 +57,7 @@
 
   <v-nervue
     v-slot="{name, age}"
-    store="user"
+    store="USER"
   >
     <h1>component</h1>
     <div>{{ name }} || {{ age }}</div>

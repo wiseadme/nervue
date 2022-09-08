@@ -4,7 +4,7 @@ import { logWarning } from './helpers'
 export const proxify = (store) => {
   return new Proxy(store, {
     get: (obj, prop) => {
-      if (!obj[prop]) return null
+      if (!Reflect.has(obj, prop)) return null
 
       if (isRef(obj[prop]) || isReactive(obj[prop])) {
         return Reflect.get(obj[prop], 'value')
@@ -22,7 +22,7 @@ export const proxify = (store) => {
 
       let isGuarded = true
 
-      if ($guards && $guards[prop]) {
+      if ($guards[prop]) {
         /**
          * check if guards key value is the array
          * of validator functions
