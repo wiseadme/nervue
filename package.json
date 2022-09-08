@@ -1,11 +1,22 @@
 {
   "name": "@nervue/root",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "dev": "lerna run dev",
     "install": "lerna bootstrap --hoist",
     "setup": "npm install && npm run bootstrap",
     "publish": "lerna publish --conventional-commits"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wiseadme/nervue.git",
+    "directory": "packages/nervue"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   },
   "devDependencies": {
     "lerna": "^5.1.4"
