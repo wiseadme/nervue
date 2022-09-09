@@ -2,35 +2,46 @@ import {
   ActionsTree,
   GuardsTree,
   StateTree,
+  StoreId,
   StoreDefinition,
   StoreOptions,
   _StoreWithProperties,
   _StoreWithGuards,
 } from './types'
 import { convertToRefs } from './helpers'
-import { proxify } from './proxify'
+import { createStoreProxyWrapper, createStateProxyWrapper } from './createProxy'
 import { $patch } from './patch'
 
 /***
  * @param options
  */
 export const defineStore = <
-  Id extends string,
+  Id extends StoreId,
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
-  A extends ActionsTree = {}>(
+  A extends ActionsTree = {}
+>(
   { id, state, actions, guards }: StoreOptions<Id, S, G, A>
 ): StoreDefinition<Id, S, G, A> => {
+  let proxyStoreState, stateRefs
+
   const { assign, defineProperties } = Object
   /**
-   * Defining store properties
+   * converting state props into refs
+   * and wrapping into Proxy
    */
-  const stateRefs = state ? convertToRefs(state()): {}
-
+  if (state) {
+    stateRefs = convertToRefs(state())
+    proxyStoreState = createStateProxyWrapper(stateRefs)
+  }
+  /**
+   * defining store properties
+   */
   const _storeProperties = defineProperties({}, {
     $id: { writable: false, configurable: false, value: id },
+    $state: { writable: false, configurable: false, value: proxyStoreState },
     $guards: { writable: false, configurable: false, value: guards || {} },
-    $patch: { value: $patch },
+    $patch: { value: $patch }
   }) as _StoreWithProperties<Id> & _StoreWithGuards<S, G>
 
   /**
@@ -40,23 +51,14 @@ export const defineStore = <
 
   const _store = assign(_storeProperties, stateRefs, actions)
 
-  // _store.$state = {}
-
-  Object.defineProperty(_store, '$state', {
-    get: () => storeProxy.$state,
-    set: (state) => {
-      Object.keys(state).forEach(key => storeProxy[key] = state[key])
-    }
-  })
-
   /**
    * Wrapping the store into proxy to access
    * to the state properties via "this".
    */
-  const storeProxy = proxify(_store)
+  const storeProxy = createStoreProxyWrapper(_store)
 
   actions && Object.keys(actions).forEach(key => {
-    (_store as any)[key] = function () {
+    (_store as any)[key] = function (){
       return actions[key].call(storeProxy, ...arguments)
     }
   })

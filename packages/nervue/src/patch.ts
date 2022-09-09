@@ -1,9 +1,9 @@
-export function $patch(executor) {
-  const executorType = typeof executor
+export function $patch(updates) {
+  const updatesType = typeof updates
 
-  if (executorType === 'function') {
-    executor(this)
-  } else if (executorType === 'object') {
+  if (updatesType === 'function') {
+    updates(this.$state)
+  } else if (updatesType === 'object') {
 
   }
 }

@@ -80,6 +80,7 @@ export const mapState = <
       Object.keys(mapOrKeys).forEach((key) => {
         map[key] = function (){
           const store = useStore()
+
           if (typeof mapOrKeys[key] === 'function') {
             return (mapOrKeys[key] as Method).call(this, store)
           }

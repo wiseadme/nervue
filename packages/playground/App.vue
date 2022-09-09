@@ -13,27 +13,26 @@
     },
 
     computed: {
-      ...mapState(useUserStore, {
-        name: store => store.name,
-        font: 'age'
-      }),
-      ...mapState(useProductStore, {
-        items: store => store.items
-      })
+      // ...mapState(useUserStore, {
+      //   name: store => store.name,
+      //   font: 'age'
+      // }),
+      // ...mapState(useProductStore, {
+      //   items: store => store.items
+      // })
     },
 
     mounted(){
       setTimeout(() => this.setName('Alex'), 2000)
 
-      this.user.$patch(store => {
-        store.name = 'Gandiniramsndbf'
+      this.user.$patch(state => {
+        state.name = 'Gandiniramsndbf'
       })
 
       setTimeout(() => {
         this.setName('Ronaldinhos')
         this.fetchProductItems()
       }, 4000)
-      console.log(this.font)
     },
 
     methods: {
@@ -44,19 +43,17 @@
       }),
 
       setNewName(){
-        const store = useUserStore()
-        console.log(this.fetchProductItems)
+        const { setName, name } = useUserStore()
 
-        store.name = 'Dmitriy'
+        setName('Dmitriy')
+
+        console.log(name)
       }
     },
   }
 </script>
 <template>
   <h1>Nervue state manager library for Vue 3</h1>
-  <span>{{ name }}</span>
-  <span>{{ items }}</span>
-
   <v-nervue
     v-slot="{name, age}"
     store="USER"

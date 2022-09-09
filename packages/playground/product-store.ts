@@ -8,7 +8,8 @@ const state = () => ({
 
 const actions = {
   async fetchItems(){
-    console.log(this)
+    console.log(this, 'this suka')
+
     setTimeout(() => {
       this.items = [ 'look' ]
     })

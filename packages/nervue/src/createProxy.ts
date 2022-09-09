@@ -1,7 +1,18 @@
 import { isReactive, isRef } from 'vue'
 import { logWarning } from './helpers'
 
-export const proxify = (store) => {
+export const createStateProxyWrapper = (state) => new Proxy(state, {
+  get: (obj, prop) => {
+    if (!Reflect.has(obj, prop)) return null
+
+    return Reflect.get(obj[prop], 'value')
+  },
+  set(obj, prop, value){
+    return Reflect.set(obj[prop], 'value', value)
+  }
+})
+
+export const createStoreProxyWrapper = (store) => {
   return new Proxy(store, {
     get: (obj, prop) => {
       if (!Reflect.has(obj, prop)) return null
@@ -52,3 +63,4 @@ export const proxify = (store) => {
     }
   })
 }
+
