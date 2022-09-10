@@ -1,11 +1,9 @@
 export default {
   '/api/': [
     {
-      text: 'api',
+      text: 'Документация API',
       items: [
-        { text: 'Index', link: '/api/' },
-        { text: 'One', link: '/api/one' },
-        { text: 'Two', link: '/api/two' }
+        // { text: 'Index', link: '/api/' },
       ]
     }
   ],

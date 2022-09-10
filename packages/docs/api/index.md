@@ -1,4 +1,6 @@
-API Documentation
+---
+aside: false
+---
 
 # API Documentation
 

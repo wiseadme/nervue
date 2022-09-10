@@ -6,6 +6,12 @@
   padding-top: 72px !important;
 }
 
+.vp-doc > div {
+  width: 70%;
+  margin-left: 290px !important;
+  padding-right: 70px !important;
+}
+
 .container {
   max-width: 100% !important;
 }
@@ -25,6 +31,7 @@
 
 .VPSidebar {
   width: 300px !important;
+  max-width: 300px !important;
   padding-left: 30px !important;
   background-color: #ffffff !important;
   box-shadow: 0 0 7px -1px rgba(0, 0, 0, .3) !important;

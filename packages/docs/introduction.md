@@ -4,7 +4,7 @@
     "title": "Nervue",
     "lang": "ru-RU",
     "sidebar": true,
-    "aside": true,
+    "aside": false,
     "footer": "MIT Licensed | Copyright © 2022-present Anar Allakhverdiev",
     "actions": {
         "theme": "brand"
