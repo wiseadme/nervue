@@ -1,6 +1,12 @@
 ---
-home: true
-title: Nervue
-lang: en-US
-footer: MIT Licensed | Copyright © 2022-present Anar Allakhverdiev
+{
+    "home": true,
+    "title": "Nervue",
+    "lang": "ru-RU",
+    "sidebar": false,
+    "aside": false,
+    "footer": "MIT Licensed | Copyright © 2022-present Anar Allakhverdiev"
+}
 ---
+
+# Nervue
