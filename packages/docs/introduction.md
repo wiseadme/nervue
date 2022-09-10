@@ -5,10 +5,7 @@
     "lang": "ru-RU",
     "sidebar": true,
     "aside": false,
-    "footer": "MIT Licensed | Copyright © 2022-present Anar Allakhverdiev",
-    "actions": {
-        "theme": "brand"
-    }
+    "footer": "MIT Licensed | Copyright © 2022-present Anar Allakhverdiev"
 }
 ---
 # Введение
