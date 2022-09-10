@@ -27,10 +27,7 @@ export const createStoreProxyWrapper = (store) => new Proxy(store, {
    * of state and check it before we
    * change the reactive state.
    */
-  set: (obj, prop, value, receiver) => {
-    if (prop) {
-      console.log(obj, prop, value, receiver)
-    }
+  set: (obj, prop, value) => {
     const { $guards } = store
 
     let isGuarded = true

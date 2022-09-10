@@ -8,6 +8,7 @@
         <h1 class="main__head">
           <span class="main__head-title">Nervue</span>
         </h1>
+        <div>native Vue 3 compatible state manager library</div>
       </div>
     </div>
   </div>
@@ -31,7 +32,7 @@
 
   .main__head-title {
     font-size: 6rem;
-    background: -webkit-linear-gradient(315deg, #10213d 25%, #179df3);
+    background: -webkit-linear-gradient(315deg, var(--c-brand) 25%, var(--c-brand-light));
     background-clip: text;
     font-weight: 700;
     font-family: 'Orbitron', sans-serif;

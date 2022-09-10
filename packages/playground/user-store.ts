@@ -8,7 +8,7 @@ export const useUserStore = defineStore({
   state: () => ({
     name: '',
     age: 35,
-    org: new Map()
+    org: {}
   }),
 
   guards: {

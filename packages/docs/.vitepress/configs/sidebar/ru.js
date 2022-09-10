@@ -3,7 +3,12 @@ export default {
     {
       text: 'Документация API',
       items: [
-        // { text: 'Index', link: '/api/' },
+        { text: 'createNervue', link: '/api/create-nervue.html' },
+        { text: 'defineStore', link: '/api/define-store.html' },
+        { text: 'useNervue', link: '/api/use-nervue.html' },
+        { text: 'mapState', link: '/api/map-state.html' },
+        { text: 'mapActions', link: '/api/map-actions.html' },
+        { text: 'VNervue', link: '/api/v-nervue.html' },
       ]
     }
   ],

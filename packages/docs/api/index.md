@@ -2,6 +2,5 @@
 aside: false
 ---
 
-# API Documentation
+# Документация API
 
-## Modules

@@ -1,3 +1,6 @@
+import { createStoreProxyWrapper, createStateProxyWrapper } from './createProxy'
+import { $patch } from './patch'
+import { convertToRefs } from './helpers'
 import {
   ActionsTree,
   GuardsTree,
@@ -8,9 +11,6 @@ import {
   _StoreWithProperties,
   _StoreWithGuards,
 } from './types'
-import { convertToRefs } from './helpers'
-import { createStoreProxyWrapper, createStateProxyWrapper } from './createProxy'
-import { $patch } from './patch'
 
 /***
  * @param options
