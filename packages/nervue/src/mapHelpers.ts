@@ -1,11 +1,18 @@
-import { ActionsTree, GuardsTree, Method, StateTree, StoreDefinition } from './types'
+import {
+  ActionsTree,
+  GuardsTree,
+  StateTree,
+  StoreId,
+  Method,
+  StoreDefinition
+} from './types'
 
 /**
  * @param useStore
  * @param mapOrKeys
  */
 export const mapActions = <
-  Id extends string,
+  Id extends StoreId,
   S extends StateTree,
   G extends GuardsTree<S>,
   A extends ActionsTree
@@ -51,7 +58,7 @@ export const mapActions = <
  * @param mapOrKeys
  */
 export const mapState = <
-  Id extends string,
+  Id extends StoreId,
   S extends StateTree,
   G extends GuardsTree<S>,
   A extends ActionsTree

@@ -1,23 +1,20 @@
 import { defineComponent, h } from 'vue'
 import { useNervue } from './createNervue'
-import { Store } from './types'
 
 export const VNervue = defineComponent({
   name: 'VNervue',
   props: {
     store: {
-      type: [ String, Function ],
+      type: [ String, Symbol, Function ],
       required: true
     }
   },
   setup(props, { slots }){
     let _store = {}
 
-    if (typeof props.store === 'string') {
-      _store = useNervue(props.store) as Store
-    }
-
-    if (typeof props.store === 'function') {
+    if (typeof props.store !== 'function') {
+      _store = useNervue(props.store)!
+    } else {
       _store = props.store()
     }
 

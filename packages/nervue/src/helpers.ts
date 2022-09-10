@@ -1,6 +1,6 @@
 import { reactive, toRefs } from 'vue'
 
-export const convertToRefs = stateDefiningObject => {
+export const convertToRefs = (stateDefiningObject) => {
   return toRefs(reactive(stateDefiningObject))
 }
 

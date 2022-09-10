@@ -1,29 +1,36 @@
 <script lang="ts">
   import { mapActions, mapState } from '../nervue/src'
-  import { useUserStore } from './user-store'
+  import { useUserStore, UserStoreId } from './user-store'
   import { useProductStore } from './product-store'
   import { VNervue } from '../nervue/src'
+  import { useNervue } from '../nervue/src'
 
   export default {
     name: 'App',
     components: { VNervue },
     data(){
       this.user = useUserStore()
-      return {}
+      return {
+        UserStoreId
+      }
     },
 
     computed: {
-      // ...mapState(useUserStore, {
-      //   name: store => store.name,
-      //   font: 'age'
-      // }),
-      // ...mapState(useProductStore, {
-      //   items: store => store.items
-      // })
+      ...mapState(useUserStore, {
+        name: store => store.name,
+        company: 'org'
+      }),
+      ...mapState(useProductStore, {
+        items: store => store.items
+      })
     },
 
     mounted(){
       setTimeout(() => this.setName('Alex'), 2000)
+
+      const globalStore = useNervue()
+
+      console.log(globalStore)
 
       this.user.$patch(state => {
         state.name = 'Gandiniramsndbf'
@@ -43,11 +50,8 @@
       }),
 
       setNewName(){
-        const { setName, name } = useUserStore()
-
+        const { setName } = useUserStore()
         setName('Dmitriy')
-
-        console.log(name)
       }
     },
   }
@@ -55,11 +59,11 @@
 <template>
   <h1>Nervue state manager library for Vue 3</h1>
   <v-nervue
-    v-slot="{name, age}"
-    store="USER"
+    v-slot="{name}"
+    :store="UserStoreId"
   >
     <h1>component</h1>
-    <div>{{ name }} || {{ age }}</div>
+    <div>{{ name }}</div>
   </v-nervue>
 
   <button @click="setNewName">CHANGE NAME</button>

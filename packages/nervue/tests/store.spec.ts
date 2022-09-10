@@ -10,7 +10,7 @@ const TestComponent = defineComponent({
       default: null
     }
   },
-  setup(props){
+  setup(props) {
     return () => h('div', {
       class: 'container'
     }, props.value)
@@ -20,13 +20,13 @@ const TestComponent = defineComponent({
 describe('defineStore', () => {
   let state, actions
 
-  const key = 'user'
+  const id = 'user'
 
   beforeEach(() => {
     state = () => ({ name: 'Alex' })
 
     actions = {
-      setName(name){
+      setName(name) {
         this.state.name = name
       }
     }
@@ -35,37 +35,23 @@ describe('defineStore', () => {
   const mountFunction = (options = {}) => mount(TestComponent, { ...options })
 
   it('should test the store definition', async () => {
-    const useStore = defineStore(key, { state, actions })
+    const useStore = defineStore({ id, state, actions })
 
-    const store = useStore() as any
+    const { name, setName } = useStore()
 
     const wrapper = mountFunction({ props: { value: null } })
 
-    store.setName('John')
+    setName('John')
 
-    await wrapper.setProps({ value: store.state.name })
+    await wrapper.setProps({ value: name })
 
-    expect(store.state.name).toEqual('John')
+    expect(name).toEqual('John')
     expect(wrapper.find('.container').text()).toEqual('John')
 
-    store.setName('Viktor')
-    await wrapper.setProps({ value: store.state.name })
+    setName('Viktor')
+    await wrapper.setProps({ value: name })
 
-    expect(store.state.name).toEqual('Viktor')
+    expect(name).toEqual('Viktor')
     expect(wrapper.find('.container').text()).toEqual('Viktor')
   })
-
-  // it('should test separate definition of actions and state', async () => {
-  //   const directState: any = defineState(key, state)
-  //   const directActions = defineActions(key, actions)
-  //
-  //   const wrapper = mountFunction({ props: { value: directState.name } })
-  //
-  //   directActions.setName('Vladimir')
-  //
-  //   await wrapper.setProps({ value: directState.name })
-  //
-  //   expect(directState.name).toEqual('Vladimir')
-  //   expect(wrapper.find('.container').text()).toEqual('Vladimir')
-  // })
 })

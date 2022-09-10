@@ -1,6 +1,6 @@
 import { defineStore } from '../nervue/src'
 
-export const UserStoreId = 'USER'
+export const UserStoreId = Symbol.for('USER')
 
 export const useUserStore = defineStore({
   id: UserStoreId,
