@@ -3,20 +3,20 @@ export default [
   { text: 'API', link: '/api/' },
   { text: 'Конфигурация', link: '/config/' },
   { text: 'Плагины', link: '/plugins/' },
-  // {
-  //   text: 'Язык',
-  //   id: 'lang',
-  //   items: [
-  //     {
-  //       text: 'ru',
-  //       link: `/`,
-  //     },
-  //     {
-  //       text: 'en',
-  //       link: `/en/`,
-  //     },
-  //   ],
-  // },
+  {
+    text: 'Язык',
+    id: 'lang',
+    items: [
+      {
+        text: 'ru',
+        link: `/`,
+      },
+      {
+        text: 'en',
+        link: `/en/`,
+      },
+    ],
+  },
   {
     text: 'Links',
     items: [

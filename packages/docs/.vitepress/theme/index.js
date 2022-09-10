@@ -4,20 +4,15 @@ import Theme from 'vitepress/theme'
 import './custom.css'
 import './code-theme.css'
 
+import HomePage from '../components/HomePage.vue'
+
 const config = {
   ...Theme,
 
   // Layout,
 
   enhanceApp({ app, router, siteData }) {
-    const { themeConfig } = siteData.value
-    themeConfig.nav.forEach(nav => {
-      if (nav.id) {
-        nav.link += router.route.path
-      }
-    })
-    console.log(router, siteData.value)
-    // app.component('VueSchoolLink', VueSchoolLink)
+    app.component('HomePage', HomePage)
   },
 }
 

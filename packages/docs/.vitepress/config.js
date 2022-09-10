@@ -3,7 +3,17 @@ import RuSidebar from './configs/sidebar/ru'
 import RuNavbar from './configs/nav/ru'
 import EnNavbar from './configs/nav/en'
 
+// < link
+// href = "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap"
+// rel = "stylesheet" >
+
 export default defineConfig({
+  head: [
+    ['link', {rel: 'preconnect', href: 'https://fonts.googleapis.com'}],
+    ['link', {rel: 'preconnect', crossOrigin: true, href: 'https://fonts.gstatic.com'}],
+    ['link', {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap'}],
+
+  ],
   markdown: {
     anchor: {},
     attrs: {
@@ -19,7 +29,7 @@ export default defineConfig({
   description: 'The Vue Store that you will enjoy using',
   themeConfig: {
     repo: 'wiseadme/nervue',
-    logo: '/logo.svg',
+    // logo: '/logo.svg',
     docsDir: 'packages/docs',
     activeHeaderLinks: true,
     docsBranch: 'v2',
