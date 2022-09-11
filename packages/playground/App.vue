@@ -8,7 +8,6 @@
     name: 'App',
     components: { VNervue },
     data(){
-      this.user = useUserStore()
       return {
         UserStoreId
       }
@@ -26,10 +25,17 @@
 
     mounted(){
       setTimeout(() => this.setName('Alex'), 2000)
+      const userStore = useUserStore()
 
-      this.user.$patch(state => {
-        console.log(state)
-        state.name = 'Gandiniramsndbf'
+      userStore.$subscribe({
+        storeId: userStore.$id,
+        name: 'setName',
+        before() {
+          console.log('it happend before setName')
+        },
+        after() {
+          console.log('it happend after setName')
+        }
       })
 
       setTimeout(() => {
@@ -55,10 +61,10 @@
 <template>
   <h1>Nervue state manager library for Vue 3</h1>
   <v-nervue
+    v-slot="{name}"
     :store="UserStoreId"
   >
-    <h1>component</h1>
-    <div>{{ user.$state.name }}</div>
+    <h1>{{ name }}</h1>
   </v-nervue>
 
   <button @click="setNewName">CHANGE NAME</button>

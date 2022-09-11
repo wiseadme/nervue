@@ -1,4 +1,5 @@
 import { Plugin, DefineComponent } from 'vue'
+import {SubscribeOptions, Unsubscribe} from './subscriptions'
 
 export type Method = (...args: any[]) => any
 export type GuardMethod = (val: any) => boolean
@@ -27,7 +28,8 @@ export type Guards<S, G> = {
 
 export type _StoreWithProperties<Id> = {
   $id: Id
-  $patch: (fn: (state) => void) => void
+  $patch: (fn: (state: StateTree) => void) => void
+  $subscribe: (subscribeOptions: SubscribeOptions) => Unsubscribe
   $state: StateTree
 }
 

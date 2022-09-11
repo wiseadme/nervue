@@ -13,7 +13,7 @@ export const proxify = (store) => new Proxy(store, {
   },
   /***
    * here we intercept each mutation
-   * and check them with guards
+   * and check it with guards
    */
   set: (obj, prop, value) => {
     const { $guards } = store

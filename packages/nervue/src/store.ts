@@ -1,7 +1,12 @@
-import { ref, toRefs } from 'vue'
-import { proxify } from './proxify'
+import { ref, toRefs, reactive } from 'vue'
 import { $patch } from './patch'
 import {
+  $subscribe,
+  getExistsSubscribers,
+  trigger
+} from './subscriptions'
+
+import type {
   ActionsTree,
   GuardsTree,
   StateTree,
@@ -38,6 +43,7 @@ export const defineStore = <
   _storeProperties.$id = id
   _storeProperties.$guards = (guards || {}) as Guards<G, S>
   _storeProperties.$patch = $patch
+  _storeProperties.$subscribe = $subscribe
 
   Object.defineProperty(_storeProperties, '$state', {
     get: () => stateRef.value,
@@ -45,35 +51,44 @@ export const defineStore = <
   })
 
   /**
-   * here we create a store
-   * and then
+   * create the store and wrapping
+   * into reactive for unwrapping the refs
+   * and for getting access to state refs
+   * without "value"
    */
-
-  const _store = assign(
+  const _store = reactive(assign(
     _storeProperties,
     toRefs(stateRef.value),
     actions
-  )
+  ))
 
   /**
-   * Wrapping in a proxy for
-   * processing with guards and
-   * for subscriptions.
-   */
-
-  const storeProxy = proxify(_store)
-
-  /**
-   * wrapping the actions to call them
-   *
+   * wrapping the actions to call
+   * subscribers
    */
   actions && Object.keys(actions).forEach(key => {
-    (_store as any)[key] = function (){
-      return actions[key].call(storeProxy, ...arguments)
+    (_store as any)[key] = function (...args){
+      let result, subs
+
+      if ((_store[key] as any).hasSubs) {
+        subs = getExistsSubscribers(id, key)
+      }
+
+      subs.before && trigger(subs.before)
+
+      try {
+        result = actions[key].call(_store, ...args)
+      } catch (err) {
+        trigger(subs.onError, err)
+      }
+
+      subs.after && trigger(subs.after, result)
+
+      return result
     }
   })
 
-  const useStore = () => storeProxy as Store<Id, S, G, A>
+  const useStore = () => _store as Store<Id, S, G, A>
 
   useStore.$id = _store.$id
 
