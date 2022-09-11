@@ -10,7 +10,6 @@ module.exports = {
   ],
   moduleDirectories: [
     'node_modules',
-    // 'packages/nervue/node_modules'
   ],
   transform: {
     '.*\\.(j|t)s$': 'ts-jest',
@@ -18,20 +17,18 @@ module.exports = {
     '.*\\.(vue)$': 'vue-jest',
   },
   collectCoverageFrom: [
-    'packages/nervue/src/**/*.{js,ts}',
+    'src/**/*.{js,ts}',
     '!**/*.d.ts',
   ],
   transformIgnorePatterns: [
     '<rootDir>/node_modules/',
-    '<rootDir>/packages/nervue/node_modules/',
   ],
   testMatch: [
-    '**/tests/**/*.spec.ts',
+    '**/*.spec.ts',
   ],
   globals: {
     'ts-jest': {
       babelConfig: true,
-      // tsConfig: '<rootDir>/tsconfig.json',
       diagnostics: false,
     },
   },

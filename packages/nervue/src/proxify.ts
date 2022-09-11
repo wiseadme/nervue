@@ -1,31 +1,19 @@
-import { isReactive, isRef } from 'vue'
+import { isRef } from 'vue'
 import { logWarning } from './helpers'
 
-export const createStateProxyWrapper = (state) => new Proxy(state, {
+export const proxify = (store) => new Proxy(store, {
   get: (obj, prop) => {
     if (!Reflect.has(obj, prop)) return null
 
-    return Reflect.get(obj[prop], 'value')
-  },
-  set(obj, prop, value){
-    return Reflect.set(obj[prop], 'value', value)
-  }
-})
-
-export const createStoreProxyWrapper = (store) => new Proxy(store, {
-  get: (obj, prop) => {
-    if (!Reflect.has(obj, prop)) return null
-
-    if (isRef(obj[prop]) || isReactive(obj[prop])) {
+    if (isRef(obj[prop])) {
       return Reflect.get(obj[prop], 'value')
     }
 
     return Reflect.get(obj, prop)
   },
   /***
-   * here we intercept every mutation
-   * of state and check it before we
-   * change the reactive state.
+   * here we intercept each mutation
+   * and check them with guards
    */
   set: (obj, prop, value) => {
     const { $guards } = store
@@ -40,7 +28,10 @@ export const createStoreProxyWrapper = (store) => new Proxy(store, {
       if (Array.isArray($guards[prop])) {
         isGuarded = $guards[prop].every(fn => fn(value))
       } else {
-        isGuarded = $guards[prop](value)
+        logWarning(
+          `{guards}: wrong type of guards in the ${ store.$id } store.`,
+          `Guards should be an array of functions.`
+        )
       }
     }
 

@@ -3,7 +3,6 @@
   import { useUserStore, UserStoreId } from './user-store'
   import { useProductStore } from './product-store'
   import { VNervue } from '../nervue/src'
-  import { useNervue } from '../nervue/src'
 
   export default {
     name: 'App',
@@ -28,11 +27,8 @@
     mounted(){
       setTimeout(() => this.setName('Alex'), 2000)
 
-      const globalStore = useNervue()
-
-      console.log(globalStore)
-
       this.user.$patch(state => {
+        console.log(state)
         state.name = 'Gandiniramsndbf'
       })
 
@@ -59,11 +55,10 @@
 <template>
   <h1>Nervue state manager library for Vue 3</h1>
   <v-nervue
-    v-slot="{name}"
     :store="UserStoreId"
   >
     <h1>component</h1>
-    <div>{{ name }}</div>
+    <div>{{ user.$state.name }}</div>
   </v-nervue>
 
   <button @click="setNewName">CHANGE NAME</button>

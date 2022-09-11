@@ -1,6 +1,6 @@
 import { defineStore } from '../nervue/src'
 
-export const UserStoreId = Symbol.for('USER')
+export const UserStoreId = 'USER'
 
 export const useUserStore = defineStore({
   id: UserStoreId,
@@ -19,6 +19,8 @@ export const useUserStore = defineStore({
   actions: {
     async setName(name: string): Promise<void>{
       this.name = name
+
+      console.log(this)
     },
 
     setAge(age) {

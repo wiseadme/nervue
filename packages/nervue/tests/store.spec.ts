@@ -27,7 +27,7 @@ describe('defineStore', () => {
 
     actions = {
       setName(name) {
-        this.state.name = name
+        this.name = name
       }
     }
   })
@@ -37,21 +37,21 @@ describe('defineStore', () => {
   it('should test the store definition', async () => {
     const useStore = defineStore({ id, state, actions })
 
-    const { name, setName } = useStore()
+    const store = useStore()
 
     const wrapper = mountFunction({ props: { value: null } })
 
-    setName('John')
+    store.setName('John')
 
-    await wrapper.setProps({ value: name })
+    await wrapper.setProps({ value: store.name })
 
-    expect(name).toEqual('John')
+    expect(store.name).toEqual('John')
     expect(wrapper.find('.container').text()).toEqual('John')
 
-    setName('Viktor')
-    await wrapper.setProps({ value: name })
+    store.setName('Viktor')
+    await wrapper.setProps({ value: store.name })
 
-    expect(name).toEqual('Viktor')
+    expect(store.name).toEqual('Viktor')
     expect(wrapper.find('.container').text()).toEqual('Viktor')
   })
 })

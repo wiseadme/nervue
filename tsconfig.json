@@ -52,5 +52,6 @@
     "packages/nervue/tests",
     "packages/nervue/node_modules",
     "packages/playground",
+    "packages/docs",
   ]
 }
