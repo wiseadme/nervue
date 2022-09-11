@@ -1,3 +1,3 @@
-import { ActionsTree, GuardsTree, StateTree, Store, StoreId } from './types'
+import { ActionsTree, GuardsTree, StateTree, Store } from './types'
 
-export const root: Map<StoreId, Store<StoreId, StateTree, GuardsTree, ActionsTree>> = new Map()
+export const root: Record<string, Store<string, StateTree, GuardsTree, ActionsTree>> = {}

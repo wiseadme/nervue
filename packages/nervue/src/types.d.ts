@@ -3,8 +3,6 @@ import { Plugin, DefineComponent } from 'vue'
 export type Method = (...args: any[]) => any
 export type GuardMethod = (val: any) => boolean
 
-export type StoreId = string | symbol
-
 export type StateTree = Record<string | number | symbol, any>
 export type ActionsTree = Record<string, Method>
 export type GuardsTree<S extends StateTree = StateTree> = {
@@ -27,7 +25,7 @@ export type Guards<S, G> = {
     : never
 }
 
-export type _StoreWithProperties<Id extends StoreId> = {
+export type _StoreWithProperties<Id> = {
   $id: Id
   $patch: (fn: (state) => void) => void
   $state: StateTree
@@ -38,7 +36,7 @@ export type _StoreWithGuards<S, G> = {
 }
 
 export interface StoreOptions<
-  Id extends StoreId,
+  Id extends string,
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
   A extends ActionsTree = {}
@@ -50,7 +48,7 @@ export interface StoreOptions<
 }
 
 export type Store<
-  Id extends StoreId,
+  Id extends string,
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
   A extends ActionsTree = {}
@@ -60,7 +58,7 @@ export type Store<
   Actions<A>
 
 export interface StoreDefinition<
-  Id extends StoreId,
+  Id extends string,
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
   A = {}> {
@@ -69,7 +67,7 @@ export interface StoreDefinition<
 }
 
 export declare function defineStore<
-  Id extends StoreId,
+  Id extends string,
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
   A extends ActionsTree = {}
@@ -77,7 +75,7 @@ export declare function defineStore<
 
 export type NervuePlugin = {
   add<
-    Id extends StoreId,
+    Id extends string,
     S extends StateTree = {},
     G extends GuardsTree<S> = {},
     A extends ActionsTree = {}
@@ -87,14 +85,14 @@ export type NervuePlugin = {
 export declare function createNervue(): NervuePlugin
 
 export declare function useNervue<
-  Id extends StoreId,
+  Id extends string,
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
   A extends ActionsTree = {}
   >(id?: Id): Store<Id, S, G, A> | unknown
 
 export declare function mapActions<
-  Id extends StoreId,
+  Id extends string,
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
   A extends ActionsTree = {}>
@@ -104,7 +102,7 @@ export declare function mapActions<
 ): ActionsTree
 
 export declare function mapState<
-  Id extends StoreId,
+  Id extends string,
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
   A extends ActionsTree = {}>

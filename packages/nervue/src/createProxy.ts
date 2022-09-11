@@ -1,20 +1,13 @@
 import { isReactive, isRef } from 'vue'
 import { logWarning } from './helpers'
 
-export const createStateProxyWrapper = (state) => new Proxy(state, {
-  get: (obj, prop) => {
-    if (!Reflect.has(obj, prop)) return null
-
-    return Reflect.get(obj[prop], 'value')
-  },
-  set(obj, prop, value){
-    return Reflect.set(obj[prop], 'value', value)
-  }
-})
-
 export const createStoreProxyWrapper = (store) => new Proxy(store, {
   get: (obj, prop) => {
     if (!Reflect.has(obj, prop)) return null
+
+    if (prop === '$state') {
+      return Reflect.get(obj, prop)
+    }
 
     if (isRef(obj[prop]) || isReactive(obj[prop])) {
       return Reflect.get(obj[prop], 'value')

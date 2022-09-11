@@ -28,15 +28,16 @@
     mounted(){
       setTimeout(() => this.setName('Alex'), 2000)
 
-      const globalStore = useNervue()
-
-      console.log(globalStore)
-
       this.user.$patch(state => {
+        console.log(state)
         state.name = 'Gandiniramsndbf'
       })
 
       setTimeout(() => {
+        // this.user.$patch(state => {
+        //   console.log(state)
+        //   state.name = 'nettttt'
+        // })
         this.setName('Ronaldinhos')
         this.fetchProductItems()
       }, 4000)
@@ -59,11 +60,10 @@
 <template>
   <h1>Nervue state manager library for Vue 3</h1>
   <v-nervue
-    v-slot="{name}"
     :store="UserStoreId"
   >
     <h1>component</h1>
-    <div>{{ name }}</div>
+    <div>{{ user.$state.name }}</div>
   </v-nervue>
 
   <button @click="setNewName">CHANGE NAME</button>
