@@ -23,7 +23,7 @@ export type Unsubscribe = () => Promise<boolean>
 
 /**
  * @param options
- * @return unsubscribe function
+ * @returns unsubscribe function
  */
 export function $subscribe(options: SubscribeOptions): Unsubscribe{
 
@@ -72,7 +72,7 @@ export function triggerSubs(subscribers, ...args: any[]){
   subscribers.slice().forEach(fn => fn(...args))
 }
 
-export function getAllSubscribers(
+export function getSubscribers(
   storeId: string,
   name: string
 ): ExistsSubscribers{

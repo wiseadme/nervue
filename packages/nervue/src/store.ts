@@ -2,10 +2,11 @@ import { ref, toRefs, reactive, UnwrapNestedRefs } from 'vue'
 import { $patch } from './patch'
 import {
   $subscribe,
-  getAllSubscribers,
+  getSubscribers,
   triggerSubs
 } from './subscriptions'
-
+import { logWarning } from './helpers'
+// Types
 import type {
   ActionsTree,
   GuardsTree,
@@ -18,23 +19,72 @@ import type {
   _StoreWithGuards, Method,
 } from './types'
 
-/***
- * @param store
- * @param name
- * @param action
+/**
+ * @param storeId - store id
+ * @param state - state map
+ * @param guards - guards map
+ * @returns proxy with guarded state
  */
+function addStateGuards<
+  S extends StateTree,
+  G extends GuardsTree<S>
+>(storeId: string, state: S, guards: G) {
 
+  return new Proxy(state, {
+    get: (target, prop, receiver) => {
+      return Reflect.get(target, prop, receiver)
+    },
+    set: (target, prop, value, receiver) => {
+      let isGuarded = true
+
+      if (guards[prop]) {
+        /**
+         * check guards map type
+         */
+        if (Array.isArray(guards[prop])) {
+          isGuarded = guards[prop]!.every(fn => fn(value))
+        } else {
+          logWarning(
+            `{guards}: wrong type of guards map in the "${ storeId }" store.`,
+            `Guards should be an array of functions.`
+          )
+        }
+      }
+
+      if (!isGuarded) {
+        logWarning(
+          `{guards}: The value "${ value }" is not valid for mutation the value`,
+          `of state property "${ prop as string }" in the "${ storeId }" store`
+        )
+      }
+
+      if (isGuarded) {
+        return Reflect.set(target, prop, value, receiver)
+      }
+
+      return true
+    }
+  })
+}
+/***
+ * @param store - current store instance
+ * @param name - name of action
+ * @param action - action to wrap
+ * @returns a wrapped action to handle subscriptions
+ */
 function wrapAction(
   store: UnwrapNestedRefs<Store>,
   name: string,
   action: Method
 ) {
-  return (...args) => {
+  return function() {
     const {
       beforeList,
       afterList,
       onErrorList
-    } = getAllSubscribers(store.$id, name)
+    } = getSubscribers(store.$id, name)
+
+    const args = Array.from(arguments)
 
     if (beforeList) triggerSubs(beforeList)
 
@@ -64,9 +114,9 @@ function wrapAction(
     return result
   }
 }
-
 /**
  * @param options - store definition object
+ * @returns store instance
  */
 export function defineStore<
   Id extends string,
@@ -76,13 +126,13 @@ export function defineStore<
 >(
   options: StoreOptions<Id, S, G, A>
 ): StoreDefinition<Id, S, G, A> {
-
   const { id, state, actions, guards } = options
 
-  const stateRef = ref(state?.() || {})
+  let initialState = state?.() || {}
+  const guardedState = guards ? addStateGuards<S, G>(id, initialState as S, guards) : null
+  const stateRef = ref(guardedState || initialState)
 
   const { assign } = Object
-
   /**
    * defining store properties
    */
@@ -97,7 +147,6 @@ export function defineStore<
     get: () => stateRef.value,
     set: (val) => stateRef.value = val
   })
-
   /**
    * create the store and wrapping
    * into reactive for unwrapping the refs
@@ -109,7 +158,6 @@ export function defineStore<
     toRefs(stateRef.value),
     actions
   )) as UnwrapNestedRefs<Store>
-
   /**
    * wrapping the actions to handle subscribers
    */

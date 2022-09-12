@@ -1,37 +1,40 @@
 import { Plugin, DefineComponent } from 'vue'
+import {SubscribeOptions, Unsubscribe} from './subscriptions'
 
 export type Method = (...args: any[]) => any
 export type GuardMethod = (val: any) => boolean
 
 export type StateTree = Record<string | number | symbol, any>
 export type ActionsTree = Record<string, Method>
-export type GuardsTree<S extends StateTree> = {
+export type GuardsTree<S extends StateTree = StateTree> = {
   [k in keyof S]?: GuardMethod[]
 }
 
-export type _State<S> = {
+export type State<S> = {
   [K in keyof S]: S[K]
 }
 
-export type _Actions<A> = {
+export type Actions<A> = {
   [k in keyof A]: A[k] extends (...args: infer P) => infer R
     ? (...args: P) => R
     : never
 }
 
-export type _Guards<S, G> = {
+export type Guards<S, G> = {
   [k in keyof S]: G[k] extends [(val: infer P) => boolean]
     ? [(val: infer P) => boolean]
     : never
 }
 
 export type _StoreWithProperties<Id> = {
-  $id: Id,
-  $patch: (state: StateTree) => void
+  $id: Id
+  $patch: (fn: (state: StateTree) => void) => void
+  $subscribe: (subscribeOptions: SubscribeOptions) => Unsubscribe
+  $state: StateTree
 }
 
 export type _StoreWithGuards<S, G> = {
-  $guards: _Guards<S, G>,
+  $guards: Guards<S, G>,
 }
 
 export interface StoreOptions<
@@ -53,12 +56,12 @@ export type Store<
   A extends ActionsTree = {}
   > = _StoreWithProperties<Id> &
   _StoreWithGuards<S, G> &
-  _State<S> &
-  _Actions<A>
+  State<S> &
+  Actions<A>
 
 export interface StoreDefinition<
-  Id extends string = string,
-  S extends StateTree = StateTree,
+  Id extends string,
+  S extends StateTree = {},
   G extends GuardsTree<S> = {},
   A = {}> {
   (): Store<Id, S, G, A>
@@ -66,8 +69,8 @@ export interface StoreDefinition<
 }
 
 export declare function defineStore<
-  Id extends string = string,
-  S extends StateTree = StateTree,
+  Id extends string,
+  S extends StateTree = {},
   G extends GuardsTree<S> = {},
   A extends ActionsTree = {}
 >(options: StoreOptions<Id, S, G, A>): StoreDefinition<Id, S, G, A>

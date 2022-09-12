@@ -3,3 +3,6 @@ dev
 src
 node_modules
 tests
+tsconfig.json
+jest.config.js
+.babelrc

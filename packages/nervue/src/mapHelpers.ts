@@ -7,8 +7,8 @@ import {
 } from './types'
 
 /**
- * @param useStore
- * @param mapOrKeys
+ * @param useStore - store composition
+ * @param mapOrKeys - object of actions properties
  */
 export const mapActions = <
   Id extends string,
@@ -53,8 +53,8 @@ export const mapActions = <
 }
 
 /**
- * @param useStore
- * @param mapOrKeys
+ * @param useStore - store composition
+ * @param mapOrKeys - object of state properties
  */
 export const mapState = <
   Id extends string,

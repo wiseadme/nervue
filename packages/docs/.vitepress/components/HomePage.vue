@@ -8,7 +8,7 @@
         <h1 class="main__head">
           <span class="main__head-title">Nervue</span>
         </h1>
-        <div>native Vue 3 compatible state manager library</div>
+        <div class="main__text">Vue 3 compatible state manager library</div>
       </div>
     </div>
   </div>
@@ -38,5 +38,10 @@
     font-family: 'Orbitron', sans-serif;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+  }
+
+  .main__text {
+    text-align: center;
+    padding: 5px 0;
   }
 </style>
