@@ -50,7 +50,7 @@ export interface StoreOptions<
 }
 
 export type Store<
-  Id extends string,
+  Id extends string = string,
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
   A extends ActionsTree = {}

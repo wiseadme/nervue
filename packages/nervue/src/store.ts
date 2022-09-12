@@ -1,9 +1,9 @@
-import { ref, toRefs, reactive } from 'vue'
+import { ref, toRefs, reactive, UnwrapNestedRefs } from 'vue'
 import { $patch } from './patch'
 import {
   $subscribe,
-  getExistsSubscribers,
-  trigger
+  getAllSubscribers,
+  triggerSubs
 } from './subscriptions'
 
 import type {
@@ -13,21 +13,69 @@ import type {
   StoreDefinition,
   StoreOptions,
   Store,
+  Guards,
   _StoreWithProperties,
-  _StoreWithGuards, Guards,
+  _StoreWithGuards, Method,
 } from './types'
+
+/***
+ * @param store
+ * @param name
+ * @param action
+ */
+
+function wrapAction(
+  store: UnwrapNestedRefs<Store>,
+  name: string,
+  action: Method
+) {
+  return (...args) => {
+    const {
+      beforeList,
+      afterList,
+      onErrorList
+    } = getAllSubscribers(store.$id, name)
+
+    if (beforeList) triggerSubs(beforeList)
+
+    let result
+
+    try {
+      result = action.call(store, ...args)
+    } catch (error) {
+      if (onErrorList) triggerSubs(onErrorList, error)
+      throw error
+    }
+
+    if (result instanceof Promise) {
+      return result
+        .then(res => {
+          if (afterList) triggerSubs(afterList, res)
+          return res
+        })
+        .catch(error => {
+          if (onErrorList) triggerSubs(onErrorList, error)
+          return Promise.reject(error)
+        })
+    }
+
+    if (afterList) triggerSubs(afterList, result)
+
+    return result
+  }
+}
 
 /**
  * @param options - store definition object
  */
-export const defineStore = <
+export function defineStore<
   Id extends string,
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
   A extends ActionsTree = {}
 >(
   options: StoreOptions<Id, S, G, A>
-): StoreDefinition<Id, S, G, A> => {
+): StoreDefinition<Id, S, G, A> {
 
   const { id, state, actions, guards } = options
 
@@ -60,32 +108,13 @@ export const defineStore = <
     _storeProperties,
     toRefs(stateRef.value),
     actions
-  ))
+  )) as UnwrapNestedRefs<Store>
 
   /**
-   * wrapping the actions to call
-   * subscribers
+   * wrapping the actions to handle subscribers
    */
-  actions && Object.keys(actions).forEach(key => {
-    (_store as any)[key] = function (...args){
-      let result, subs
-
-      if ((_store[key] as any).hasSubs) {
-        subs = getExistsSubscribers(id, key)
-      }
-
-      subs.before && trigger(subs.before)
-
-      try {
-        result = actions[key].call(_store, ...args)
-      } catch (err) {
-        trigger(subs.onError, err)
-      }
-
-      subs.after && trigger(subs.after, result)
-
-      return result
-    }
+  actions && Object.keys(actions).forEach(name => {
+    (_store as any)[name] = wrapAction(_store, name, _store[name])
   })
 
   const useStore = () => _store as Store<Id, S, G, A>

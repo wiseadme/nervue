@@ -27,20 +27,25 @@
       setTimeout(() => this.setName('Alex'), 2000)
       const userStore = useUserStore()
 
-      userStore.$subscribe({
+      const unsubscribe = userStore.$subscribe({
         storeId: userStore.$id,
         name: 'setName',
         before() {
           console.log('it happend before setName')
         },
-        after() {
+        after(res) {
+          console.log(res)
           console.log('it happend after setName')
+        },
+        onError(error: any): any{
+          console.log(error, 'on error')
         }
       })
 
       setTimeout(() => {
         this.setName('Ronaldinhos')
         this.fetchProductItems()
+        // unsubscribe()
       }, 4000)
     },
 
