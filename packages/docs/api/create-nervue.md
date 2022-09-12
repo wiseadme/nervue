@@ -1,5 +1,3 @@
----
-aside: false
----
-
 # createNervue
+
+Создает глобальный instance Nervue
