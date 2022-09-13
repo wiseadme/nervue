@@ -9,7 +9,8 @@
     components: { VNervue },
     data(){
       return {
-        UserStoreId
+        UserStoreId,
+        sharedName: ''
       }
     },
 
@@ -23,17 +24,35 @@
       })
     },
 
+    created(){
+      this.note = useUserStore()
+      this.note.$patch(state => {
+        state.name = 'Randevounier'
+      })
+
+      this.note.$share({
+        name: this.note.name,
+        setName: this.note.setName
+      })
+
+      useProductStore()._shares.USER.name = 'fff'
+    },
+
     mounted(){
       setTimeout(() => this.setName('Alex'), 2000)
       const userStore = useUserStore()
 
+      userStore.$patch(state => {
+        state.name = 'Randevounier'
+      })
+
       const unsubscribe = userStore.$subscribe({
         storeId: userStore.$id,
         name: 'setName',
-        before() {
+        before(){
           console.log('it happend before setName')
         },
-        after(res) {
+        after(res){
           console.log(res)
           console.log('it happend after setName')
         },
@@ -65,12 +84,13 @@
 </script>
 <template>
   <h1>Nervue state manager library for Vue 3</h1>
-  <v-nervue
-    v-slot="{name}"
-    :store="UserStoreId"
-  >
-    <h1>{{ name }}</h1>
-  </v-nervue>
+  <h2>{{ note._shares.USER.name }}</h2>
+  <!--  <v-nervue-->
+  <!--    v-slot="{name}"-->
+  <!--    :store="UserStoreId"-->
+  <!--  >-->
+  <!--    <h1>{{ name }}</h1>-->
+  <!--  </v-nervue>-->
 
   <button @click="setNewName">CHANGE NAME</button>
 </template>

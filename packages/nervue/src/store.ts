@@ -1,5 +1,7 @@
 import { ref, toRefs, reactive, UnwrapNestedRefs } from 'vue'
+import { getRoot } from './createNervue'
 import { $patch } from './patch'
+import { $share } from './share'
 import {
   $subscribe,
   getSubscribers,
@@ -15,8 +17,8 @@ import type {
   StoreOptions,
   Store,
   Guards,
+  Method,
   _StoreWithProperties,
-  _StoreWithGuards, Method,
 } from './types'
 
 /**
@@ -25,11 +27,11 @@ import type {
  * @param guards - guards map
  * @returns proxy with guarded state
  */
-function addStateGuards<
+
+export function addStateGuards<
   S extends StateTree,
   G extends GuardsTree<S>
->(storeId: string, state: S, guards: G) {
-
+>(storeId: string, state: S, guards: G){
   return new Proxy(state, {
     get: (target, prop, receiver) => {
       return Reflect.get(target, prop, receiver)
@@ -66,6 +68,8 @@ function addStateGuards<
     }
   })
 }
+
+
 /***
  * @param store - current store instance
  * @param name - name of action
@@ -76,8 +80,8 @@ function wrapAction(
   store: UnwrapNestedRefs<Store>,
   name: string,
   action: Method
-) {
-  return function() {
+){
+  return function (){
     const {
       beforeList,
       afterList,
@@ -114,6 +118,7 @@ function wrapAction(
     return result
   }
 }
+
 /**
  * @param options - store definition object
  * @returns store instance
@@ -125,10 +130,11 @@ export function defineStore<
   A extends ActionsTree = {}
 >(
   options: StoreOptions<Id, S, G, A>
-): StoreDefinition<Id, S, G, A> {
+): StoreDefinition<Id, S, G, A>{
   const { id, state, actions, guards } = options
 
   let initialState = state?.() || {}
+
   const guardedState = guards ? addStateGuards<S, G>(id, initialState as S, guards) : null
   const stateRef = ref(guardedState || initialState)
 
@@ -136,24 +142,34 @@ export function defineStore<
   /**
    * defining store properties
    */
-  const _storeProperties = {} as _StoreWithProperties<Id> & _StoreWithGuards<S, G>
+  const _storeProperties = {} as _StoreWithProperties<Id, S, G, A>
 
   _storeProperties.$id = id
   _storeProperties.$guards = (guards || {}) as Guards<G, S>
   _storeProperties.$patch = $patch
   _storeProperties.$subscribe = $subscribe
+  _storeProperties.$share = $share
+  _storeProperties._shares = {}
 
   Object.defineProperty(_storeProperties, '$state', {
     get: () => stateRef.value,
     set: (val) => stateRef.value = val
   })
+
+  const _root = getRoot()
+
+  Object.defineProperties(_storeProperties, {
+    _r: { get: () => _root },
+    _shares: { get: () => _root._shares }
+  })
+
   /**
    * create the store and wrapping
    * into reactive for unwrapping the refs
    * and for getting access to state refs
    * without "value"
    */
-  const _store = reactive(assign(
+  const store = reactive(assign(
     _storeProperties,
     toRefs(stateRef.value),
     actions
@@ -162,12 +178,13 @@ export function defineStore<
    * wrapping the actions to handle subscribers
    */
   actions && Object.keys(actions).forEach(name => {
-    (_store as any)[name] = wrapAction(_store, name, _store[name])
+    const action = store[name]
+    store[name] = wrapAction(store, name, action)
   })
 
-  const useStore = () => _store as Store<Id, S, G, A>
+  const useStore = () => store as Store<Id, S, G, A>
 
-  useStore.$id = _store.$id
+  useStore.$id = store.$id
 
   return useStore as StoreDefinition<Id, S, G, A>
 }

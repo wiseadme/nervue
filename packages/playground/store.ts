@@ -1,6 +1,6 @@
 import { createNervue } from '../nervue/src'
-import { useUserStore } from './user-store'
+// import { useUserStore } from './user-store'
 
 export const store = createNervue()
 
-store.add(useUserStore)
+// store.add(useUserStore)

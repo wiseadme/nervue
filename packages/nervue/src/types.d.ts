@@ -1,5 +1,6 @@
 import { Plugin, DefineComponent } from 'vue'
-import {SubscribeOptions, Unsubscribe} from './subscriptions'
+import { SubscribeOptions, Unsubscribe } from './subscriptions'
+import { Root } from './createNervue'
 
 export type Method = (...args: any[]) => any
 export type GuardMethod = (val: any) => boolean
@@ -26,15 +27,15 @@ export type Guards<S, G> = {
     : never
 }
 
-export type _StoreWithProperties<Id> = {
+export type _StoreWithProperties<Id, S, G, A> = {
   $id: Id
   $patch: (fn: (state: StateTree) => void) => void
   $subscribe: (subscribeOptions: SubscribeOptions) => Unsubscribe
+  $share: (sharedObject:Partial< {[key in keyof Store<Id, S, G, A>]: Store<Id, S, G, A>[key]}>) => void
   $state: StateTree
-}
-
-export type _StoreWithGuards<S, G> = {
   $guards: Guards<S, G>,
+  _shares: Record<string, Record<string, any>>
+  _r: Root | null
 }
 
 export interface StoreOptions<
@@ -54,8 +55,7 @@ export type Store<
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
   A extends ActionsTree = {}
-  > = _StoreWithProperties<Id> &
-  _StoreWithGuards<S, G> &
+  > = _StoreWithProperties<Id, S, G, A> &
   State<S> &
   Actions<A>
 

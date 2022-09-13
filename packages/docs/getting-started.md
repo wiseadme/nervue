@@ -1,4 +1,4 @@
-# Начинаем
+# Установка
 
 Для начала необходимо установить **Nervue** с помощью вашего любимого менеджера пакетов:
 
@@ -8,7 +8,7 @@ npm install nervue
 yarn add nervue
 ```
 
-Далее после установки библиотеки, вы можете создать глобальный ```instance``` **Nervue**
+Далее после установки библиотеки, вы можете создать глобальный ```root``` объект **Nervue**
 
 ```js
 import { createNervue } from 'nervue'
@@ -39,6 +39,8 @@ router.isReady().then(() => app.mount('#app'))
 туда, там где вам это необходимо.
 :::
 
+## Добавление хранища в ```root```
+
 ```js
 import { createNervue } from 'nervue'
 import { useUserStore } from 'modules/users/store'
@@ -58,6 +60,5 @@ store.add(useUserStore)
   import { useNervue } from 'nervue'
   
   const userStore = useNervue('USER')
-  
 </script>
 ```
