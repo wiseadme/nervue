@@ -5,7 +5,7 @@ export const VNervue = defineComponent({
   name: 'VNervue',
   props: {
     store: {
-      type: [ String, Symbol, Function ],
+      type: [ String, Function ],
       required: true
     }
   },

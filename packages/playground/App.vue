@@ -2,16 +2,13 @@
   import { mapActions, mapState } from '../nervue/src'
   import { useUserStore, UserStoreId } from './user-store'
   import { useProductStore } from './product-store'
-  import { VNervue } from '../nervue/src'
-  import { useNervue } from '../nervue/src'
 
   export default {
     name: 'App',
-    components: { VNervue },
     data(){
-      this.user = useUserStore()
       return {
-        UserStoreId
+        UserStoreId,
+        sharedName: ''
       }
     },
 
@@ -25,21 +22,46 @@
       })
     },
 
+    created(){
+      this.note = useUserStore()
+      this.note.$patch(state => {
+        state.name = 'Randevounier'
+      })
+
+      this.note.$expose({
+        name: this.note.name
+      })
+
+      // this.note._exposed.USER.name = 'gandi'
+    },
+
     mounted(){
       setTimeout(() => this.setName('Alex'), 2000)
+      const userStore = useUserStore()
 
-      this.user.$patch(state => {
-        console.log(state)
-        state.name = 'Gandiniramsndbf'
+      userStore.$patch(state => {
+        state.name = 'Randevounier'
+      })
+
+      const unsubscribe = userStore.$subscribe({
+        storeId: userStore.$id,
+        name: 'setName',
+        before(){
+          console.log('it happend before setName')
+        },
+        after(res){
+          console.log(res)
+          console.log('it happend after setName')
+        },
+        onError(error: any): any{
+          console.log(error, 'on error')
+        }
       })
 
       setTimeout(() => {
-        // this.user.$patch(state => {
-        //   console.log(state)
-        //   state.name = 'nettttt'
-        // })
         this.setName('Ronaldinhos')
         this.fetchProductItems()
+        // unsubscribe()
       }, 4000)
     },
 
@@ -59,12 +81,13 @@
 </script>
 <template>
   <h1>Nervue state manager library for Vue 3</h1>
-  <v-nervue
-    :store="UserStoreId"
-  >
-    <h1>component</h1>
-    <div>{{ user.$state.name }}</div>
-  </v-nervue>
+  <h2>{{ note._exposed.USER.name }}</h2>
+  <!--  <v-nervue-->
+  <!--    v-slot="{name}"-->
+  <!--    :store="UserStoreId"-->
+  <!--  >-->
+  <!--    <h1>{{ name }}</h1>-->
+  <!--  </v-nervue>-->
 
   <button @click="setNewName">CHANGE NAME</button>
 </template>

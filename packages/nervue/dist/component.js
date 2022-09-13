@@ -9,8 +9,8 @@ export const VNervue = defineComponent({
         }
     },
     setup(props, { slots }) {
-        let _store = null;
-        if (typeof props.store === 'string') {
+        let _store = {};
+        if (typeof props.store !== 'function') {
             _store = useNervue(props.store);
         }
         else {

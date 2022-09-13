@@ -1,6 +1,6 @@
 /**
- * @param useStore
- * @param mapOrKeys
+ * @param useStore - store composition
+ * @param mapOrKeys - object of actions properties
  */
 export const mapActions = (useStore, mapOrKeys) => {
     const store = useStore();
@@ -35,8 +35,8 @@ export const mapActions = (useStore, mapOrKeys) => {
     return map;
 };
 /**
- * @param useStore
- * @param mapOrKeys
+ * @param useStore - store composition
+ * @param mapOrKeys - object of state properties
  */
 export const mapState = (useStore, mapOrKeys) => {
     const map = {};

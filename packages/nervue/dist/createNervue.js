@@ -12,9 +12,12 @@ export const createNervue = () => ({
     }
 });
 export const useNervue = (id) => {
-    if (!root[id]) {
-        return logWarning(`"${id}" id doesn't exists in the root store`);
+    const storeKey = id?.toString() || id;
+    if (id && !root[id]) {
+        return logWarning(`"${String(storeKey)}" id doesn't exists in the root store`);
     }
-    return id ? root[id] : root;
+    return id ?
+        root[id] :
+        root;
 };
 //# sourceMappingURL=createNervue.js.map

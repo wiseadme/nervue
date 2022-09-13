@@ -1,11 +1,11 @@
-import { reactive, toRefs } from 'vue';
-export const convertToRefs = stateDefiningObject => {
-    return toRefs(reactive(stateDefiningObject));
+// import { reactive, toRefs } from 'vue'
+// export const convertToRefs = (stateDefinitionObject) => {
+//   return toRefs(reactive(stateDefinitionObject))
+// }
+export const logWarning = (...args) => {
+    console.warn(`[nervue]:`, ...args);
 };
-export const logWarning = (msg) => {
-    console.warn(`[nervue]:`, msg);
-};
-export const logError = (msg) => {
-    console.error(`[nervue]:`, msg);
+export const logError = (...args) => {
+    console.error(`[nervue]:`, ...args);
 };
 //# sourceMappingURL=helpers.js.map

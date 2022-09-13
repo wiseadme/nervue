@@ -1,5 +1,5 @@
 export { createNervue, useNervue } from './createNervue';
-export { defineStore } from './plugin';
+export { defineStore } from './store';
 export { mapActions, mapState } from './mapHelpers';
 export { VNervue } from './component';
 //# sourceMappingURL=index.js.map

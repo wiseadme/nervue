@@ -2,17 +2,16 @@ import {
   ActionsTree,
   GuardsTree,
   StateTree,
-  StoreId,
   Method,
   StoreDefinition
 } from './types'
 
 /**
- * @param useStore
- * @param mapOrKeys
+ * @param useStore - store composition
+ * @param mapOrKeys - object of actions properties
  */
 export const mapActions = <
-  Id extends StoreId,
+  Id extends string,
   S extends StateTree,
   G extends GuardsTree<S>,
   A extends ActionsTree
@@ -54,11 +53,11 @@ export const mapActions = <
 }
 
 /**
- * @param useStore
- * @param mapOrKeys
+ * @param useStore - store composition
+ * @param mapOrKeys - object of state properties
  */
 export const mapState = <
-  Id extends StoreId,
+  Id extends string,
   S extends StateTree,
   G extends GuardsTree<S>,
   A extends ActionsTree

@@ -17,8 +17,10 @@ export const useUserStore = defineStore({
   },
 
   actions: {
-    async setName(name: string): Promise<void>{
+    async setName(name: string): Promise<any>{
       this.name = name
+      await new Promise(res => setTimeout(res, 2000))
+      return name
     },
 
     setAge(age) {
