@@ -18,7 +18,7 @@ import type {
   Store,
   Guards,
   Method,
-  _StoreWithProperties,
+  _StoreWithProperties, ExposesTree,
 } from './types'
 
 /**
@@ -27,7 +27,6 @@ import type {
  * @param guards - guards map
  * @returns proxy with guarded state
  */
-
 export function addStateGuards<
   S extends StateTree,
   G extends GuardsTree<S>
@@ -52,14 +51,12 @@ export function addStateGuards<
           )
         }
       }
-
       if (!isGuarded) {
         logWarning(
           `{guards}: The value "${ value }" is not valid for mutation the value`,
           `of state property "${ prop as string }" in the "${ storeId }" store`
         )
       }
-
       if (isGuarded) {
         return Reflect.set(target, prop, value, receiver)
       }
@@ -68,7 +65,6 @@ export function addStateGuards<
     }
   })
 }
-
 
 /***
  * @param store - current store instance
@@ -127,11 +123,12 @@ export function defineStore<
   Id extends string,
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
-  A extends ActionsTree = {}
+  A extends ActionsTree = {},
+  E extends ExposesTree = ExposesTree
 >(
-  options: StoreOptions<Id, S, G, A>
+  options: StoreOptions<Id, S, G, A, E>
 ): StoreDefinition<Id, S, G, A>{
-  const { id, state, actions, guards } = options
+  const { id, state, actions, guards, expose } = options
 
   let initialState = state?.() || {}
 
@@ -180,6 +177,10 @@ export function defineStore<
     const action = store[name]
     store[name] = wrapAction(store, name, action)
   })
+
+  if (expose) {
+    $expose.call(store, expose)
+  }
 
   const useStore = () => store as Store<Id, S, G, A>
 

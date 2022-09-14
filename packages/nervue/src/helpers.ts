@@ -1,9 +1,3 @@
-// import { reactive, toRefs } from 'vue'
-
-// export const convertToRefs = (stateDefinitionObject) => {
-//   return toRefs(reactive(stateDefinitionObject))
-// }
-
 export const logWarning = (...args: string[]) => {
   console.warn(`[nervue]:`, ...args)
 }

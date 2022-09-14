@@ -3,7 +3,7 @@
 <div class="language-bash ext-sh"><pre v-pre class="language-bash"><code><span class="token function">npm</span> <span class="token function">install</span> nervue
 <span class="token comment"># или с помощью</span>
 <span class="token function">yarn</span> <span class="token function">add</span> nervue
-</code></pre></div><p>Далее после установки библиотеки, вы можете создать глобальный <code v-pre>root</code> объект <strong>Nervue</strong></p>
+</code></pre></div><p>Далее после установки библиотеки, мы можем создать глобальный <code v-pre>root</code> объект <strong>Nervue</strong></p>
 <div class="language-javascript ext-js"><pre v-pre class="language-javascript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> createNervue <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
 
 <span class="token keyword">export</span> <span class="token keyword">const</span> store <span class="token operator">=</span> <span class="token function">createNervue</span><span class="token punctuation">(</span><span class="token punctuation">)</span>

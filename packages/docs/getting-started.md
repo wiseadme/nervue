@@ -8,7 +8,7 @@ npm install nervue
 yarn add nervue
 ```
 
-Далее после установки библиотеки, вы можете создать глобальный ```root``` объект **Nervue**
+Далее после установки библиотеки, мы можем создать глобальный ```root``` объект **Nervue**
 
 ```js
 import { createNervue } from 'nervue'

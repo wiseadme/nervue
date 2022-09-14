@@ -7,6 +7,7 @@ export type GuardMethod = (val: any) => boolean
 
 export type StateTree = Record<string | number | symbol, any>
 export type ActionsTree = Record<string, Method>
+export type ExposesTree = Record<string, boolean>
 export type GuardsTree<S extends StateTree = StateTree> = {
   [k in keyof S]?: GuardMethod[]
 }
@@ -33,22 +34,22 @@ export type _StoreWithProperties<Id, S, G, A> = {
   $subscribe: (subscribeOptions: SubscribeOptions) => Unsubscribe
   $state: StateTree
   $guards: Guards<S, G>,
-  $expose: (
-    sharedObject:Partial< {[key in keyof Store<Id, S, G, A>]: Store<Id, S, G, A>[key]}>
-  ) => void
-  _exposed: Record<string, Record<string, any>>
+  $expose: (exposes: ExposesTree) => void
+  _exposed: Record<string, Root['_exposed']>
 }
 
 export interface StoreOptions<
   Id extends string,
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
-  A extends ActionsTree = {}
+  A extends ActionsTree = {},
+  E extends ExposesTree = ExposesTree
   > {
   id: Id
   state?: () => S
   actions?: A,
-  guards?: G
+  guards?: G,
+  expose? : E
 }
 
 export type Store<
@@ -73,8 +74,8 @@ export declare function defineStore<
   Id extends string,
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
-  A extends ActionsTree = {}
->(options: StoreOptions<Id, S, G, A>): StoreDefinition<Id, S, G, A>
+  A extends ActionsTree = {},
+>(options: StoreOptions<Id, S, G, A, E>): StoreDefinition<Id, S, G, A>
 
 export type NervuePlugin = {
   add<

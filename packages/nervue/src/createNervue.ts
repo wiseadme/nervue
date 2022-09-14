@@ -1,8 +1,7 @@
-import { App, UnwrapNestedRefs, reactive, toRefs } from 'vue'
+import { App, UnwrapNestedRefs, reactive } from 'vue'
 import { ActionsTree, GuardsTree, StateTree, Store } from './types'
 import { logWarning } from './helpers'
 import { root, NERVUE_ROOT_SYMBOL, Root } from './root'
-
 
 export const createNervue = () => ({
   install: (app: App) => {
@@ -18,7 +17,7 @@ export const createNervue = () => ({
   }
 })
 
-export const getRoot = (): UnwrapNestedRefs<Root> => reactive(toRefs(root.value))
+export const getRoot = (): UnwrapNestedRefs<Root> => reactive(root.value)
 
 export function useNervue<
   Id extends string,

@@ -1,4 +1,4 @@
-export const data = JSON.parse("{\"key\":\"v-5dc4b15a\",\"path\":\"/getting-started.html\",\"title\":\"Установка\",\"lang\":\"ru-RU\",\"frontmatter\":{},\"excerpt\":\"\",\"headers\":[{\"level\":2,\"title\":\"Добавление хранища в root\",\"slug\":\"добавление-хранища-в-root\",\"link\":\"#добавление-хранища-в-root\",\"children\":[]}],\"git\":{\"updatedTime\":1663017727000,\"contributors\":[{\"name\":\"Anar\",\"email\":\"wiseadme@gmail.com\",\"commits\":3}]},\"filePathRelative\":\"getting-started.md\"}")
+export const data = JSON.parse("{\"key\":\"v-5dc4b15a\",\"path\":\"/getting-started.html\",\"title\":\"Установка\",\"lang\":\"ru-RU\",\"frontmatter\":{},\"excerpt\":\"\",\"headers\":[{\"level\":2,\"title\":\"Добавление хранища в root\",\"slug\":\"добавление-хранища-в-root\",\"link\":\"#добавление-хранища-в-root\",\"children\":[]}],\"git\":{\"updatedTime\":1663086698000,\"contributors\":[{\"name\":\"Anar\",\"email\":\"wiseadme@gmail.com\",\"commits\":4}]},\"filePathRelative\":\"getting-started.md\"}")
 
 if (import.meta.webpackHot) {
   import.meta.webpackHot.accept()

@@ -1,1 +1,0 @@
-{"version":3,"file":"patch.js","sourceRoot":"","sources":["../../src/patch.ts"],"names":[],"mappings":"AAGA,MAAM,UAAU,MAAM,CACpB,OAAsC;IAEtC,MAAM,WAAW,GAAG,OAAO,OAAO,CAAA;IAElC,IAAI,WAAW,KAAK,UAAU,EAAE;QAC9B,OAAO,CAAC,IAAI,CAAC,MAAM,CAAC,CAAA;KACrB;SAAM,IAAI,WAAW,KAAK,QAAQ,EAAE;KAEpC;AACH,CAAC"}

@@ -1,16 +1,23 @@
-import { computed, reactive } from 'vue'
+import { computed } from 'vue'
 import { getRoot } from './createNervue'
+import { ExposesTree } from './types'
 
-export function $expose(exposedOptions){
+export function $expose<E extends ExposesTree>(exposes: E){
+  if (this._exposed[this.$id]) return
+
   const root = getRoot()
-
-  if (root._exposed[this.$id]) return
 
   root._exposed[this.$id] = {}
 
-  Object.keys(exposedOptions).forEach(key => {
-    root._exposed[this.$id][key] = computed(() => this[key])
-  })
-
-  console.log(root, 'root', exposedOptions)
+  for (const key in exposes) {
+    if (this.hasOwnProperty(key) && exposes[key]) {
+      if (typeof this[key] === 'function') {
+        root._exposed[this.$id][key] = (...args) => {
+          this[key].call(this, ...args)
+        }
+      } else {
+        root._exposed[this.$id][key] = computed(() => this[key])
+      }
+    }
+  }
 }

@@ -24,24 +24,25 @@
 
     created(){
       this.note = useUserStore()
-      this.note.$patch(state => {
-        state.name = 'Randevounier'
-      })
 
-      this.note.$expose({
-        name: this.note.name
-      })
+      // this.note.$patch(state => {
+      //   state.name = 'Randevounier'
+      // })
 
-      // this.note._exposed.USER.name = 'gandi'
+      // this.note.$expose({
+      //   name: this.note.name
+      // })
+      // this.note._exposed.USER.name = 'dfsfsdfsdfsdfsdf'
+      this.note._exposed.USER.setName('gandsdklfjghsldfkjghsldkfjghsi')
     },
 
     mounted(){
       setTimeout(() => this.setName('Alex'), 2000)
       const userStore = useUserStore()
 
-      userStore.$patch(state => {
-        state.name = 'Randevounier'
-      })
+      // userStore.$patch(state => {
+      //   state.name = 'Randevounier'
+      // })
 
       const unsubscribe = userStore.$subscribe({
         storeId: userStore.$id,

@@ -13,7 +13,7 @@ export type SubscribeOptions = {
   onError?(error: any): any
 }
 
-export type ExistsSubscribers = {
+export type ExistingSubscribers = {
   beforeList: ((...args: any) => any)[]
   afterList: ((res: any) => any)[]
   onErrorList: ((error: unknown) => unknown)[]
@@ -26,9 +26,7 @@ export type Unsubscribe = () => Promise<boolean>
  * @returns unsubscribe function
  */
 export function $subscribe(options: SubscribeOptions): Unsubscribe{
-
   const { name, storeId, before, after, onError } = options
-
   const subId = `${ storeId }/${ name }`
 
   if (before && !subscriptionsBefore[subId]) {
@@ -48,8 +46,6 @@ export function $subscribe(options: SubscribeOptions): Unsubscribe{
   before && (bInd = subscriptionsBefore[subId].push(before) - 1)
   after && (aInd = subscriptionsAfter[subId].push(after) - 1)
   onError && (oInd = onErrorSubscriptions[subId].push(onError) - 1)
-
-  this[name].hasSubs = true
 
   const unsubscribe = (): Promise<boolean> => {
     return new Promise((resolve) => {
@@ -72,10 +68,7 @@ export function triggerSubs(subscribers, ...args: any[]){
   subscribers.slice().forEach(fn => fn(...args))
 }
 
-export function getSubscribers(
-  storeId: string,
-  name: string
-): ExistsSubscribers{
+export function getSubscribers(storeId: string, name: string): ExistingSubscribers{
   return {
     beforeList: subscriptionsBefore[`${ storeId }/${ name }`],
     afterList: subscriptionsAfter[`${ storeId }/${ name }`],

@@ -16,6 +16,11 @@ export const useUserStore = defineStore({
     age: [val => !!val],
   },
 
+  expose: {
+    name: true,
+    setName: true
+  },
+
   actions: {
     async setName(name: string): Promise<any>{
       this.name = name
