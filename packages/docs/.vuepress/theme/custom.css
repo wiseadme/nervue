@@ -17,7 +17,6 @@
 
 .home .hero .description {
   font-size: 1.2rem;
-  /*font-family: 'Orbitron', sans-serif;*/
 }
 
 .home .hero h1, .home .hero .description, .home .hero .actions {
@@ -53,6 +52,18 @@
   color: var(--c-brand-light) !important;
 }
 
+.navbar-dropdown {
+  background-color: var(--c-brand) !important;
+}
+
+.navbar-dropdown-wrapper>.navbar-dropdown-title>.title {
+  color: #ffffff !important;
+}
+
+.navbar-items a:hover, .navbar-items a.router-link-active {
+  color: var(--c-brand-light);
+}
+
 .toggle-sidebar-button .icon > span {
   background-color: var(--c-brand-light);
 }
@@ -65,10 +76,17 @@
   box-shadow: 0 0 8px -1px rgba(0, 0, 0, .3);
 }
 
+.highlight-line {
+  background-color: var(--code-hl-bg-color) !important;
+  margin-top: -6px !important;
+}
+
 :root {
   --c-brand: #10213d;
   --c-brand-light: #179df3;
   --code-bg-color: var(--c-brand);
+  --c-text-accent: var(--c-brand-light);
+  --code-hl-bg-color: #28545a;
   --vp-c-brand: var(--c-brand-light);
   --vp-code-block-bg: var(--c-brand);
   --vp-sidebar-width: 300px;

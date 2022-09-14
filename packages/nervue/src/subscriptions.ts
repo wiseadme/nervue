@@ -22,8 +22,8 @@ export type ExistingSubscribers = {
 export type Unsubscribe = () => Promise<boolean>
 
 /**
- * @param options
- * @returns unsubscribe function
+ * @param {object} options - options for subscribing
+ * @returns {Unsubscribe} - unsubscribe function
  */
 export function $subscribe(options: SubscribeOptions): Unsubscribe{
   const { name, storeId, before, after, onError } = options
@@ -64,10 +64,19 @@ export function $subscribe(options: SubscribeOptions): Unsubscribe{
   return unsubscribe
 }
 
+/***
+ * @param {array} subscribers - array of subscribers
+ * @param {array} args - arguments for subscriber callback function
+ */
 export function triggerSubs(subscribers, ...args: any[]){
   subscribers.slice().forEach(fn => fn(...args))
 }
 
+/***
+ * @param {string} storeId
+ * @param {string} name
+ * @return {ExistingSubscribers}
+ */
 export function getSubscribers(storeId: string, name: string): ExistingSubscribers{
   return {
     beforeList: subscriptionsBefore[`${ storeId }/${ name }`],

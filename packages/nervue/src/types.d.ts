@@ -3,7 +3,7 @@ import { SubscribeOptions, Unsubscribe } from './subscriptions'
 import { Root } from './createNervue'
 
 export type Method = (...args: any[]) => any
-export type GuardMethod = (val: any) => boolean
+export type GuardMethod = (val: any) => { value: any, isValid: boolean }
 
 export type StateTree = Record<string | number | symbol, any>
 export type ActionsTree = Record<string, Method>
@@ -23,8 +23,8 @@ export type Actions<A> = {
 }
 
 export type Guards<S, G> = {
-  [k in keyof S]: G[k] extends [(val: infer P) => boolean]
-    ? [(val: infer P) => boolean]
+  [k in keyof S]: G[k] extends [ (val: infer P) => boolean ]
+    ? [ (val: infer P) => boolean ]
     : never
 }
 
@@ -33,8 +33,8 @@ export type _StoreWithProperties<Id, S, G, A> = {
   $patch: (fn: (state: StateTree) => void) => void
   $subscribe: (subscribeOptions: SubscribeOptions) => Unsubscribe
   $state: StateTree
-  $guards: Guards<S, G>,
   $expose: (exposes: ExposesTree) => void
+  _guards: Guards<S, G>,
   _exposed: Record<string, Root['_exposed']>
 }
 
@@ -43,21 +43,18 @@ export interface StoreOptions<
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
   A extends ActionsTree = {},
-  E extends ExposesTree = ExposesTree
-  > {
+  E extends ExposesTree = ExposesTree> {
   id: Id
   state?: () => S
   actions?: A,
   guards?: G,
-  expose? : E
+  expose?: E
 }
 
-export type Store<
-  Id extends string = string,
+export type Store<Id extends string = string,
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
-  A extends ActionsTree = {}
-  > = _StoreWithProperties<Id, S, G, A> &
+  A extends ActionsTree = {}> = _StoreWithProperties<Id, S, G, A> &
   State<S> &
   Actions<A>
 
@@ -67,6 +64,7 @@ export interface StoreDefinition<
   G extends GuardsTree<S> = {},
   A = {}> {
   (): Store<Id, S, G, A>
+
   $id: Id
 }
 
@@ -75,15 +73,13 @@ export declare function defineStore<
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
   A extends ActionsTree = {},
->(options: StoreOptions<Id, S, G, A, E>): StoreDefinition<Id, S, G, A>
+  >(options: StoreOptions<Id, S, G, A, E>): StoreDefinition<Id, S, G, A>
 
 export type NervuePlugin = {
-  add<
-    Id extends string,
+  add<Id extends string,
     S extends StateTree = {},
     G extends GuardsTree<S> = {},
-    A extends ActionsTree = {}
-  >(useStore: () => Store<Id, S, G, A>): void
+    A extends ActionsTree = {}>(useStore: () => Store<Id, S, G, A>): void
 } & Plugin
 
 export declare function createNervue(): NervuePlugin
@@ -92,8 +88,7 @@ export declare function useNervue<
   Id extends string,
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
-  A extends ActionsTree = {}
-  >(id?: Id): Store<Id, S, G, A> | unknown
+  A extends ActionsTree = {}>(id?: Id): Store<Id, S, G, A> | unknown
 
 export declare function mapActions<
   Id extends string,

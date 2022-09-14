@@ -22,10 +22,10 @@ import type {
 } from './types'
 
 /**
- * @param storeId - store id
- * @param state - state map
- * @param guards - guards map
- * @returns proxy with guarded state
+ * @param {string} storeId - store id
+ * @param {object} state - state map
+ * @param {object} guards - guards map
+ * @returns {proxy} proxy with guarded state
  */
 export function addStateGuards<
   S extends StateTree,
@@ -36,14 +36,26 @@ export function addStateGuards<
       return Reflect.get(target, prop, receiver)
     },
     set: (target, prop, value, receiver) => {
-      let isGuarded = true
+      let result = { isValid: true, value }
 
       if (guards[prop]) {
         /**
          * check guards map type
          */
         if (Array.isArray(guards[prop])) {
-          isGuarded = guards[prop]!.every(fn => fn(value))
+          for (const fn of guards[prop]!) {
+
+            result = fn(result.value)
+
+            if (!result.isValid) {
+              logWarning(
+                `{guards}: The value "${ value }" is not valid for mutation the value`,
+                `of state property "${ prop as string }" in the "${ storeId }" store`
+              )
+
+              break
+            }
+          }
         } else {
           logWarning(
             `{guards}: wrong type of guards map in the "${ storeId }" store.`,
@@ -51,14 +63,9 @@ export function addStateGuards<
           )
         }
       }
-      if (!isGuarded) {
-        logWarning(
-          `{guards}: The value "${ value }" is not valid for mutation the value`,
-          `of state property "${ prop as string }" in the "${ storeId }" store`
-        )
-      }
-      if (isGuarded) {
-        return Reflect.set(target, prop, value, receiver)
+
+      if (result.isValid) {
+        return Reflect.set(target, prop, result.value, receiver)
       }
 
       return true
@@ -67,10 +74,10 @@ export function addStateGuards<
 }
 
 /***
- * @param store - current store instance
- * @param name - name of action
- * @param action - action to wrap
- * @returns a wrapped action to handle subscriptions
+ * @param {object} store - current store instance
+ * @param {string} name - name of action
+ * @param {function} action - action to wrap
+ * @returns {function} a wrapped action to handle subscriptions
  */
 function wrapAction(
   store: UnwrapNestedRefs<Store>,
@@ -116,8 +123,8 @@ function wrapAction(
 }
 
 /**
- * @param options - store definition object
- * @returns store instance
+ * @param {object} options - store definition object
+ * @returns {Store} store instance
  */
 export function defineStore<
   Id extends string,
@@ -142,10 +149,10 @@ export function defineStore<
   const _storeProperties = {} as _StoreWithProperties<Id, S, G, A>
 
   _storeProperties.$id = id
-  _storeProperties.$guards = (guards || {}) as Guards<G, S>
   _storeProperties.$patch = $patch
   _storeProperties.$subscribe = $subscribe
   _storeProperties.$expose = $expose
+  _storeProperties._guards = (guards || {}) as Guards<G, S>
   _storeProperties._exposed = {}
 
   Object.defineProperty(_storeProperties, '$state', {
