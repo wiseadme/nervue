@@ -3,7 +3,7 @@ import { SubscribeOptions, Unsubscribe } from './subscriptions'
 import { Root } from './createNervue'
 
 export type Method = (...args: any[]) => any
-export type GuardMethod = (val: any) => { value: any, next: boolean }
+export type GuardMethod = (val: any) => { value?: any, next: boolean }
 
 export type StateTree = Record<string | number | symbol, any>
 export type ActionsTree = Record<string, Method>

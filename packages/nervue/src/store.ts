@@ -18,7 +18,7 @@ import type {
   Store,
   Guards,
   Method,
-  _StoreWithProperties, ExposesTree,
+  _StoreWithProperties, ExposesTree, GuardMethod,
 } from './types'
 
 /**
@@ -36,7 +36,7 @@ export function addStateGuards<
       return Reflect.get(target, prop, receiver)
     },
     set: (target, prop, value, receiver) => {
-      let result = { next: true, value }
+      let result = { next: true, value } as ReturnType<GuardMethod>
 
       if (guards[prop]) {
         /**
@@ -45,7 +45,11 @@ export function addStateGuards<
         if (Array.isArray(guards[prop])) {
           for (const fn of guards[prop]!) {
 
-            result = fn(result.value)
+            const ret = fn(result.value)
+
+            result.next = ret.next
+            value = ret.value || value
+            result.value = value
 
             if (!result.next) {
               logWarning(

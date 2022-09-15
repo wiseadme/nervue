@@ -13,11 +13,11 @@ export const useUserStore = defineStore({
 
   guards: {
     name: [
-      val => ({ value: val, next: val.length > 10 })
+      val => ({ next: val.length > 10 })
     ],
     age: [
       val =>
-        ({ value: val, next: !!val })
+        ({ next: !!val })
     ],
   },
 
