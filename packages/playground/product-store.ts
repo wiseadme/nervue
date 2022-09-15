@@ -10,14 +10,14 @@ const guards = {
   items: [
     val => ({
       value: val.filter(it => it.visible),
-      isValid: true
+      next: true
     }),
     val => {
       const found = val.find(it => it.title === 'DJI Mavic 3')
 
       return {
         value: found,
-        isValid: !!found
+        next: !!found
       }
     }
   ]

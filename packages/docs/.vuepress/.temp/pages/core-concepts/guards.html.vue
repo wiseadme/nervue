@@ -3,7 +3,7 @@
 Они объявляются по имени свойства которое будут валидировать, в виде массива функций
 валидаторов, которые должны возвращать объект нижеследующего вида:</p>
 <div class="language-typescript ext-ts"><pre v-pre class="language-typescript"><code><span class="token comment">// typescript</span>
-<span class="token punctuation">{</span> value<span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">,</span> isValid<span class="token operator">:</span> <span class="token builtin">boolean</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span> value<span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">,</span> next<span class="token operator">:</span> <span class="token builtin">boolean</span> <span class="token punctuation">}</span>
 </code></pre></div><p>Давайте рассмотрим небольшой боевой пример кода:</p>
 <div class="language-typescript ext-ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> defineStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
 <span class="token keyword">import</span> axios <span class="token keyword">from</span> <span class="token string">'axios'</span>
@@ -19,8 +19,8 @@
   guards<span class="token operator">:</span> <span class="token punctuation">{</span>
     visibleiItems<span class="token operator">:</span> <span class="token punctuation">[</span>
       products <span class="token operator">=></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
-        isValid<span class="token operator">:</span> products<span class="token punctuation">.</span><span class="token function">every</span><span class="token punctuation">(</span>it <span class="token operator">=></span> <span class="token operator">!</span><span class="token operator">!</span>it<span class="token punctuation">.</span>visible<span class="token punctuation">)</span><span class="token punctuation">,</span>
         value<span class="token operator">:</span> products
+        next<span class="token operator">:</span> products<span class="token punctuation">.</span><span class="token function">every</span><span class="token punctuation">(</span>it <span class="token operator">=></span> it<span class="token punctuation">.</span>visible<span class="token punctuation">)</span><span class="token punctuation">,</span>
       <span class="token punctuation">}</span><span class="token punctuation">)</span>
     <span class="token punctuation">]</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
@@ -36,7 +36,7 @@
     <span class="token punctuation">}</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
-</code></pre></div><p>В случае если хотя бы одна проверка <code v-pre>items</code>  гуардами вернет значение <code v-pre>isValid</code> равное <code v-pre>false</code>,
+</code></pre></div><p>В случае если хотя бы одна проверка <code v-pre>items</code>  гуардами вернет значение <code v-pre>next</code> равное <code v-pre>false</code>,
 мутация состояния будет пропущена, то есть сработает защита от нежелательных мутаций состояния приложения.</p>
 <h1 id="не-только-валидаторы" tabindex="-1"><a class="header-anchor" href="#не-только-валидаторы" aria-hidden="true">#</a> Не только валидаторы</h1>
 <p>Если посмотреть на гуарды под другим углом, то можно увидеть то, что гуарды могут как защитить,
@@ -59,7 +59,7 @@
         <span class="token keyword">const</span> visibleProducts <span class="token operator">=</span> products<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>it <span class="token operator">=></span> it<span class="token punctuation">.</span>visible<span class="token punctuation">)</span>
         
         <span class="token keyword">return</span> <span class="token punctuation">{</span>
-            isValid<span class="token operator">:</span> visibleProducts<span class="token punctuation">.</span>length<span class="token punctuation">,</span>
+            next<span class="token operator">:</span> visibleProducts<span class="token punctuation">.</span>length<span class="token punctuation">,</span>
             value<span class="token operator">:</span> visibleProducts
         <span class="token punctuation">}</span>
       <span class="token punctuation">}</span>
@@ -96,7 +96,7 @@
       products <span class="token operator">=></span> <span class="token punctuation">{</span>
         <span class="token keyword">const</span> visibleProducts <span class="token operator">=</span> products<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>it <span class="token operator">=></span> it<span class="token punctuation">.</span>visible<span class="token punctuation">)</span>
         <span class="token keyword">return</span> <span class="token punctuation">{</span>
-            isValid<span class="token operator">:</span> visibleProducts<span class="token punctuation">.</span>length<span class="token punctuation">,</span>
+            next<span class="token operator">:</span> visibleProducts<span class="token punctuation">.</span>length<span class="token punctuation">,</span>
             value<span class="token operator">:</span> visibleProducts
         <span class="token punctuation">}</span>
       <span class="token punctuation">}</span><span class="token punctuation">,</span>

@@ -10,7 +10,7 @@ aside: false
 
 ```typescript
 // typescript
-{ value: any, isValid: boolean }
+{ value: any, next: boolean }
 ```
 
 Давайте рассмотрим небольшой боевой пример кода:
@@ -30,8 +30,8 @@ const usersStore = defineStore({
   guards: {
     visibleiItems: [
       products => ({
-        isValid: products.every(it => !!it.visible),
         value: products
+        next: products.every(it => it.visible),
       })
     ]
   },
@@ -49,7 +49,7 @@ const usersStore = defineStore({
 })
 ```
 
-В случае если хотя бы одна проверка ```items```  гуардами вернет значение ```isValid``` равное ```false```,
+В случае если хотя бы одна проверка ```items```  гуардами вернет значение ```next``` равное ```false```,
 мутация состояния будет пропущена, то есть сработает защита от нежелательных мутаций состояния приложения. 
 
 # Не только валидаторы
@@ -76,7 +76,7 @@ const usersStore = defineStore({
         const visibleProducts = products.filter(it => it.visible)
         
         return {
-            isValid: visibleProducts.length,
+            next: visibleProducts.length,
             value: visibleProducts
         }
       }
@@ -116,7 +116,7 @@ const usersStore = defineStore({
       products => {
         const visibleProducts = products.filter(it => it.visible)
         return {
-            isValid: visibleProducts.length,
+            next: visibleProducts.length,
             value: visibleProducts
         }
       },

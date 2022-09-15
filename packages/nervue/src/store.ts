@@ -36,7 +36,7 @@ export function addStateGuards<
       return Reflect.get(target, prop, receiver)
     },
     set: (target, prop, value, receiver) => {
-      let result = { isValid: true, value }
+      let result = { next: true, value }
 
       if (guards[prop]) {
         /**
@@ -47,7 +47,7 @@ export function addStateGuards<
 
             result = fn(result.value)
 
-            if (!result.isValid) {
+            if (!result.next) {
               logWarning(
                 `{guards}: The value "${ value }" is not valid for mutation the value`,
                 `of state property "${ prop as string }" in the "${ storeId }" store`
@@ -64,7 +64,7 @@ export function addStateGuards<
         }
       }
 
-      if (result.isValid) {
+      if (result.next) {
         return Reflect.set(target, prop, result.value, receiver)
       }
 
