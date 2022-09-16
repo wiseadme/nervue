@@ -1,13 +1,12 @@
 <script lang="ts">
   import { mapActions, mapState } from '../nervue/src'
-  import { useUserStore, UserStoreId } from './user-store'
-  import { useProductStore } from './product-store'
+  import { useUserStore } from './store/user-store'
+  import { useProductStore } from './store/product-store'
 
   export default {
     name: 'App',
     data(){
       return {
-        UserStoreId,
         sharedName: ''
       }
     },
@@ -29,10 +28,6 @@
       //   state.name = 'Randevounier'
       // })
 
-      // this.note.$expose({
-      //   name: this.note.name
-      // })
-      // this.note._exposed.USER.name = 'dfsfsdfsdfsdfsdf'
       this.note._exposed.USER.setName('gandsdklfjghsldfkjghsldkfjghsi')
     },
 
@@ -62,7 +57,6 @@
       setTimeout(() => {
         this.setName('Ronaldinhos')
         this.fetchProductItems()
-        // unsubscribe()
       }, 4000)
     },
 

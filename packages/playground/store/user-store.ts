@@ -1,9 +1,7 @@
-import { defineStore } from '../nervue/src'
-
-export const UserStoreId = 'USER'
+import { defineStore } from '../../nervue/src'
 
 export const useUserStore = defineStore({
-  id: UserStoreId,
+  id: 'USER',
 
   state: () => ({
     name: '',
@@ -38,5 +36,3 @@ export const useUserStore = defineStore({
     }
   },
 })
-
-// const store = useUserStore()

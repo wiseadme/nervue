@@ -1,4 +1,4 @@
-import { defineStore } from '../nervue/src'
+import { defineStore } from '../../nervue/src'
 
 export const PRODUCT = 'PRODUCT'
 
@@ -25,8 +25,6 @@ const guards = {
 
 const actions = {
   async fetchItems(){
-    console.log(this, 'this suka')
-
     setTimeout(() => {
       this.items = [
         { title: 'DJI mini 3 Pro', visible: false },

@@ -1,4 +1,4 @@
-import { Plugin, DefineComponent } from 'vue'
+import { Plugin, DefineComponent, ComputedRef } from 'vue'
 import { SubscribeOptions, Unsubscribe } from './subscriptions'
 import { Root } from './createNervue'
 
@@ -6,6 +6,7 @@ export type Method = (...args: any[]) => any
 export type GuardMethod = (val: any) => { value?: any, next: boolean }
 
 export type StateTree = Record<string | number | symbol, any>
+export type ModifiersTree = Record<string, ComputedRef>
 export type ActionsTree = Record<string, Method>
 export type ExposesTree = Record<string, boolean>
 export type GuardsTree<S extends StateTree = StateTree> = {
@@ -45,7 +46,7 @@ export interface StoreOptions<
   A extends ActionsTree = {},
   E extends ExposesTree = ExposesTree> {
   id: Id
-  state?: () => S
+  state?: () => S,
   actions?: A,
   guards?: G,
   expose?: E
@@ -73,7 +74,7 @@ export declare function defineStore<
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
   A extends ActionsTree = {},
-  >(options: StoreOptions<Id, S, G, A, E>): StoreDefinition<Id, S, G, A>
+  >(options: StoreOptions<Id, S, G, A>): StoreDefinition<Id, S, G, A>
 
 export type NervuePlugin = {
   add<Id extends string,
