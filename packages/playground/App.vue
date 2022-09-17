@@ -14,6 +14,7 @@
     computed: {
       ...mapState(useUserStore, {
         name: store => store.name,
+        fullName: store => store.getUserFullName,
         company: 'org'
       }),
       ...mapState(useProductStore, {
@@ -39,8 +40,20 @@
       //   state.name = 'Randevounier'
       // })
 
+      // this.note.$patch({
+      //   name: 'Sjg;sdflkgjs;dflkg'
+      // })
+
+      console.log(this.note)
+
+      this.note.$guards.name.push(() => {
+        console.log('suka ya v teme')
+        return { next: true }
+      })
+
+      this.note.age = 45
+
       const unsubscribe = userStore.$subscribe({
-        storeId: userStore.$id,
         name: 'setName',
         before(){
           console.log('it happend before setName')
@@ -76,7 +89,7 @@
 </script>
 <template>
   <h1>Nervue state manager library for Vue 3</h1>
-  <h2>{{ note._exposed.USER.name }}</h2>
+  <h2>{{ fullName }}</h2>
   <!--  <v-nervue-->
   <!--    v-slot="{name}"-->
   <!--    :store="UserStoreId"-->

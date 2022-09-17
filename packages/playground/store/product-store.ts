@@ -43,6 +43,6 @@ export const useProductStore = defineStore({
   id: PRODUCT,
   state,
   guards,
-  expose,
-  actions
+  actions,
+  expose
 })

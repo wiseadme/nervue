@@ -5,7 +5,6 @@ export const subscriptionsAfter = {}
 export const onErrorSubscriptions = {}
 
 export type SubscribeOptions = {
-  storeId: string
   name: string
   detached?: boolean
   before?(...args: any[]): any
@@ -26,8 +25,8 @@ export type Unsubscribe = () => Promise<boolean>
  * @returns {Unsubscribe} - unsubscribe function
  */
 export function $subscribe(options: SubscribeOptions): Unsubscribe{
-  const { name, storeId, before, after, onError } = options
-  const subId = `${ storeId }/${ name }`
+  const { name, before, after, onError } = options
+  const subId = `${ this.$id }/${ name }`
 
   if (before && !subscriptionsBefore[subId]) {
     subscriptionsBefore[subId] = []

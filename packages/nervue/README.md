@@ -1,4 +1,3 @@
-<h1 align="center">Nervue</h1>
 <p align="center">    
 <a href="https://github.com/wiseadme/nervue">
 <img src="https://i.ibb.co/N3pMDjL/nervue.png" alt="nervue">

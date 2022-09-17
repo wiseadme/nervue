@@ -3,7 +3,7 @@ import {
   GuardsTree,
   StateTree,
   Method,
-  StoreDefinition
+  StoreDefinition, ModifiersTree
 } from './types'
 
 /**
@@ -14,9 +14,10 @@ export const mapActions = <
   Id extends string,
   S extends StateTree,
   G extends GuardsTree<S>,
+  M extends ModifiersTree,
   A extends ActionsTree
 >(
-  useStore: StoreDefinition<Id, S, G, A>,
+  useStore: StoreDefinition<Id, S, G, M, A>,
   mapOrKeys?: [ keyof A ] | { [p: string]: keyof A }
 ): ActionsTree => {
   const store = useStore()
@@ -60,9 +61,10 @@ export const mapState = <
   Id extends string,
   S extends StateTree,
   G extends GuardsTree<S>,
+  M extends ModifiersTree,
   A extends ActionsTree
 >(
-  useStore: StoreDefinition<Id, S, G, A>,
+  useStore: StoreDefinition<Id, S, G, M, A>,
   mapOrKeys?: [ keyof S ] | { [key: string]: Method | keyof S }
 ): StateTree => {
   const map: Record<string, any> = {}

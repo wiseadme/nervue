@@ -1,4 +1,4 @@
-import { ref, toRefs, reactive, UnwrapNestedRefs } from 'vue'
+import { ref, toRefs, reactive, toRaw, markRaw, computed, UnwrapNestedRefs } from 'vue'
 import { getRoot } from './createNervue'
 import { $patch } from './patch'
 import { $expose } from './expose'
@@ -16,9 +16,8 @@ import type {
   StoreDefinition,
   StoreOptions,
   Store,
-  Guards,
   Method,
-  _StoreWithProperties, ExposesTree, GuardMethod,
+  _StoreWithProperties, ExposesTree, GuardMethod, ModifiersTree,
 } from './types'
 
 /**
@@ -134,12 +133,14 @@ export function defineStore<
   Id extends string,
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
+  M extends ModifiersTree = {},
   A extends ActionsTree = {},
   E extends ExposesTree = ExposesTree
 >(
-  options: StoreOptions<Id, S, G, A, E>
-): StoreDefinition<Id, S, G, A>{
-  const { id, state, actions, guards, expose } = options
+  options: StoreOptions<Id, S, G, M, A, E>
+): StoreDefinition<Id, S, G, M, A>{
+  const { id, state, actions, modifiers, guards, expose } = options
+  const _root = getRoot()
 
   let initialState = state?.() || {}
 
@@ -150,24 +151,36 @@ export function defineStore<
   /**
    * defining store properties
    */
-  const _storeProperties = {} as _StoreWithProperties<Id, S, G, A>
+  const _storeProperties = {} as _StoreWithProperties<Id, S, G, E>
 
   _storeProperties.$id = id
   _storeProperties.$patch = $patch
   _storeProperties.$subscribe = $subscribe
   _storeProperties.$expose = $expose
-  _storeProperties._guards = (guards || {}) as Guards<G, S>
-  _storeProperties._exposed = {}
 
   Object.defineProperty(_storeProperties, '$state', {
-    get: () => stateRef.value,
-    set: (val) => stateRef.value = val
+    get: () => toRaw(stateRef.value),
+    set: (val) => {
+      $patch(val)
+    }
   })
 
-  const _root = getRoot()
+  Object.defineProperty(_storeProperties, '$guards', {
+    writable: false,
+    configurable: true,
+    value: guards
+  })
 
-  Object.defineProperties(_storeProperties, {
-    _exposed: { get: () => _root._exposed }
+  Object.defineProperty(_storeProperties, '$modifiers', {
+    writable: false,
+    configurable: false,
+    value: Object.keys(modifiers! || {})
+  })
+
+  Object.defineProperty(_storeProperties, '_exposed', {
+    value: _root._exposed,
+    writable: false,
+    configurable: false
   })
 
   /**
@@ -179,7 +192,11 @@ export function defineStore<
   const store = reactive(assign(
     _storeProperties,
     toRefs(stateRef.value),
-    actions
+    actions,
+    Object.keys(modifiers || {}).reduce((mods, key) => {
+      mods[key] = markRaw(computed(() => modifiers![key].call(store)))
+      return mods
+    }, {})
   )) as UnwrapNestedRefs<Store>
   /**
    * wrapping the actions to handle subscribers
@@ -193,9 +210,9 @@ export function defineStore<
     $expose.call(store, expose)
   }
 
-  const useStore = () => store as Store<Id, S, G, A>
+  const useStore = () => store
 
   useStore.$id = store.$id
 
-  return useStore as StoreDefinition<Id, S, G, A>
+  return useStore as StoreDefinition<Id, S, G, M, A>
 }

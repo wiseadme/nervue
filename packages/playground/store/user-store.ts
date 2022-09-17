@@ -19,9 +19,10 @@ export const useUserStore = defineStore({
     ],
   },
 
-  expose: {
-    name: true,
-    setName: true
+  modifiers: {
+    getUserFullName() {
+      return this.name
+    }
   },
 
   actions: {
@@ -35,4 +36,18 @@ export const useUserStore = defineStore({
       this.age = age
     }
   },
+
+  expose: {
+    name: true,
+    setName: true
+  },
+})
+
+const store = useUserStore()
+
+store.$subscribe({
+  name: 'setAge',
+  before() {
+    console.log('set age')
+  }
 })
