@@ -40,13 +40,13 @@ export type Guards<G> = {
     : never
 }
 
-export type _StoreWithProperties<Id, S, G, E = ExposesTree> = {
+export type _StoreWithProperties<Id extends string, S, G, E = ExposesTree> = {
   $id: Id
   $patch: (fn: (state: StateTree) => void) => void
   $subscribe: (subscribeOptions: SubscribeOptions) => Unsubscribe
   $state: StateTree
   $expose: (exposes: ExposesTree) => void
-  $guards: Guards<S, G>,
+  $guards: Guards<G>,
   _exposed: Record<Id, Root['_exposed']>
 }
 

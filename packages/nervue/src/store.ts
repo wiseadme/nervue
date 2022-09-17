@@ -168,7 +168,7 @@ export function defineStore<
   Object.defineProperty(_storeProperties, '$guards', {
     writable: false,
     configurable: true,
-    value: guards
+    value: guards || {}
   })
 
   Object.defineProperty(_storeProperties, '$modifiers', {
