@@ -31,6 +31,9 @@ export function addStateGuards<
   G extends GuardsTree<S>
 >(storeId: string, state: S, guards: G){
   return new Proxy(state, {
+    /**
+     *
+     */
     get: (target, prop, receiver) => {
       return Reflect.get(target, prop, receiver)
     },
@@ -52,8 +55,9 @@ export function addStateGuards<
 
             if (!result.next) {
               logWarning(
-                `{guards}: The value "${ value }" is not valid for mutation the value`,
-                `of state property "${ prop as string }" in the "${ storeId }" store`
+                `{guards}: The state of the "${ storeId }"
+                store is guarded."${ value }" is not valid
+                for "${ prop as string }" property`,
               )
 
               break
@@ -61,8 +65,9 @@ export function addStateGuards<
           }
         } else {
           logWarning(
-            `{guards}: wrong type of guards map in the "${ storeId }" store.`,
-            `Guards should be an array of functions.`
+            `{guards}: wrong type of guards map in the
+            "${ storeId }" store.`, `Guards should be
+            an array of functions.`
           )
         }
       }
