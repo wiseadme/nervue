@@ -3,3 +3,4 @@ packages/nervue/node_modules
 #dist
 #dev
 .idea
+package-lock.json

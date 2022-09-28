@@ -1,4 +1,4 @@
-build
+../playground/build
 dev
 src
 node_modules

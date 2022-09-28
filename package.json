@@ -6,23 +6,21 @@
   ],
   "scripts": {
     "dev": "lerna run dev",
-    "install": "lerna bootstrap --hoist",
-    "setup": "npm install && npm run bootstrap",
-    "publish": "lerna publish --conventional-commits",
+    "test": "lerna run test --scope=nervue",
+    "setup": "lerna exec npm install && lerna bootstrap --hoist",
+    "bootstrap": "lerna bootstrap",
     "docs:dev": "lerna run docs:dev",
     "docs:build": "lerna run docs:build",
-    "docs:serve": "lerna run docs:serve"
+    "docs:serve": "lerna run docs:serve",
+    "lint:editorconfig": "editorconfig-checker"
   },
   "devDependencies": {
+    "editorconfig-checker": "^4.0.2",
+    "eslint": "^7.32.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-vue": "^8.4.1",
     "lerna": "^5.1.4",
-    "terser-webpack-plugin": "^5.3.1",
-    "ts-jest": "^26.5.2",
-    "ts-loader": "^9.2.6",
-    "typescript": "^4.5.5",
-    "webpack": "^5.69.1",
-    "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.7.4",
-    "webpack-merge": "^5.8.0",
-    "webpack-node-externals": "^3.0.0"
+    "regenerator-runtime": "^0.13.9",
+    "typescript": "^4.5.5"
   }
 }

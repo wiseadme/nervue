@@ -1,11 +1,27 @@
 const webpack = require('webpack')
 const TerserPlugin = require('terser-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require('path')
 
 module.exports = (env = {}) => {
   return {
-    target: env.dev ? 'web' : 'browserslist',
-    mode: env.dev ? 'development' : 'production',
+    devtool: 'eval-cheap-module-source-map',
+    target: 'web',
+    mode: 'development',
+    entry: {
+      main: [
+        'regenerator-runtime/runtime.js',
+        path.resolve(__dirname, '../main.ts')
+      ]
+    },
+    devServer: {
+      host: 'localhost',
+      open: false,
+      port: 3000,
+      hot: true,
+    },
     optimization: {
       minimize: !env.dev,
       minimizer: [
@@ -81,6 +97,21 @@ module.exports = (env = {}) => {
       }
     },
     plugins: [
+      new CleanWebpackPlugin(),
+      new webpack.HotModuleReplacementPlugin(),
+      new HtmlWebpackPlugin({
+        title: 'nervue',
+        hash: false,
+        template: path.resolve(__dirname,'../index.html'),
+        filename: 'index.html',
+        inject: true,
+        collapseWhitespace: true,
+        removeComments: true,
+        removeRedundantAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        useShortDoctype: true
+      }),
       new webpack.DefinePlugin({
         __VUE_OPTIONS_API__: false,
         __VUE_PROD_DEVTOOLS__: false,
