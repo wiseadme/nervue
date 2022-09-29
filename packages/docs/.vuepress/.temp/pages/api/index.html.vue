@@ -1,7 +1,23 @@
 <template><div><h1 id="функции" tabindex="-1"><a class="header-anchor" href="#функции" aria-hidden="true">#</a> Функции</h1>
 <h2 id="createnervue" tabindex="-1"><a class="header-anchor" href="#createnervue" aria-hidden="true">#</a> createNervue</h2>
-<p>Создает глобальный instance Nervue</p>
-<h2 id="definestore" tabindex="-1"><a class="header-anchor" href="#definestore" aria-hidden="true">#</a> defineStore</h2>
+<p>Возвращает <code v-pre>vue</code> плагин, который установит <code v-pre>root</code> объект Nervue в качестве глобальной переменной,
+доступ к которой можно получить с помощью инъекции по ключу <code v-pre>NERVUE_ROOT_SYMBOL</code>.</p>
+<div class="language-typescript ext-ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> createNervue <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> useProductStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./product-store'</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> store <span class="token operator">=</span> <span class="token function">createNervue</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+store<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>useProductStore<span class="token punctuation">)</span>
+</code></pre></div><p>Затем импортируем в <code v-pre>main.ts</code></p>
+<div class="language-typescript ext-ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> createApp <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> store <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./store'</span>
+<span class="token keyword">import</span> App <span class="token keyword">from</span> <span class="token string">'./App.vue'</span>
+
+<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">createApp</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>store<span class="token punctuation">)</span>
+
+</code></pre></div><h2 id="definestore" tabindex="-1"><a class="header-anchor" href="#definestore" aria-hidden="true">#</a> defineStore</h2>
 <h2 id="mapstate" tabindex="-1"><a class="header-anchor" href="#mapstate" aria-hidden="true">#</a> mapState</h2>
 <p>Позволяет использовать состояние хранилища, путем создания объекта распространения доступа в <code v-pre>computed</code> свойстве
 компонента. В качестве аргумента принимает <code v-pre>composition</code> функцию, возвращающую хранилище, вторым аргументом можно
@@ -34,7 +50,8 @@
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
     <span class="token literal-property property">computed</span><span class="token operator">:</span> <span class="token punctuation">{</span>
       <span class="token operator">...</span><span class="token function">mapState</span><span class="token punctuation">(</span>useCounterStore<span class="token punctuation">,</span> <span class="token punctuation">{</span>
-        <span class="token literal-property property">counterValue</span><span class="token operator">:</span> <span class="token string">'count'</span>
+        <span class="token literal-property property">counterValue</span><span class="token operator">:</span> <span class="token string">'count'</span><span class="token punctuation">,</span>
+        <span class="token function-variable function">doubleCount</span><span class="token operator">:</span> <span class="token parameter">state</span> <span class="token operator">=></span> state<span class="token punctuation">.</span>count <span class="token operator">*</span> <span class="token number">2</span>
       <span class="token punctuation">}</span><span class="token punctuation">)</span>
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
 

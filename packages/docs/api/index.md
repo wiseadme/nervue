@@ -6,7 +6,30 @@ aside: false
 
 ## createNervue
 
-Создает глобальный instance Nervue
+Возвращает ```vue``` плагин, который установит ```root``` объект Nervue в качестве глобальной переменной,
+доступ к которой можно получить с помощью инъекции по ключу ```NERVUE_ROOT_SYMBOL```.
+
+```typescript
+import { createNervue } from 'nervue'
+import { useProductStore } from './product-store'
+
+export const store = createNervue()
+
+store.add(useProductStore)
+```
+
+Затем импортируем в ```main.ts```
+
+```typescript
+import { createApp } from 'vue'
+import { store } from './store'
+import App from './App.vue'
+
+const app = createApp()
+
+app.use(store)
+
+```
 
 ## defineStore
 
@@ -50,7 +73,8 @@ const useCounterStore = defineStore({
     },
     computed: {
       ...mapState(useCounterStore, {
-        counterValue: 'count'
+        counterValue: 'count',
+        doubleCount: state => state.count * 2
       })
     },
 
@@ -63,6 +87,7 @@ const useCounterStore = defineStore({
 
 </script>
 ```
+
 ::: tip Примечание
 Нет необходимости использовать ```mapState``` при использовании ```composition api```.
 :::

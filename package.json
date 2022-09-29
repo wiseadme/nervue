@@ -6,8 +6,8 @@
   ],
   "scripts": {
     "dev": "lerna run dev",
-    "test": "lerna run test --scope=nervue",
-    "setup": "lerna exec npm install && lerna bootstrap --hoist",
+    "test": "lerna run test",
+    "setup": "lerna exec npm install && lerna bootstrap",
     "bootstrap": "lerna bootstrap",
     "docs:dev": "lerna run docs:dev",
     "docs:build": "lerna run docs:build",

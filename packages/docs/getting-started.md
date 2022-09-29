@@ -16,9 +16,9 @@ import { createNervue } from 'nervue'
 export const store = createNervue()
 ```
 
-В ```main.js```
+В ```main.ts```
 
-```js
+```typescript
 import { createApp } from 'vue'
 import { store } from './store'
 import { router } from './router'

@@ -25,9 +25,9 @@
     created(){
       this.note = useUserStore()
 
-      // this.note.$patch(state => {
-      //   state.name = 'Randevounier'
-      // })
+      this.note.$patch(state => {
+        state.name = 'Randevounier'
+      })
 
       this.note._exposed.USER.setName('gandsdklfjghsldfkjghsldkfjghsi')
     },
@@ -40,14 +40,11 @@
       //   state.name = 'Randevounier'
       // })
 
-      // this.note.$patch({
-      //   name: 'Sjg;sdflkgjs;dflkg'
-      // })
-
-      console.log(this.note)
+      this.note.$patch({
+        name: 'Sjg;sdflkgjs;dflkg'
+      })
 
       this.note.$guards.name.push(() => {
-        console.log('suka ya v teme')
         return { next: true }
       })
 
