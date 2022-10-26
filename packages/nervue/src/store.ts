@@ -1,4 +1,12 @@
-import { ref, toRefs, reactive, toRaw, markRaw, computed, UnwrapNestedRefs } from 'vue'
+import {
+  ref,
+  reactive,
+  toRefs,
+  toRaw,
+  markRaw,
+  computed,
+  UnwrapNestedRefs
+} from 'vue-demi'
 import { getRoot } from './createNervue'
 import { $patch } from './patch'
 import { $expose } from './expose'
@@ -9,7 +17,7 @@ import {
 } from './subscriptions'
 import { logWarning } from './helpers'
 // Types
-import type {
+import {
   ActionsTree,
   GuardsTree,
   StateTree,
@@ -17,7 +25,10 @@ import type {
   StoreOptions,
   Store,
   Method,
-  _StoreWithProperties, ExposesTree, GuardMethod, ModifiersTree,
+  ExposesTree,
+  GuardMethod,
+  ModifiersTree,
+  _StoreWithProperties,
 } from './types'
 
 /**
@@ -96,7 +107,9 @@ function wrapAction(
 
     const args = Array.from(arguments)
 
-    if (beforeList) triggerSubs(beforeList)
+    if (beforeList) {
+      triggerSubs(beforeList)
+    }
 
     let result
 
@@ -119,7 +132,9 @@ function wrapAction(
         })
     }
 
-    if (afterList) triggerSubs(afterList, result)
+    if (afterList) {
+      triggerSubs(afterList, result)
+    }
 
     return result
   }

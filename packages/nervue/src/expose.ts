@@ -1,4 +1,4 @@
-import { computed } from 'vue'
+import { computed } from 'vue-demi'
 import { getRoot } from './createNervue'
 import { ExposesTree } from './types'
 

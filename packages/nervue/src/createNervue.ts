@@ -1,14 +1,15 @@
-import { App, UnwrapNestedRefs, reactive } from 'vue'
+import { App, UnwrapNestedRefs, reactive } from 'vue-demi'
 import { ActionsTree, GuardsTree, StateTree, Store } from './types'
 import { logWarning } from './helpers'
 import { root, NERVUE_ROOT_SYMBOL, Root } from './root'
 
 export const createNervue = () => ({
   install: (app: App) => {
-    if (root.value.isInstalled) return
+    if (root.value.isInstalled) {
+      return
+    }
 
     root.value.isInstalled = true
-
     app.provide(NERVUE_ROOT_SYMBOL, root)
   },
 

@@ -1,4 +1,4 @@
-import { onUnmounted, getCurrentInstance } from 'vue'
+import { onUnmounted, getCurrentInstance } from 'vue-demi'
 
 export const subscriptionsBefore = {}
 export const subscriptionsAfter = {}
