@@ -5,9 +5,9 @@
 
   export default {
     name: 'App',
+
     data(){
       return {
-        sharedName: ''
       }
     },
 
@@ -23,34 +23,29 @@
     },
 
     created(){
-      this.note = useUserStore()
+      this.userStore = useUserStore()
 
-      this.note.$patch(state => {
+      this.userStore.$patch(state => {
         state.name = 'Randevounier'
       })
 
-      this.note._exposed.USER.setName('gandsdklfjghsldfkjghsldkfjghsi')
+      this.userStore.setName('gandsdklfjghsldfkjghsldkfjghsi')
     },
 
     mounted(){
-      setTimeout(() => this.setName('Alex'), 2000)
-      const userStore = useUserStore()
+      setTimeout(() => this.setName('Alexandr'), 2000)
 
-      // userStore.$patch(state => {
-      //   state.name = 'Randevounier'
-      // })
-
-      this.note.$patch({
-        name: 'Sjg;sdflkgjs;dflkg'
+      this.userStore.$patch({
+        name: 'Randevounier'
       })
 
-      this.note.$guards.name.push(() => {
+      this.userStore.$guards.name.push(() => {
         return { next: true }
       })
 
-      this.note.age = 45
+      this.userStore.age = 45
 
-      const unsubscribe = userStore.$subscribe({
+      const unsubscribe = this.userStore.$subscribe({
         name: 'setName',
         before(){
           console.log('it happend before setName')

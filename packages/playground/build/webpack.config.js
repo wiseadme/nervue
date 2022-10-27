@@ -86,7 +86,9 @@ module.exports = (env = {}) => {
         {
           test: /\.vue$/,
           exclude: /node_modules/,
-          use: ['vue-loader'],
+          use: [
+            { loader: 'vue-loader', options: { reactivityTransform: true } }
+          ],
         },
       ]
     },

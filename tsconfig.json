@@ -43,9 +43,9 @@
   ],
   "exclude": [
     "node_modules",
-    "packages/nervue/tests",
+    "packages/nervue/__tests__",
     "packages/nervue/node_modules",
     "packages/playground",
-    "packages/docs",
+    "packages/docs"
   ]
 }
