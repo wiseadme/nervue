@@ -3,25 +3,28 @@ import { ActionsTree, GuardsTree, StateTree, Store } from './types'
 import { logWarning } from './helpers'
 import { root, NERVUE_ROOT_SYMBOL, Root } from './root'
 
-export const createNervue = () => ({
-  install: (app: App) => {
-    if (root.value.isInstalled) {
-      return
+export function createNervue(){
+  return {
+    install: (app: App) => {
+      if (root.value.isInstalled) {
+        return
+      }
+
+      root.value.isInstalled = true
+      app.provide(NERVUE_ROOT_SYMBOL, root)
+    },
+
+    add: (useStore) => {
+      root.value._stores[useStore.$id] = useStore()
     }
-
-    root.value.isInstalled = true
-    app.provide(NERVUE_ROOT_SYMBOL, root)
-  },
-
-  add: (useStore) => {
-    root.value._stores[useStore.$id] = useStore()
   }
-})
+}
 
-export const getRoot = (): UnwrapNestedRefs<Root> => reactive(root.value)
+export function getRoot (): UnwrapNestedRefs<Root> {
+  return reactive(root.value)
+}
 
-export function useNervue<
-  Id extends string,
+export function useNervue<Id extends string,
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
   A extends ActionsTree = {}

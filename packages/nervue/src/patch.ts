@@ -1,7 +1,7 @@
 import { UnwrapRef } from 'vue-demi'
 import { StateTree } from './types'
 
-const mergeObjects = (target, newState) => {
+function mergeObjects (target, newState) {
   if (target.toString().includes('Map')) {
     newState.forEach((it, key) => target.set(key, it))
   }

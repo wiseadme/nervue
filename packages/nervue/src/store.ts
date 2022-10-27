@@ -15,7 +15,7 @@ import {
   getSubscribers,
   triggerSubs
 } from './subscriptions'
-import { logWarning } from './helpers'
+import { logWarning, logError } from './helpers'
 // Types
 import {
   ActionsTree,
@@ -71,7 +71,7 @@ export function addStateGuards<
             }
           }
         } else {
-          logWarning(
+          logError(
             `{guards}: wrong type of guards map in the "${ storeId }" store.`,
             `Guards should be an array of functions.`
           )
@@ -116,18 +116,27 @@ function wrapAction(
     try {
       result = action.call(store, ...args)
     } catch (error) {
-      if (onErrorList) triggerSubs(onErrorList, error)
+      if (onErrorList) {
+        triggerSubs(onErrorList, error)
+      }
+
       throw error
     }
 
     if (result instanceof Promise) {
       return result
         .then(res => {
-          if (afterList) triggerSubs(afterList, res)
+          if (afterList) {
+            triggerSubs(afterList, res)
+          }
+
           return res
         })
         .catch(error => {
-          if (onErrorList) triggerSubs(onErrorList, error)
+          if (onErrorList) {
+            triggerSubs(onErrorList, error)
+          }
+
           return Promise.reject(error)
         })
     }

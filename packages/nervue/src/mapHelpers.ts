@@ -10,7 +10,7 @@ import {
  * @param useStore - store composition
  * @param mapOrKeys - object of actions properties
  */
-export const mapActions = <
+export function mapActions<
   Id extends string,
   S extends StateTree,
   G extends GuardsTree<S>,
@@ -19,7 +19,7 @@ export const mapActions = <
 >(
   useStore: StoreDefinition<Id, S, G, M, A>,
   mapOrKeys?: [ keyof A ] | { [p: string]: keyof A }
-): ActionsTree => {
+): ActionsTree {
   const store = useStore()
   const map: Record<string, Method> = {}
 
@@ -57,7 +57,7 @@ export const mapActions = <
  * @param useStore - store composition
  * @param mapOrKeys - object of state properties
  */
-export const mapState = <
+export function mapState<
   Id extends string,
   S extends StateTree,
   G extends GuardsTree<S>,
@@ -66,7 +66,7 @@ export const mapState = <
 >(
   useStore: StoreDefinition<Id, S, G, M, A>,
   mapOrKeys?: [ keyof S ] | { [key: string]: Method | keyof S }
-): StateTree => {
+): StateTree {
   const map: Record<string, any> = {}
 
   if (mapOrKeys) {

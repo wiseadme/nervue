@@ -34,7 +34,7 @@ describe('defineStore', () => {
 
   const mountFunction = (options = {}) => mount(TestComponent, { ...options })
 
-  it('should test the store definition', async () => {
+  test('should test the store definition', async () => {
     const useStore = defineStore({ id, state, actions })
 
     const store = useStore()

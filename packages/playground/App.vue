@@ -43,6 +43,8 @@
         return { next: true }
       })
 
+      console.log(this.userStore)
+
       this.userStore.age = 45
 
       const unsubscribe = this.userStore.$subscribe({

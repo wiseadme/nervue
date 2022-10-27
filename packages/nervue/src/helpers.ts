@@ -1,7 +1,7 @@
-export const logWarning = (...args: string[]) => {
+export function logWarning (...args: string[]) {
   console.warn(`[nervue]:`, ...args)
 }
 
-export const logError = (...args: string[]) => {
+export function logError (...args: string[]) {
   console.error(`[nervue]:`, ...args)
 }
