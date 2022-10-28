@@ -1,3 +1,4 @@
+// @ts-ignore
 import { defineStore } from '../../src'
 
 export const useGuardsMockStore = defineStore({

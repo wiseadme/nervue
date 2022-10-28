@@ -65,7 +65,7 @@ export function mapState<
   A extends ActionsTree
 >(
   useStore: StoreDefinition<Id, S, G, M, A>,
-  mapOrKeys?: [ keyof S ] | { [key: string]: Method | keyof S }
+  mapOrKeys?: [ keyof S ] | { [key: string]: Method | keyof S | keyof M }
 ): StateTree {
   const map: Record<string, any> = {}
 

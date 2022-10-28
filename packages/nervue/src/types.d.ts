@@ -138,4 +138,15 @@ export declare function mapState<
   mapOrKeys?: [ keyof S ] | { [key: string]: Method | keyof S }
 ): StateTree
 
-export declare const VNervue: DefineComponent<any, any, any>
+export declare function mapState<
+  Id extends string,
+  S extends StateTree = {},
+  G extends GuardsTree<S> = {},
+  M extends ModifiersTree = {},
+  A /*extends ActionsTree*/ = {}>
+(
+  useStore: StoreDefinition<Id, S, G, M, A>,
+  mapOrKeys?: [ keyof M ] | { [key: string]: Method | keyof M }
+): ModifiersTree
+
+export declare const VNervue: DefineComponent<{store: string | StoreDefinition}, {}, {}>

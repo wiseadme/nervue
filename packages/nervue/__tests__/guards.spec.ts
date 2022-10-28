@@ -22,7 +22,6 @@ describe('Guards', () => {
 
   test('it should check and mutate the state', () => {
     store.setAge(21)
-
     expect(store.userAge).toEqual(21)
   })
 
@@ -33,7 +32,6 @@ describe('Guards', () => {
     }))
 
     store.setAge(21)
-
     expect(store.userAge).toEqual(42)
   })
 

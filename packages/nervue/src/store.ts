@@ -63,7 +63,7 @@ export function addStateGuards<
 
             if (!result.next) {
               logWarning(
-                `{guards}: The value "${ value }" is not valid for mutation the value`,
+                `{guards}: The value "${ JSON.stringify(value) }" is not valid for mutation the value`,
                 `of state property "${ prop as string }" in the "${ storeId }" store`
               )
 
@@ -218,7 +218,7 @@ export function defineStore<
     toRefs(stateRef.value),
     actions,
     Object.keys(modifiers || {}).reduce((mods, key) => {
-      mods[key] = markRaw(computed(() => modifiers![key].call(store)))
+      mods[key] = markRaw(computed(() => modifiers![key](store.$state)))
       return mods
     }, {})
   )) as UnwrapNestedRefs<Store>

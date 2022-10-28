@@ -14,12 +14,12 @@
     computed: {
       ...mapState(useUserStore, {
         name: store => store.name,
-        fullName: store => store.getUserFullName,
+        fullName: 'getUserFullName',
         company: 'org'
       }),
       ...mapState(useProductStore, {
         items: store => store.items
-      })
+      }),
     },
 
     created(){

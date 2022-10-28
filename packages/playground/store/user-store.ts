@@ -1,3 +1,4 @@
+// @ts-ignore
 import { defineStore } from '../../nervue/src'
 
 export const useUserStore = defineStore({
@@ -20,9 +21,7 @@ export const useUserStore = defineStore({
   },
 
   modifiers: {
-    getUserFullName() {
-      return this.name
-    }
+    getUserFullName: (state) => state.name + ' Sivkov'
   },
 
   actions: {
