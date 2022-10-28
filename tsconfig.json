@@ -39,13 +39,11 @@
     ]
   },
   "include": [
-    "packages/nervue/src/*.ts",
+    "packages/nervue/src/**/*.ts",
   ],
   "exclude": [
     "node_modules",
-    "packages/nervue/__tests__",
-    "packages/nervue/node_modules",
-    "packages/playground",
-    "packages/docs"
+    "**/*.spec.ts",
+    "**/*.mock.ts"
   ]
 }

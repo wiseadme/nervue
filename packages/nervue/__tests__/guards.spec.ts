@@ -1,4 +1,5 @@
-import { useGuardsMockStore } from './mocks/guards-mock.store'
+// @ts-ignore
+import { useGuardsMockStore } from './mocks/guards-store.mock'
 
 describe('Guards', () => {
   let store
@@ -34,5 +35,14 @@ describe('Guards', () => {
     store.setAge(21)
 
     expect(store.userAge).toEqual(42)
+  })
+
+  test('it should test guarding step by step', () => {
+    const stub = jest.fn((...args) => ({ next: true, value: args }))
+
+    store.$guards.userAge.push(stub)
+    store.setAge(21)
+
+    expect(stub).toBeCalledWith(42)
   })
 })
