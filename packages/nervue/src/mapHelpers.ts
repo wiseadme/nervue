@@ -3,7 +3,8 @@ import {
   GuardsTree,
   StateTree,
   Method,
-  StoreDefinition, ModifiersTree
+  StoreDefinition,
+  ComputedTree
 } from './types'
 
 /**
@@ -14,10 +15,10 @@ export function mapActions<
   Id extends string,
   S extends StateTree,
   G extends GuardsTree<S>,
-  M extends ModifiersTree,
+  C extends ComputedTree,
   A extends ActionsTree
 >(
-  useStore: StoreDefinition<Id, S, G, M, A>,
+  useStore: StoreDefinition<Id, S, G, C, A>,
   mapOrKeys?: [ keyof A ] | { [p: string]: keyof A }
 ): ActionsTree {
   const store = useStore()
@@ -61,11 +62,11 @@ export function mapState<
   Id extends string,
   S extends StateTree,
   G extends GuardsTree<S>,
-  M extends ModifiersTree,
+  C extends ComputedTree,
   A extends ActionsTree
 >(
-  useStore: StoreDefinition<Id, S, G, M, A>,
-  mapOrKeys?: [ keyof S ] | { [key: string]: Method | keyof S | keyof M }
+  useStore: StoreDefinition<Id, S, G, C, A>,
+  mapOrKeys?: [ keyof S | keyof C ] | { [key: string]: Method | keyof S | keyof C }
 ): StateTree {
   const map: Record<string, any> = {}
 
@@ -75,7 +76,7 @@ export function mapState<
      * keys of the state of store
      */
     if (Array.isArray(mapOrKeys)) {
-      (mapOrKeys as [ keyof S ]).forEach((key) => {
+      (mapOrKeys as [ keyof S | keyof C ]).forEach((key) => {
         map[key as string] = function (){
           return useStore()[key]
         }
@@ -100,7 +101,7 @@ export function mapState<
   } else {
     const store = useStore()
     /**
-     * if map of keys doesn't exists
+     * if map of keys doesn't exist
      * should return map of all state properties
      * without any action functions from the store
      */

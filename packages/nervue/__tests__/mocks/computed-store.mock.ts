@@ -1,13 +1,13 @@
 // @ts-ignore
 import { defineStore } from '../../src'
 
-export const useModifiersStore = defineStore({
+export const useComputedStore = defineStore({
   id: 'MODIFIERS',
   state: () => ({
     name: 'Alex',
     familyName: 'Douglas'
   }),
-  modifiers: {
+  computed: {
     fullName: state => `${ state.name } ${ state.familyName }`
   },
   actions: {

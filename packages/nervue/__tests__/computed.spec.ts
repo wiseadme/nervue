@@ -1,11 +1,11 @@
 // @ts-ignore
-import { useModifiersStore } from './mocks/modifiers-store.mock'
+import { useComputedStore } from './mocks/computed-store.mock'
 
-describe('Modifiers', () => {
+describe('Computed', () => {
   let store
 
   beforeEach(() => {
-    store = useModifiersStore()
+    store = useComputedStore()
   })
 
   test('it should get full name', () => {

@@ -24,7 +24,8 @@ export function getRoot (): UnwrapNestedRefs<Root> {
   return reactive(root.value)
 }
 
-export function useNervue<Id extends string,
+export function useNervue<
+  Id extends string,
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
   A extends ActionsTree = {}

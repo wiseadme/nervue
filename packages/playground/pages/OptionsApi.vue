@@ -14,12 +14,13 @@
     computed: {
       ...mapState(useUserStore, {
         name: store => store.name,
-        fullName: 'getUserFullName',
+        fullName: 'fullName',
         company: 'org'
       }),
       ...mapState(useProductStore, {
         items: store => store.items
       }),
+      ...mapState(useUserStore, ['name'])
     },
 
     created(){
@@ -37,7 +38,7 @@
         name: 'Randevounier'
       })
 
-      setTimeout(() => this.userStore.setName('Alexandr'), 2000)
+      setTimeout(() => this.userStore.setName('Alex'), 2000)
       setTimeout(() => this.setName('Ronaldinhos'), 4000)
 
       this.userStore.$guards.name.push((val) => ({ next: !!val }))

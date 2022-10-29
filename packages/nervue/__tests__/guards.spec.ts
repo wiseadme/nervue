@@ -8,15 +8,15 @@ describe('Guards', () => {
     store = useGuardsMockStore()
   })
 
-  test('protect with warning', () => {
+  test('skip the mutation with warning', () => {
     const stub = jest.spyOn(console, 'warn')
     store.setAge(15)
 
     expect(store.userAge).toEqual(null)
     expect(stub).toHaveBeenCalledWith(
       '[nervue]:',
-      '{guards}: The value \"15\" is not valid for mutation the value',
-      'of state property "userAge" in the "GUARDS" store'
+      '{guards}: 15 is invalid value for the',
+      '\"userAge\" of the \"GUARDS\" store state'
     )
   })
 
@@ -25,7 +25,7 @@ describe('Guards', () => {
     expect(store.userAge).toEqual(21)
   })
 
-  test('update data for mutation', () => {
+  test('update the data for mutation', () => {
     store.$guards.userAge.push((val) => ({
       next: true,
       value: val * 2
@@ -35,7 +35,7 @@ describe('Guards', () => {
     expect(store.userAge).toEqual(42)
   })
 
-  test('guarding step by step', () => {
+  test('updated data for the next guard', () => {
     const stub = jest.fn((...args) => ({ next: true, value: args }))
 
     store.$guards.userAge.push(stub)

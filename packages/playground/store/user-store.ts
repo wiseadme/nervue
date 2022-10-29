@@ -19,26 +19,25 @@ export const useUserStore = defineStore({
     ],
   },
 
-  modifiers: {
-    getUserFullName: (state) => state.name + ' Sivkov'
+  computed: {
+    fullName: (state) => state.name + ' Sivkov'
   },
 
   actions: {
     async setName(name: string): Promise<any>{
-      this.$patch(state => state.name = name)
+      this.$patch({ name })
       await new Promise(res => setTimeout(res, 2000))
       return name
     },
 
     setAge(age){
       this.$patch({ age })
-      this.$expose({
-        age: true ,
-        name: true,
-        setName: true,
-        getUserFullName: true
-      })
-      console.log(this._exposed.USER.age)
+      // this.$expose({
+      //   age: true ,
+      //   name: true,
+      //   setName: true,
+      //   getUserFullName: true
+      // })
     }
   },
 

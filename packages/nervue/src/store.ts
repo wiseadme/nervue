@@ -27,7 +27,7 @@ import {
   Method,
   ExposesTree,
   GuardMethod,
-  ModifiersTree,
+  ComputedTree,
   _StoreWithProperties,
 } from './types'
 
@@ -47,6 +47,7 @@ export function addStateGuards<
     },
     set: (target, prop, value, receiver) => {
       let result = { next: true, value } as ReturnType<GuardMethod>
+      const { stringify } = JSON
 
       if (guards[prop]) {
         /**
@@ -63,8 +64,8 @@ export function addStateGuards<
 
             if (!result.next) {
               logWarning(
-                `{guards}: The value "${ JSON.stringify(value) }" is not valid for mutation the value`,
-                `of state property "${ prop as string }" in the "${ storeId }" store`
+                `{guards}: ${ stringify(value) } is invalid value for the`,
+                `${ stringify(prop) as string } of the ${ stringify(storeId) } store state`
               )
 
               break
@@ -157,13 +158,19 @@ export function defineStore<
   Id extends string,
   S extends StateTree = {},
   G extends GuardsTree<S> = {},
-  M extends ModifiersTree = {},
+  C extends ComputedTree = {},
   A extends ActionsTree = {},
   E extends ExposesTree = ExposesTree
->(
-  options: StoreOptions<Id, S, G, M, A, E>
-): StoreDefinition<Id, S, G, M, A>{
-  const { id, state, actions, modifiers, guards, expose } = options
+>(options: StoreOptions<Id, S, G, C, A, E>): StoreDefinition<Id, S, G, C, A>{
+  const {
+    id,
+    state,
+    actions,
+    guards,
+    expose,
+    computed: $computed
+  } = options
+
   const _root = getRoot()
 
   let initialState = state?.() || {}
@@ -195,10 +202,10 @@ export function defineStore<
     value: guards || {}
   })
 
-  Object.defineProperty(_storeProperties, '$modifiers', {
+  Object.defineProperty(_storeProperties, '$computed', {
     writable: false,
     configurable: false,
-    value: Object.keys(modifiers! || {})
+    value: Object.keys($computed! || {})
   })
 
   Object.defineProperty(_storeProperties, '_exposed', {
@@ -215,8 +222,8 @@ export function defineStore<
     _storeProperties,
     toRefs(stateRef.value),
     actions,
-    Object.keys(modifiers || {}).reduce((mods, key) => {
-      mods[key] = markRaw(computed(() => modifiers![key](store.$state)))
+    Object.keys($computed || {}).reduce((mods, key) => {
+      mods[key] = markRaw(computed(() => $computed![key](store.$state)))
       return mods
     }, {})
   )) as UnwrapNestedRefs<Store>
@@ -236,5 +243,5 @@ export function defineStore<
 
   useStore.$id = store.$id
 
-  return useStore as StoreDefinition<Id, S, G, M, A>
+  return useStore as StoreDefinition<Id, S, G, C, A>
 }
