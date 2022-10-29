@@ -30,6 +30,9 @@ const app = createApp()
 app.use(store)
 
 ```
+## useNervue
+Функция, которая в качестве аргумента принимает ```id``` конкретного хранилища, которое зарегистрировано в ```root```
+объекте, с помощью метода ```add```
 
 ## defineStore
 
@@ -94,4 +97,8 @@ const useCounterStore = defineStore({
 
 ## mapActions
 
-## useNervue
+## $patch
+
+## $subscribe
+
+## $expose
