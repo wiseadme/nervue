@@ -1,0 +1,38 @@
+Arguments: 
+  /Users/Anar/.nvm/versions/node/v16.16.0/bin/node /usr/local/bin/yarn
+
+PATH: 
+  /Users/Anar/.nvm/versions/node/v16.16.0/bin:/opt/homebrew/opt/node@14/bin:/usr/local/bin:/usr/local/bin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/opt/homebrew/bin
+
+Yarn version: 
+  1.22.17
+
+Node version: 
+  16.16.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: ENOENT: no such file or directory, copyfile '/Users/Anar/Library/Caches/Yarn/v6/npm-globals-13.17.0-902eb1e680a41da93945adbdcb5a9f361ba69bd4-integrity/node_modules/globals/globals.json' -> '/Users/Anar/Desktop/projects/nervue/node_modules/@eslint/eslintrc/node_modules/globals/globals.json'
+
+npm manifest: 
+  {
+    "name": "@nervue/docs",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+      "docs:dev": "vuepress dev .",
+      "docs:build": "vuepress build ."
+    },
+    "devDependencies": {
+      "vuepress": "^2.0.0-beta.51"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

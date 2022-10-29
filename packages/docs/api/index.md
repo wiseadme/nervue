@@ -30,6 +30,7 @@ const app = createApp()
 app.use(store)
 
 ```
+## useNervue
 
 ## defineStore
 
@@ -94,4 +95,8 @@ const useCounterStore = defineStore({
 
 ## mapActions
 
-## useNervue
+## $patch
+
+## $subscribe
+
+## $expose
