@@ -1,4 +1,4 @@
-import { defineComponent, h } from 'vue';
+import { defineComponent, h } from 'vue-demi';
 import { useNervue } from './createNervue';
 export const VNervue = defineComponent({
     name: 'VNervue',

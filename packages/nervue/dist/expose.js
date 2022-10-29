@@ -1,4 +1,4 @@
-import { computed } from 'vue';
+import { computed } from 'vue-demi';
 import { getRoot } from './createNervue';
 export function $expose(exposes) {
     if (this._exposed[this.$id])

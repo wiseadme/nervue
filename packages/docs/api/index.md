@@ -2,12 +2,12 @@
 aside: false
 ---
 
-# Функции
+# Документация API
 
 ## createNervue
 
 Возвращает ```vue``` плагин, который установит ```root``` объект Nervue в качестве глобальной переменной,
-доступ к которой можно получить с помощью инъекции по ключу ```NERVUE_ROOT_SYMBOL```.
+доступ к которой можно получить с помощью инъекции по ключу ```ROOT_SYMBOL```.
 
 ```typescript
 import { createNervue } from 'nervue'
@@ -28,17 +28,59 @@ import App from './App.vue'
 const app = createApp()
 
 app.use(store)
+```
+
+Теперь для того чтобы получить доступ к ```root``` объекту, достаточно будет
+использовать ```inject```.
+
+```vue
+
+<script lang="ts">
+  import { defineComponent, inject } from 'vue'
+  import { ROOT_SYMBOL } from 'nervue'
+
+  export default defineComponent({
+    setup(){
+      const globalStore = inject(ROOT_SYMBOL)
+
+      globalStore._stores.PRODUCT.fetchProducts()
+    }
+  })
+</script>
 
 ```
+
 ## useNervue
+
+Функция, которая возвращает ```root``` объект. Если в качестве аргумента передать ```id``` конкретного хранилища,
+которое зарегистрировано в ```root```
+объекте, с помощью метода ```add```, то в таком случае функция вернет хранилище по ```id``` ключу.
+
+```vue
+<script lang="ts">
+  import { defineComponent, inject } from 'vue'
+  import { useNervue } from 'nervue'
+  
+  export default defineComponent({
+    setup() {
+      const productStore = useNervue('PRODUCT')
+      
+      return {
+        productStore
+      }
+    }
+  })
+</script>
+
+```
 
 ## defineStore
 
 ## mapState
 
-Позволяет использовать состояние хранилища, путем создания объекта распространения доступа в ```computed``` свойстве
-компонента. В качестве аргумента принимает ```composition``` функцию, возвращающую хранилище, вторым аргументом можно
-передать либо объект ключей, вида ```{ localKeyName: "stateKey"}```, либо массив ключей состояния.
+Позволяет получить доступ к свойствам ```state``` и ```computed``` хранилища, путем распространения в ```computed``` свойстве
+компонента, с использованием ```options api```. В качестве первого аргумента принимает ```useStore``` функцию, возвращающую хранилище, вторым аргументом необходимо
+передать либо объект, либо массив ключей.
 
 В качестве примера возьмем все то же хранилище, которое мы определили ранее в качестве базового примера:
 

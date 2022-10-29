@@ -1,7 +1,7 @@
 import { App, UnwrapNestedRefs, reactive } from 'vue-demi'
 import { ActionsTree, GuardsTree, StateTree, Store } from './types'
 import { logWarning } from './helpers'
-import { root, NERVUE_ROOT_SYMBOL, Root } from './root'
+import { root, ROOT_SYMBOL, Root } from './root'
 
 export function createNervue(){
   return {
@@ -11,7 +11,7 @@ export function createNervue(){
       }
 
       root.value.isInstalled = true
-      app.provide(NERVUE_ROOT_SYMBOL, root)
+      app.provide(ROOT_SYMBOL, root)
     },
 
     add: (useStore) => {
@@ -33,7 +33,7 @@ export function useNervue<
   const storeKey = id?.toString() || id
 
   if (id && !root.value._stores[id]) {
-    return logWarning(`"${ String(storeKey) }" id doesn't exists in the root store`)
+    return logWarning(`"${ String(storeKey) }" store doesn't exist in the root object`)
   }
 
   return id ?

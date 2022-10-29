@@ -5,7 +5,7 @@ export const pagesRoutes = [
   ["v-52062726","/introduction.html",{"title":"Что такое Nervue?"},["/introduction","/introduction.md"]],
   ["v-50fff2ab","/api/create-nervue.html",{"title":"createNervue"},["/api/create-nervue","/api/create-nervue.md"]],
   ["v-2e1da9dc","/api/define-store.html",{"title":"defineStore"},["/api/define-store","/api/define-store.md"]],
-  ["v-744497ce","/api/",{"title":"Функции"},["/api/index.html","/api/index.md"]],
+  ["v-744497ce","/api/",{"title":"Документация API"},["/api/index.html","/api/index.md"]],
   ["v-2e5342ca","/api/map-actions.html",{"title":"mapActions"},["/api/map-actions","/api/map-actions.md"]],
   ["v-6c379b47","/api/map-state.html",{"title":"mapState"},["/api/map-state","/api/map-state.md"]],
   ["v-b7c39e4c","/api/use-nervue.html",{"title":"useNervue"},["/api/use-nervue","/api/use-nervue.md"]],

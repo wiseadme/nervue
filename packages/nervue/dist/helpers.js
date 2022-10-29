@@ -1,7 +1,7 @@
-export const logWarning = (...args) => {
+export function logWarning(...args) {
     console.warn(`[nervue]:`, ...args);
-};
-export const logError = (...args) => {
+}
+export function logError(...args) {
     console.error(`[nervue]:`, ...args);
-};
+}
 //# sourceMappingURL=helpers.js.map

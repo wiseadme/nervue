@@ -1,13 +1,13 @@
-const mergeObjects = (target, newState) => {
+function mergeObjects(target, newState) {
     if (target.toString().includes('Map')) {
         newState.forEach((it, key) => target.set(key, it));
     }
     if (target.toString().includes('Object')) {
-        Object.keys(target).forEach((key) => {
+        Object.keys(newState).forEach((key) => {
             target[key] = newState[key];
         });
     }
-};
+}
 export function $patch(mutator) {
     if (typeof mutator === 'function') {
         mutator(this.$state);

@@ -2,10 +2,10 @@
 <p>Гуарды - это по сути функции валидаторы, которые будут выполнены перед тем, как мутировать <code v-pre>state</code> приложения.
 Они объявляются по имени свойства которое будут валидировать, в виде массива функций
 валидаторов, которые должны возвращать объект нижеследующего вида:</p>
-<div class="language-typescript" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token comment">// typescript</span>
+<div class="language-typescript ext-ts"><pre v-pre class="language-typescript"><code><span class="token comment">// typescript</span>
 <span class="token punctuation">{</span> value<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">,</span> next<span class="token operator">:</span> <span class="token builtin">boolean</span> <span class="token punctuation">}</span>
 </code></pre></div><p>Давайте рассмотрим небольшой боевой пример кода:</p>
-<div class="language-typescript" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> defineStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
+<div class="language-typescript ext-ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> defineStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
 <span class="token keyword">import</span> axios <span class="token keyword">from</span> <span class="token string">'axios'</span>
 
 <span class="token keyword">const</span> usersStore <span class="token operator">=</span> <span class="token function">defineStore</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -44,7 +44,7 @@
 <h1 id="не-только-валидаторы" tabindex="-1"><a class="header-anchor" href="#не-только-валидаторы" aria-hidden="true">#</a> Не только валидаторы</h1>
 <p>Гуарды можно использовать не только как валидаторы, но и для модификации данных. С их помощью можно привести данные в нужный вид для мутации состояния.
 Давайте рассмотрим тот же пример, но немного изменив его:</p>
-<div class="language-typescript" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> defineStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
+<div class="language-typescript ext-ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> defineStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
 <span class="token keyword">import</span> axios <span class="token keyword">from</span> <span class="token string">'axios'</span>
 
 <span class="token keyword">const</span> usersStore <span class="token operator">=</span> <span class="token function">defineStore</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -81,7 +81,7 @@
 </code></pre><div class="highlight-lines"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><div class="highlight-line">&nbsp;</div><div class="highlight-line">&nbsp;</div><div class="highlight-line">&nbsp;</div><div class="highlight-line">&nbsp;</div><div class="highlight-line">&nbsp;</div><div class="highlight-line">&nbsp;</div><div class="highlight-line">&nbsp;</div><div class="highlight-line">&nbsp;</div><div class="highlight-line">&nbsp;</div><div class="highlight-line">&nbsp;</div><div class="highlight-line">&nbsp;</div><br><br><br><br><br><br><br><br><br></div></div><p>Как видно из примера выше, гуард возвращает объект у которого присутствует совйство <code v-pre>value</code>, которое и будет сохранено для мутации,
 если не будет модифицировано нижеследующим гуардом.
 Давайте продолжим рассматривать все тот же пример:</p>
-<div class="language-typescript" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> defineStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
+<div class="language-typescript ext-ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> defineStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
 <span class="token keyword">import</span> axios <span class="token keyword">from</span> <span class="token string">'axios'</span>
 
 <span class="token keyword">const</span> usersStore <span class="token operator">=</span> <span class="token function">defineStore</span><span class="token punctuation">(</span><span class="token punctuation">{</span>

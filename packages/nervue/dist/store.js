@@ -1,9 +1,9 @@
-import { ref, reactive, toRefs, toRaw, markRaw, computed } from 'vue';
+import { ref, reactive, toRefs, toRaw, markRaw, computed } from 'vue-demi';
 import { getRoot } from './createNervue';
 import { $patch } from './patch';
 import { $expose } from './expose';
 import { $subscribe, getSubscribers, triggerSubs } from './subscriptions';
-import { logWarning } from './helpers';
+import { logWarning, logError } from './helpers';
 /**
  * @param {string} storeId - store id
  * @param {object} state - state map
@@ -17,6 +17,7 @@ export function addStateGuards(storeId, state, guards) {
         },
         set: (target, prop, value, receiver) => {
             let result = { next: true, value };
+            const { stringify } = JSON;
             if (guards[prop]) {
                 /**
                  * check guards map type
@@ -28,13 +29,13 @@ export function addStateGuards(storeId, state, guards) {
                         value = ret.value || value;
                         result.value = value;
                         if (!result.next) {
-                            logWarning(`{guards}: The value "${value}" is not valid for mutation the value`, `of state property "${prop}" in the "${storeId}" store`);
+                            logWarning(`{guards}: ${stringify(value)} is invalid value for the`, `${stringify(prop)} of the ${stringify(storeId)} store state`);
                             break;
                         }
                     }
                 }
                 else {
-                    logWarning(`{guards}: wrong type of guards map in the "${storeId}" store.`, `Guards should be an array of functions.`);
+                    logError(`{guards}: wrong type of guards map in the "${storeId}" store.`, `Guards should be an array of functions.`);
                 }
             }
             if (result.next) {
@@ -55,27 +56,30 @@ function wrapAction(store, name, action) {
         const { beforeList, afterList, onErrorList } = getSubscribers(store.$id, name);
         const args = Array.from(arguments);
         if (beforeList) {
-            triggerSubs(beforeList);
+            triggerSubs(beforeList, ...args);
         }
         let result;
         try {
             result = action.call(store, ...args);
         }
         catch (error) {
-            if (onErrorList)
+            if (onErrorList) {
                 triggerSubs(onErrorList, error);
+            }
             throw error;
         }
         if (result instanceof Promise) {
             return result
                 .then(res => {
-                if (afterList)
+                if (afterList) {
                     triggerSubs(afterList, res);
+                }
                 return res;
             })
                 .catch(error => {
-                if (onErrorList)
+                if (onErrorList) {
                     triggerSubs(onErrorList, error);
+                }
                 return Promise.reject(error);
             });
         }
@@ -90,7 +94,7 @@ function wrapAction(store, name, action) {
  * @returns {Store} store instance
  */
 export function defineStore(options) {
-    const { id, state, actions, modifiers, guards, expose } = options;
+    const { id, state, actions, guards, expose, computed: $computed } = options;
     const _root = getRoot();
     let initialState = state?.() || {};
     const guardedState = guards ? addStateGuards(id, initialState, guards) : null;
@@ -115,10 +119,10 @@ export function defineStore(options) {
         configurable: true,
         value: guards || {}
     });
-    Object.defineProperty(_storeProperties, '$modifiers', {
+    Object.defineProperty(_storeProperties, '$computed', {
         writable: false,
         configurable: false,
-        value: Object.keys(modifiers || {})
+        value: Object.keys($computed || {})
     });
     Object.defineProperty(_storeProperties, '_exposed', {
         value: _root._exposed,
@@ -128,11 +132,9 @@ export function defineStore(options) {
     /**
      * create the store and wrapping
      * into reactive for unwrapping the refs
-     * and for getting access to state refs
-     * without "value"
      */
-    const store = reactive(assign(_storeProperties, toRefs(stateRef.value), actions, Object.keys(modifiers || {}).reduce((mods, key) => {
-        mods[key] = markRaw(computed(() => modifiers[key].call(store)));
+    const store = reactive(assign(_storeProperties, toRefs(stateRef.value), actions, Object.keys($computed || {}).reduce((mods, key) => {
+        mods[key] = markRaw(computed(() => $computed[key].call(store, store.$state)));
         return mods;
     }, {})));
     /**

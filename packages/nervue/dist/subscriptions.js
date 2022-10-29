@@ -1,4 +1,4 @@
-import { onUnmounted, getCurrentInstance } from 'vue';
+import { onUnmounted, getCurrentInstance } from 'vue-demi';
 export const subscriptionsBefore = {};
 export const subscriptionsAfter = {};
 export const onErrorSubscriptions = {};
@@ -24,9 +24,9 @@ export function $subscribe(options) {
     onError && (oInd = onErrorSubscriptions[subId].push(onError) - 1);
     const unsubscribe = () => {
         return new Promise((resolve) => {
-            subscriptionsBefore[subId].splice(bInd, 1);
-            subscriptionsAfter[subId].splice(aInd, 1);
-            onErrorSubscriptions[subId].splice(oInd, 1);
+            subscriptionsBefore[subId]?.splice(bInd, 1);
+            subscriptionsAfter[subId]?.splice(aInd, 1);
+            onErrorSubscriptions[subId]?.splice(oInd, 1);
             resolve(true);
         });
     };

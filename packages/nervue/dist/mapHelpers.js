@@ -2,7 +2,7 @@
  * @param useStore - store composition
  * @param mapOrKeys - object of actions properties
  */
-export const mapActions = (useStore, mapOrKeys) => {
+export function mapActions(useStore, mapOrKeys) {
     const store = useStore();
     const map = {};
     if (mapOrKeys) {
@@ -33,12 +33,12 @@ export const mapActions = (useStore, mapOrKeys) => {
         }
     }
     return map;
-};
+}
 /**
  * @param useStore - store composition
  * @param mapOrKeys - object of state properties
  */
-export const mapState = (useStore, mapOrKeys) => {
+export function mapState(useStore, mapOrKeys) {
     const map = {};
     if (mapOrKeys) {
         /**
@@ -71,7 +71,7 @@ export const mapState = (useStore, mapOrKeys) => {
     else {
         const store = useStore();
         /**
-         * if map of keys doesn't exists
+         * if map of keys doesn't exist
          * should return map of all state properties
          * without any action functions from the store
          */
@@ -84,5 +84,5 @@ export const mapState = (useStore, mapOrKeys) => {
         });
     }
     return map;
-};
+}
 //# sourceMappingURL=mapHelpers.js.map

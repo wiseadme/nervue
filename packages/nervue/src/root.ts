@@ -1,7 +1,7 @@
 import { ref, ComputedRef } from 'vue-demi'
 import { Method, Store } from './types'
 
-export const NERVUE_ROOT_SYMBOL = Symbol.for('nervue')
+export const ROOT_SYMBOL = Symbol.for('nervue')
 
 export interface Root {
   isInstalled: boolean

@@ -1,7 +1,7 @@
 export default {
   '/api/': [
     {
-      text: 'Документация API',
+      text: 'Функции',
       children: [
         '/api/index.md',
       ]
