@@ -35,6 +35,7 @@
     "typeRoots": [],
     "types": [
       "@vue/compiler-sfc/dist/compiler-sfc",
+      "vue/ref-macros",
       "@types/jest"
     ]
   },

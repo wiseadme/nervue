@@ -15,8 +15,7 @@ export const useUserStore = defineStore({
       val => ({ next: val.length > 5 })
     ],
     age: [
-      val =>
-        ({ next: !!val })
+      val => ({ next: !!val })
     ],
   },
 
@@ -26,13 +25,20 @@ export const useUserStore = defineStore({
 
   actions: {
     async setName(name: string): Promise<any>{
-      this.name = name
+      this.$patch(state => state.name = name)
       await new Promise(res => setTimeout(res, 2000))
       return name
     },
 
     setAge(age){
-      this.age = age
+      this.$patch({ age })
+      this.$expose({
+        age: true ,
+        name: true,
+        setName: true,
+        getUserFullName: true
+      })
+      console.log(this._exposed.USER.age)
     }
   },
 
@@ -46,7 +52,7 @@ const store = useUserStore()
 
 store.$subscribe({
   name: 'setAge',
-  before() {
+  before(){
     console.log('set age')
   }
 })

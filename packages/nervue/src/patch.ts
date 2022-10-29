@@ -7,7 +7,7 @@ function mergeObjects (target, newState) {
   }
 
   if (target.toString().includes('Object')) {
-    Object.keys(target).forEach((key) => {
+    Object.keys(newState).forEach((key) => {
       target[key] = newState[key]
     })
   }

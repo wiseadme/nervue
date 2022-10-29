@@ -210,8 +210,6 @@ export function defineStore<
   /**
    * create the store and wrapping
    * into reactive for unwrapping the refs
-   * and for getting access to state refs
-   * without "value"
    */
   const store = reactive(assign(
     _storeProperties,
