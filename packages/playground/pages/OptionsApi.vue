@@ -14,7 +14,7 @@
     computed: {
       ...mapState(useUserStore, {
         name: store => store.name,
-        fullName: 'fullName',
+        fullName: 'fullNameAndAge',
         company: 'org'
       }),
       ...mapState(useProductStore, {
@@ -38,7 +38,7 @@
         name: 'Randevounier'
       })
 
-      setTimeout(() => this.userStore.setName('Alex'), 2000)
+      setTimeout(() => this.userStore.setName('Alexandr'), 2000)
       setTimeout(() => this.setName('Ronaldinhos'), 4000)
 
       this.userStore.$guards.name.push((val) => ({ next: !!val }))
@@ -78,6 +78,6 @@
 </script>
 <template>
   <h1>Options API Nervue</h1>
-  <h2>{{ fullName }}</h2>
+  <h2>{{ fullName(35) }}</h2>
   <button @click="setNewName">CHANGE NAME</button>
 </template>

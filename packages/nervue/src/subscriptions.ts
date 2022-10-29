@@ -8,7 +8,7 @@ export type SubscribeOptions = {
   name: string
   detached?: boolean
   before?(...args: any[]): any
-  after?(result: any[]): any
+  after?(...result: any[]): any
   onError?(error: any): any
 }
 
@@ -48,9 +48,9 @@ export function $subscribe(options: SubscribeOptions): Unsubscribe{
 
   const unsubscribe = (): Promise<boolean> => {
     return new Promise((resolve) => {
-      subscriptionsBefore[subId].splice(bInd, 1)
-      subscriptionsAfter[subId].splice(aInd, 1)
-      onErrorSubscriptions[subId].splice(oInd, 1)
+      subscriptionsBefore[subId]?.splice(bInd, 1)
+      subscriptionsAfter[subId]?.splice(aInd, 1)
+      onErrorSubscriptions[subId]?.splice(oInd, 1)
 
       resolve(true)
     })

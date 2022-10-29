@@ -41,13 +41,11 @@ const useCounterStore = defineStore({
 
   export default defineComponent({
     setup(){
-      // можно смело использовать деструктуризацию,
-      // ни реактивность, ни контекст выполнения действий
-      // никуда неисчезнут.
-      const { count, increment } = useCounterStore()
+      const store = useCounterStore()
+      const { increment } = store
 
       return {
-        count,
+        store,
         increment
       }
     }
@@ -55,7 +53,7 @@ const useCounterStore = defineStore({
 </script>
 <template>
   <div class="counter-block">
-    <div class="counter-display">{{ count }}</div>
+    <div class="counter-display">{{ store.count }}</div>
     <button @click="increment">up</button>
   </div>
 </template>

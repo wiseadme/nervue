@@ -109,7 +109,7 @@ function wrapAction(
     const args = Array.from(arguments)
 
     if (beforeList) {
-      triggerSubs(beforeList)
+      triggerSubs(beforeList, ...args)
     }
 
     let result
@@ -223,7 +223,7 @@ export function defineStore<
     toRefs(stateRef.value),
     actions,
     Object.keys($computed || {}).reduce((mods, key) => {
-      mods[key] = markRaw(computed(() => $computed![key](store.$state)))
+      mods[key] = markRaw(computed(() => $computed![key].call(store, store.$state)))
       return mods
     }, {})
   )) as UnwrapNestedRefs<Store>

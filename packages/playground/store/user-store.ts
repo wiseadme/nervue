@@ -20,7 +20,14 @@ export const useUserStore = defineStore({
   },
 
   computed: {
-    fullName: (state) => state.name + ' Sivkov'
+    fullName: (state) => state.name + ' Sivkov',
+    /***
+     * Returns full name with user age
+     * @returns {(age) => string}
+     */
+    fullNameAndAge(){
+      return (age) => this.fullName + ` ${ age }`
+    }
   },
 
   actions: {
@@ -32,12 +39,6 @@ export const useUserStore = defineStore({
 
     setAge(age){
       this.$patch({ age })
-      // this.$expose({
-      //   age: true ,
-      //   name: true,
-      //   setName: true,
-      //   getUserFullName: true
-      // })
     }
   },
 
