@@ -8,7 +8,7 @@ describe('Guards', () => {
     store = useGuardsMockStore()
   })
 
-  test('it should check and protect the state from mutation', () => {
+  test('protect with warning', () => {
     const stub = jest.spyOn(console, 'warn')
     store.setAge(15)
 
@@ -20,12 +20,12 @@ describe('Guards', () => {
     )
   })
 
-  test('it should check and mutate the state', () => {
+  test('mutate the state', () => {
     store.setAge(21)
     expect(store.userAge).toEqual(21)
   })
 
-  test('it should update data for mutation the state', () => {
+  test('update data for mutation', () => {
     store.$guards.userAge.push((val) => ({
       next: true,
       value: val * 2
@@ -35,7 +35,7 @@ describe('Guards', () => {
     expect(store.userAge).toEqual(42)
   })
 
-  test('it should test guarding step by step', () => {
+  test('guarding step by step', () => {
     const stub = jest.fn((...args) => ({ next: true, value: args }))
 
     store.$guards.userAge.push(stub)

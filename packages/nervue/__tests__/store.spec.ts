@@ -3,53 +3,41 @@ import { defineComponent, h } from 'vue'
 import { defineStore } from '../src'
 import 'regenerator-runtime/runtime'
 
-const TestComponent = defineComponent({
-  props: {
-    value: {
-      type: [ String, Number, Boolean ],
-      default: null
+const useStore = defineStore({
+  id: 'USER',
+  state: () => ({ name: 'Alex' }),
+  actions: {
+    setName(name){
+      this.$patch({ name })
     }
-  },
-  setup(props) {
+  }
+})
+
+const store = useStore()
+
+const TestComponent = defineComponent({
+  setup(){
     return () => h('div', {
       class: 'container'
-    }, props.value)
+    }, store.name)
   }
 })
 
 describe('defineStore', () => {
-  let state, actions
-
-  const id = 'user'
-
-  beforeEach(() => {
-    state = () => ({ name: 'Alex' })
-
-    actions = {
-      setName(name) {
-        this.name = name
-      }
-    }
-  })
 
   const mountFunction = (options = {}) => mount(TestComponent, { ...options })
 
   test('should test the store definition', async () => {
-    const useStore = defineStore({ id, state, actions })
-
-    const store = useStore()
-
-    const wrapper = mountFunction({ props: { value: null } })
+    const wrapper = mountFunction()
 
     store.setName('John')
-
-    await wrapper.setProps({ value: store.name })
+    await new Promise(resolve => setTimeout(resolve, 100))
 
     expect(store.name).toEqual('John')
     expect(wrapper.find('.container').text()).toEqual('John')
 
     store.setName('Viktor')
-    await wrapper.setProps({ value: store.name })
+    await new Promise(resolve => setTimeout(resolve, 100))
 
     expect(store.name).toEqual('Viktor')
     expect(wrapper.find('.container').text()).toEqual('Viktor')
