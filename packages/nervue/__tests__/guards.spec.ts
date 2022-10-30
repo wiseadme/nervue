@@ -11,7 +11,7 @@ describe('Guards', () => {
 
     guards: {
       age: [
-        val => ({ next: val > 18 })
+        val => ({ next: val > 18, value: val })
       ]
     },
 

@@ -5,3 +5,7 @@ export function logWarning (...args: string[]) {
 export function logError (...args: string[]) {
   console.error(`[nervue]:`, ...args)
 }
+
+export function typeOf(arg) {
+  return Object.prototype.toString.call(arg).slice(8, -1)
+}

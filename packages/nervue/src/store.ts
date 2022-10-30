@@ -10,7 +10,7 @@ import {
   UnwrapRef
 } from 'vue-demi'
 import { getRoot } from './createNervue'
-import { logWarning, logError } from './helpers'
+import { logWarning, logError, typeOf } from './helpers'
 // Types
 import {
   ActionsTree,
@@ -30,27 +30,33 @@ import {
 } from './types'
 
 /***
- * @param target
- * @param newState
+ * @param target - state of store
+ * @param patch - updates to merge
  */
-function mergeState(target, newState){
-  if (target.toString().includes('Map')) {
-    newState.forEach((it, key) => target.set(key, it))
+function merge(target, patch){
+  if (typeOf(target) === 'Map') {
+    patch.forEach((it, key) => target.set(key, it))
   }
 
-  if (target.toString().includes('Object')) {
-    Object.keys(newState).forEach((key) => {
-      target[key] = newState[key]
-    })
+  for (const key in patch) {
+    if (
+      typeOf(patch[key]) === 'Object'
+      && patch.hasOwnProperty(key)
+    ) {
+      target[key] = merge(target[key], patch[key])
+    } else {
+      target[key] = patch[key]
+    }
   }
+
+  return target
 }
 
 /**
  * @param {object} options - store definition object
  * @returns {Store} store instance
  */
-export function defineStore<
-  Id extends string,
+export function defineStore<Id extends string,
   S extends StateTree = {},
   G extends GuardsTree = {},
   C extends ComputedTree = {},
@@ -72,7 +78,7 @@ export function defineStore<
 
   const { assign } = Object
 
-  /**
+  /***
    * @param {string} storeId - store id
    * @param {object} state - state map
    * @param {object} guards - guards map
@@ -81,11 +87,18 @@ export function defineStore<
   function addStateGuards<
     S extends StateTree,
     G extends GuardsTree
-  >(storeId: string, state: S, guards: G){
+  >(
+    storeId: Id,
+    state: S,
+    guards: G
+  ){
     return new Proxy(state, {
-      get: (target, prop, receiver) => Reflect.get(target, prop, receiver),
-      set: (target, prop, value, receiver) => {
+      get(target, prop, receiver){
+        return Reflect.get(target, prop, receiver)
+      },
+      set(target, prop, value, receiver){
         let result = { next: true, value } as ReturnType<GuardMethod>
+
         const { stringify } = JSON
 
         if (guards[prop as string]) {
@@ -183,9 +196,9 @@ export function defineStore<
   }
 
   /***
-   * @param {string} storeId
-   * @param {string} name
-   * @return {ExistingSubscribers}
+   * @param storeId - store id
+   * @param name - name of action
+   * @returns {object} object of existing subscribers
    */
   function getSubscribers(storeId: string, name: string): ExistingSubscribers{
     return {
@@ -264,7 +277,7 @@ export function defineStore<
     if (typeof mutator === 'function') {
       mutator(this.$state)
     } else if (typeof mutator === 'object') {
-      mergeState(this.$state, mutator)
+      merge(this.$state, mutator)
     }
   }
 
