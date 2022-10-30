@@ -39,7 +39,7 @@
       "@types/jest"
     ],
     "paths": {
-      "nervue": ["packages/nervue/src/index.ts"]
+      "nervue": ["packages/nervue/src"]
     }
   },
   "include": [

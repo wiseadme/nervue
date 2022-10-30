@@ -7,7 +7,7 @@ import {
   getCurrentInstance,
   onUnmounted,
   computed,
-  UnwrapRef,
+  UnwrapRef
 } from 'vue-demi'
 import { getRoot } from './createNervue'
 import { logWarning, logError } from './helpers'
@@ -362,5 +362,5 @@ export function defineStore<
 
   useStore.$id = store.$id
 
-  return useStore as StoreDefinition<Id, S, G, C, A, E>
+  return useStore
 }

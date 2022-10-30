@@ -1,4 +1,4 @@
-import { defineStore } from 'nervue'
+import { defineStore } from '../src'
 import 'regenerator-runtime/runtime'
 
 describe('Subscribers', () => {

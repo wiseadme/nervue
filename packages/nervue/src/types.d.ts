@@ -70,11 +70,12 @@ export type Store<
   C extends ComputedTree = {},
   A /*extends ActionsTree*/ = {},
   E extends ExposesTree = {},
-  > =
+  > = UnwrapNestedRefs<
   _StoreWithProperties<Id, S, G, C, A, E>
   & State<S>
   & Computed<C>
   & Actions<A>
+  >
 
 
 export interface StoreDefinition<
@@ -85,7 +86,7 @@ export interface StoreDefinition<
   A /*extends ActionsTree*/ = {},
   E extends ExposesTree = {}
   > {
-  (): UnwrapNestedRefs<Store<Id, S, G, C, A, E>>
+  (): Store<Id, S, G, C, A, E>
   $id: Id
 }
 

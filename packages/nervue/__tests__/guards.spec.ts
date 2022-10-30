@@ -1,4 +1,4 @@
-import { defineStore } from 'nervue'
+import { defineStore } from '../src'
 
 describe('Guards', () => {
   const useStore = defineStore({
@@ -39,7 +39,7 @@ describe('Guards', () => {
     expect(useStore().age).toEqual(21)
   })
 
-  test('test the data updating for mutation', () => {
+  test('test data updating for mutation', () => {
     useStore().$guards.age.push((val) => ({
       next: true,
       value: val * 2

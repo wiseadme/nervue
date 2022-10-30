@@ -1,4 +1,4 @@
-import { defineStore } from 'nervue'
+import { defineStore } from '../src'
 
 describe('Computed', () => {
   const useStore = defineStore({
@@ -30,10 +30,6 @@ describe('Computed', () => {
     }
   })
 
-  const store = useStore()
-
-  store.$patch({name: 'olga'})
-
   test('test computed full name', () => {
     useStore().setName('Antonio')
     useStore().setFamilyName('Handel')
@@ -41,7 +37,7 @@ describe('Computed', () => {
     expect(useStore().fullName).toEqual('Antonio Handel')
   })
 
-  test('test access to computed through "this"', () => {
+  test('test of access to computed through "this"', () => {
     expect(useStore().fullNameAndAge).toEqual('Antonio Handel 42 years old')
   })
 
