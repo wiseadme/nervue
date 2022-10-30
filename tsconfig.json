@@ -39,12 +39,12 @@
       "@types/jest"
     ],
     "paths": {
-      "nervue": ["packages/nervue/src"]
+      "nervue": ["packages/nervue/src/index.ts"]
     }
   },
   "include": [
     "packages/nervue/src/**/*.ts",
-    "packages/nervue/__tests__/**/*.ts"
+    "packages/nervue/__tests__/**/*.ts",
   ],
   "exclude": [
     "node_modules",

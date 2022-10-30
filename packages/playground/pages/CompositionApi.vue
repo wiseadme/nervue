@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { useNervue } from 'nervue'
+  import { useNervue } from '../../nervue/src'
   import { useUserStore } from '../store/user-store'
 
   const store = useNervue()

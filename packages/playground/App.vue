@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import CompositionApi from './pages/CompositionApi.vue'
+  import CompositionApi from './pages/CompositionApi'
   import OptionsApi from './pages/OptionsApi.vue'
 
   let current = $shallowRef()

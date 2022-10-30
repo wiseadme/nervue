@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { mapActions, mapState } from 'nervue'
+  import { mapActions, mapState } from '../../nervue/src'
   import { useUserStore } from '../store/user-store'
   import { useProductStore } from '../store/product-store'
 

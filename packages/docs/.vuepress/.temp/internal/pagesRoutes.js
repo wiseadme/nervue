@@ -16,7 +16,7 @@ export const pagesRoutes = [
   ["v-0b2a3ebc","/core-concepts/guards.html",{"title":"Guards"},["/core-concepts/guards","/core-concepts/guards.md"]],
   ["v-39d79de2","/core-concepts/",{"title":"Store"},["/core-concepts/index.html","/core-concepts/index.md"]],
   ["v-ed2dcd92","/core-concepts/state.html",{"title":"State"},["/core-concepts/state","/core-concepts/state.md"]],
-  ["v-2d0a870d","/en/",{"title":"In English"},["/en/index.html","/en/index.md"]],
+  ["v-2d0a870d","/en/",{"title":"Main page"},["/en/index.html","/en/index.md"]],
   ["v-2bb284dc","/en/introduction.html",{"title":"Introduction"},["/en/introduction","/en/introduction.md"]],
   ["v-3706649a","/404.html",{"title":""},["/404"]],
 ]
