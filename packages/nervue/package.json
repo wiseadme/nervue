@@ -1,6 +1,6 @@
 {
   "name": "nervue",
-  "version": "0.0.12",
+  "version": "0.0.14",
   "description": "Vue 3 composition and options API-compatible lightweight store library",
   "sideEffects": false,
   "main": "dist/index.js",

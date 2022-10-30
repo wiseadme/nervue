@@ -1,14 +1,14 @@
 <template><div><h1 id="установка" tabindex="-1"><a class="header-anchor" href="#установка" aria-hidden="true">#</a> Установка</h1>
 <p>Для начала необходимо установить <strong>Nervue</strong> с помощью вашего любимого менеджера пакетов:</p>
-<div class="language-bash ext-sh"><pre v-pre class="language-bash"><code><span class="token function">npm</span> <span class="token function">install</span> nervue
+<div class="language-bash" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">npm</span> <span class="token function">install</span> nervue
 <span class="token comment"># или с помощью</span>
 <span class="token function">yarn</span> <span class="token function">add</span> nervue
 </code></pre></div><p>Далее после установки библиотеки, мы можем создать глобальный <code v-pre>root</code> объект <strong>Nervue</strong></p>
-<div class="language-javascript ext-js"><pre v-pre class="language-javascript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> createNervue <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
+<div class="language-javascript" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> createNervue <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
 
 <span class="token keyword">export</span> <span class="token keyword">const</span> store <span class="token operator">=</span> <span class="token function">createNervue</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 </code></pre></div><p>В <code v-pre>main.ts</code></p>
-<div class="language-typescript ext-ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> createApp <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span>
+<div class="language-typescript" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> createApp <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> store <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./store'</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> router <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./router'</span>
 
@@ -24,8 +24,8 @@ router<span class="token punctuation">.</span><span class="token function">isRea
 <p>Примечание! Вы можете прекрасно обходиться и без создания <code v-pre>root</code> объекта, просто импортируя ваши хранилища
 туда, там где вам это необходимо.</p>
 </div>
-<h2 id="добавление-хранища-в-root" tabindex="-1"><a class="header-anchor" href="#добавление-хранища-в-root" aria-hidden="true">#</a> Добавление хранища в <code v-pre>root</code></h2>
-<div class="language-javascript ext-js"><pre v-pre class="language-javascript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> createNervue <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
+<h2 id="добавление-хранилища-в-root-объект" tabindex="-1"><a class="header-anchor" href="#добавление-хранилища-в-root-объект" aria-hidden="true">#</a> Добавление хранилища в <code v-pre>root</code> объект</h2>
+<div class="language-javascript" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> createNervue <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> useUserStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'modules/users/store'</span>
 
 <span class="token keyword">export</span> <span class="token keyword">const</span> store <span class="token operator">=</span> <span class="token function">createNervue</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
@@ -33,8 +33,8 @@ router<span class="token punctuation">.</span><span class="token function">isRea
 store<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>useUserStore<span class="token punctuation">)</span>
 </code></pre></div><p>Метод <code v-pre>add</code> сохранит по <code v-pre>id</code> ключу наше хранилище в <code v-pre>root</code> объекте.</p>
 <p>Соответственно теперь для того, что бы получить доступ из любой точки приложения к сохраненному хранилищу, нам будет достаточно
-воспользоваться <code v-pre>composition</code> функцией библиотеки <code v-pre>useNervue</code>.</p>
-<div class="language-vue ext-vue"><pre v-pre class="language-vue"><code>
+воспользоваться функцией <code v-pre>useNervue</code>.</p>
+<div class="language-vue" data-ext="vue"><pre v-pre class="language-vue"><code>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">setup</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
   <span class="token keyword">import</span> <span class="token punctuation">{</span> useNervue <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
   

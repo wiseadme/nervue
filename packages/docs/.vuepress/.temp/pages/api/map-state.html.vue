@@ -3,7 +3,7 @@
 компонента. В качестве аргумента принимает <code v-pre>composition</code> функцию, возвращающую хранилище, вторым аргументом можно
 передать либо объект ключей, вида <code v-pre>{ localKeyName: &quot;stateKey&quot;}</code>, либо массив ключей состояния.</p>
 <p>В качестве примера возьмем все то же хранилище, которое мы определили ранее в качестве базового примера:</p>
-<div class="language-typescript ext-ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> defineStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
+<div class="language-typescript" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> defineStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
 
 <span class="token keyword">const</span> useCounterStore <span class="token operator">=</span> <span class="token function">defineStore</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   id<span class="token operator">:</span> <span class="token string">'counter'</span><span class="token punctuation">,</span>
@@ -19,7 +19,7 @@
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 </code></pre></div><p>Теперь мы можем в Vue компоненте извлечь ключи состояния, с помощью <code v-pre>mapState</code>:</p>
-<div class="language-vue ext-vue"><pre v-pre class="language-vue"><code>
+<div class="language-vue" data-ext="vue"><pre v-pre class="language-vue"><code>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ts<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
   <span class="token keyword">import</span> <span class="token punctuation">{</span> mapState <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
   <span class="token keyword">import</span> <span class="token punctuation">{</span> useCounterStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./store/counter-store'</span>

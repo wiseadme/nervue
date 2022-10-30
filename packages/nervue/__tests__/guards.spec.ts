@@ -1,5 +1,4 @@
-// @ts-ignore
-import { defineStore } from '../src'
+import { defineStore } from 'nervue'
 
 describe('Guards', () => {
   const useStore = defineStore({

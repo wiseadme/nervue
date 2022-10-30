@@ -37,14 +37,16 @@
       "@vue/compiler-sfc/dist/compiler-sfc",
       "vue/ref-macros",
       "@types/jest"
-    ]
+    ],
+    "paths": {
+      "nervue": ["packages/nervue/src"]
+    }
   },
   "include": [
     "packages/nervue/src/**/*.ts",
+    "packages/nervue/__tests__/**/*.ts"
   ],
   "exclude": [
     "node_modules",
-    "**/*.spec.ts",
-    "**/*.mock.ts"
   ]
 }

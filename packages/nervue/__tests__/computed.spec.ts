@@ -1,5 +1,4 @@
-// @ts-ignore
-import { defineStore } from '../src'
+import { defineStore } from 'nervue'
 
 describe('Computed', () => {
   const useStore = defineStore({
@@ -30,6 +29,10 @@ describe('Computed', () => {
       }
     }
   })
+
+  const store = useStore()
+
+  store.$patch({name: 'olga'})
 
   test('test computed full name', () => {
     useStore().setName('Antonio')

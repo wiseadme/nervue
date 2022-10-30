@@ -1,4 +1,3 @@
-// @ts-ignore
 import { defineStore } from '../../nervue/src'
 
 export const useUserStore = defineStore({
@@ -44,7 +43,9 @@ export const useUserStore = defineStore({
 
   expose: {
     name: true,
-    setName: true
+    fullName: true,
+    setName: true,
+    setAge: true
   },
 })
 

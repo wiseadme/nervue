@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { defineComponent, h } from 'vue'
-import { defineStore } from '../src'
+import { defineStore } from 'nervue'
 import 'regenerator-runtime/runtime'
 
 const useStore = defineStore({

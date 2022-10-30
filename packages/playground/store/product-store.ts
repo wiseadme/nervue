@@ -1,3 +1,4 @@
+// @ts-ignore
 import { defineStore } from '../../nervue/src'
 
 export const PRODUCT = 'PRODUCT'
@@ -46,6 +47,3 @@ export const useProductStore = defineStore({
     items: true
   }
 })
-
-const store = useProductStore()
-store.

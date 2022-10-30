@@ -1,15 +1,17 @@
 <script setup lang="ts">
-  import { useNervue } from '../../nervue/src'
+  import { useNervue } from 'nervue'
   import { useUserStore } from '../store/user-store'
 
   const store = useNervue()
   const userStore = useUserStore()
 
-  const { setName, name } = userStore
+  // const { name } = userStore
 
-  console.log(store)
+  userStore.$patch({ name: 'jamessss' })
 
-  setName('Havalio')
+  setTimeout(() => {
+    userStore.$patch({ name: 'Hoolio' })
+  },2000)
 </script>
 <template>
   <h1>Composition API Nervue</h1>

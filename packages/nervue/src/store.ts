@@ -8,7 +8,6 @@ import {
   onUnmounted,
   computed,
   UnwrapRef,
-  UnwrapNestedRefs,
 } from 'vue-demi'
 import { getRoot } from './createNervue'
 import { logWarning, logError } from './helpers'
@@ -79,23 +78,23 @@ export function defineStore<
    * @param {object} guards - guards map
    * @returns {proxy} proxy with guarded state
    */
-  function addStateGuards<S extends StateTree,
-    G extends GuardsTree>(storeId: string, state: S, guards: G){
+  function addStateGuards<
+    S extends StateTree,
+    G extends GuardsTree
+  >(storeId: string, state: S, guards: G){
     return new Proxy(state, {
-      get(target, prop, receiver){
-        return Reflect.get(target, prop, receiver)
-      },
-      set(target: any, prop: string, value: unknown, receiver){
+      get: (target, prop, receiver) => Reflect.get(target, prop, receiver),
+      set: (target, prop, value, receiver) => {
         let result = { next: true, value } as ReturnType<GuardMethod>
         const { stringify } = JSON
 
-        if (guards[prop]) {
+        if (guards[prop as string]) {
           /**
            * check guards map type
            */
-          if (Array.isArray(guards[prop])) {
-            for (const fn of guards[prop]!) {
+          if (Array.isArray(guards[prop as string])) {
 
+            for (const fn of guards[prop as string]!) {
               const ret = fn(result.value)
 
               result.next = ret.next
@@ -203,7 +202,7 @@ export function defineStore<
    * @returns {function} a wrapped action to handle subscriptions
    */
   function wrapAction(
-    store: UnwrapNestedRefs<Store<Id, S, G, C, A, E>>,
+    store: Store<Id, S, G, C, A, E>,
     name: string,
     action: Method
   ){
@@ -304,8 +303,8 @@ export function defineStore<
 
   _storeProperties.$id = id
   _storeProperties.$patch = $patch
-  _storeProperties.$subscribe = $subscribe
   _storeProperties.$expose = $expose
+  _storeProperties.$subscribe = $subscribe
 
   Object.defineProperty(_storeProperties, '$state', {
     get: () => toRaw(stateRef.value),
@@ -344,7 +343,7 @@ export function defineStore<
       mods[key] = markRaw(computed(() => $computed![key].call(store, store.$state)))
       return mods
     }, {})
-  )) as UnwrapNestedRefs<Store<Id, S, G, C, A, E>>
+  )) as Store<Id, S, G, C, A, E>
   /**
    * wrapping the actions to handle subscribers
    */

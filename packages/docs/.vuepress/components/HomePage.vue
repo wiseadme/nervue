@@ -8,7 +8,7 @@
         <h1 class="main__head">
           <span class="main__head-title">Nervue</span>
         </h1>
-        <div class="main__text">Vue 3 compatible state manager library</div>
+        <div class="main__text">Vue composition API compatible state manager library</div>
       </div>
     </div>
   </div>

@@ -9,7 +9,7 @@
 ваша нервная система реагирует на происходящее вокруг, разумеется в хорошем смысле сказанного выше 😃.</p>
 <h2 id="базовыи-пример" tabindex="-1"><a class="header-anchor" href="#базовыи-пример" aria-hidden="true">#</a> Базовый пример</h2>
 <p>Давайте рассмотрим небольшой базовый пример использования <strong>Nervue</strong>:</p>
-<div class="language-typescript ext-ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> defineStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
+<div class="language-typescript" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> defineStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
 
 <span class="token keyword">const</span> useCounterStore <span class="token operator">=</span> <span class="token function">defineStore</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   id<span class="token operator">:</span> <span class="token string">'counter'</span><span class="token punctuation">,</span>
@@ -25,7 +25,7 @@
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 </code></pre></div><p>Где - то в другом файле:</p>
-<div class="language-vue ext-vue"><pre v-pre class="language-vue"><code>
+<div class="language-vue" data-ext="vue"><pre v-pre class="language-vue"><code>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ts<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
   <span class="token keyword">import</span> <span class="token punctuation">{</span> defineComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span>
   <span class="token keyword">import</span> <span class="token punctuation">{</span> useCounterStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./store/counter-store.ts'</span>

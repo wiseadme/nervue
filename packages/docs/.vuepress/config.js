@@ -39,12 +39,14 @@ export default {
         selectLanguageName: 'Русский',
         navbar: RuNavbar,
         sidebar: RuSidebar,
+        selectLanguageText: 'Язык'
       },
       '/en/': {
         selectLanguageName: 'English',
         label: 'English',
         navbar: EnNavbar,
-        sidebar: EnSidebar
+        sidebar: EnSidebar,
+        selectLanguageText: 'Languages'
       },
     }
   })

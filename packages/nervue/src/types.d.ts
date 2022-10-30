@@ -1,4 +1,4 @@
-import { Plugin, DefineComponent, ComputedRef, UnwrapRef, UnwrapNestedRefs } from 'vue-demi'
+import { Plugin, DefineComponent, UnwrapRef, UnwrapNestedRefs, App } from 'vue-demi'
 import { Root } from './createNervue'
 
 export type Method = (...args: any[]) => any
@@ -39,7 +39,7 @@ export type Guards<G, S> = {
 
 export type _StoreWithProperties<Id extends string, S, G, C, A, E> = {
   $id: Id
-  $patch: (mutator: (state: UnwrapRef<S>) => void | Partial<UnwrapRef<S>>) => void
+  $patch: (mutator: ((state: UnwrapRef<S>) => void) | Partial<UnwrapRef<S>>) => void
   $subscribe: (subscribeOptions: SubscribeOptions<A>) => Unsubscribe
   $state: S
   $expose: (exposes: E) => void
@@ -60,7 +60,7 @@ export interface StoreOptions<
   guards?: G,
   computed?: C,
   actions?: A,
-  expose?: E
+  expose?: {[ key in keyof Partial<S & A & C> ]: E[key]}
 }
 
 export type Store<
@@ -85,10 +85,25 @@ export interface StoreDefinition<
   A /*extends ActionsTree*/ = {},
   E extends ExposesTree = {}
   > {
-  (): Store<Id, S, G, C, A, E>
-
+  (): UnwrapNestedRefs<Store<Id, S, G, C, A, E>>
   $id: Id
 }
+
+export type SubscribeOptions<A> = {
+  name: keyof A
+  detached?: boolean
+  before?(...args: any[]): any
+  after?(...result: any[]): any
+  onError?(error: any): any
+}
+
+export type ExistingSubscribers = {
+  beforeList: ((...args: any) => any)[]
+  afterList: ((res: any) => any)[]
+  onErrorList: ((error: unknown) => unknown)[]
+}
+
+export type Unsubscribe = () => Promise<boolean>
 
 export declare function defineStore<
   Id extends string,
@@ -108,9 +123,12 @@ export type NervuePlugin = {
     A /*extends ActionsTree*/ = {},
     E extends ExposesTree = {}
     >(useStore: () => Store<Id, S, G, C, A, E>): void
+  install(app: App): void
 } & Plugin
 
 export declare function createNervue(): NervuePlugin
+export declare function getRoot(): UnwrapNestedRefs<Root>
+export declare function useNervue(id?: string): Store | Record<string, Store> | void
 
 export declare function useNervue<
   Id extends string,
@@ -145,21 +163,5 @@ export declare function mapState<
   useStore: StoreDefinition<Id, S, G, C, A, E>,
   mapOrKeys?: [ keyof S ] | { [key: string]: Method | keyof S }
 ): StateTree
-
-export type SubscribeOptions<A> = {
-  name: keyof A
-  detached?: boolean
-  before?(...args: any[]): any
-  after?(...result: any[]): any
-  onError?(error: any): any
-}
-
-export type ExistingSubscribers = {
-  beforeList: ((...args: any) => any)[]
-  afterList: ((res: any) => any)[]
-  onErrorList: ((error: unknown) => unknown)[]
-}
-
-export type Unsubscribe = () => Promise<boolean>
 
 export declare const VNervue: DefineComponent<{store: string | StoreDefinition<string>}, any, any>

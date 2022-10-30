@@ -2,14 +2,14 @@
 <h2 id="createnervue" tabindex="-1"><a class="header-anchor" href="#createnervue" aria-hidden="true">#</a> createNervue</h2>
 <p>Возвращает <code v-pre>vue</code> плагин, который установит <code v-pre>root</code> объект Nervue в качестве глобальной переменной,
 доступ к которой можно получить с помощью инъекции по ключу <code v-pre>ROOT_SYMBOL</code>.</p>
-<div class="language-typescript ext-ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> createNervue <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
+<div class="language-typescript" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> createNervue <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> useProductStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./product-store'</span>
 
 <span class="token keyword">export</span> <span class="token keyword">const</span> store <span class="token operator">=</span> <span class="token function">createNervue</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 
 store<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>useProductStore<span class="token punctuation">)</span>
 </code></pre></div><p>Затем импортируем в <code v-pre>main.ts</code></p>
-<div class="language-typescript ext-ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> createApp <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span>
+<div class="language-typescript" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> createApp <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> store <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./store'</span>
 <span class="token keyword">import</span> App <span class="token keyword">from</span> <span class="token string">'./App.vue'</span>
 
@@ -18,7 +18,7 @@ store<span class="token punctuation">.</span><span class="token function">add</s
 app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>store<span class="token punctuation">)</span>
 </code></pre></div><p>Теперь для того чтобы получить доступ к <code v-pre>root</code> объекту, достаточно будет
 использовать <code v-pre>inject</code>.</p>
-<div class="language-vue ext-vue"><pre v-pre class="language-vue"><code>
+<div class="language-vue" data-ext="vue"><pre v-pre class="language-vue"><code>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ts<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
   <span class="token keyword">import</span> <span class="token punctuation">{</span> defineComponent<span class="token punctuation">,</span> inject <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span>
   <span class="token keyword">import</span> <span class="token punctuation">{</span> <span class="token constant">ROOT_SYMBOL</span> <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
@@ -36,7 +36,7 @@ app<span class="token punctuation">.</span><span class="token function">use</spa
 <p>Функция, которая возвращает <code v-pre>root</code> объект. Если в качестве аргумента передать <code v-pre>id</code> конкретного хранилища,
 которое зарегистрировано в <code v-pre>root</code>
 объекте, с помощью метода <code v-pre>add</code>, то в таком случае функция вернет хранилище по <code v-pre>id</code> ключу.</p>
-<div class="language-vue ext-vue"><pre v-pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ts<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
+<div class="language-vue" data-ext="vue"><pre v-pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ts<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
   <span class="token keyword">import</span> <span class="token punctuation">{</span> defineComponent<span class="token punctuation">,</span> inject <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span>
   <span class="token keyword">import</span> <span class="token punctuation">{</span> useNervue <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
   
@@ -57,7 +57,7 @@ app<span class="token punctuation">.</span><span class="token function">use</spa
 компонента, с использованием <code v-pre>options api</code>. В качестве первого аргумента принимает <code v-pre>useStore</code> функцию, возвращающую хранилище, вторым аргументом необходимо
 передать либо объект, либо массив ключей.</p>
 <p>В качестве примера возьмем все то же хранилище, которое мы определили ранее в качестве базового примера:</p>
-<div class="language-typescript ext-ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> defineStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
+<div class="language-typescript" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> defineStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
 
 <span class="token keyword">const</span> useCounterStore <span class="token operator">=</span> <span class="token function">defineStore</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   id<span class="token operator">:</span> <span class="token string">'counter'</span><span class="token punctuation">,</span>
@@ -73,7 +73,7 @@ app<span class="token punctuation">.</span><span class="token function">use</spa
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 </code></pre></div><p>Теперь мы можем в Vue компоненте извлечь ключи состояния, с помощью <code v-pre>mapState</code>:</p>
-<div class="language-vue ext-vue"><pre v-pre class="language-vue"><code>
+<div class="language-vue" data-ext="vue"><pre v-pre class="language-vue"><code>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ts<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
   <span class="token keyword">import</span> <span class="token punctuation">{</span> mapState <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
   <span class="token keyword">import</span> <span class="token punctuation">{</span> useCounterStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./store/counter-store'</span>

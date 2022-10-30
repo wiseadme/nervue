@@ -6,10 +6,17 @@ export type {
   Store,
   StoreDefinition,
   StoreOptions,
+  _StoreWithProperties,
   State,
   Actions,
   Guards,
+  Computed,
   StateTree,
+  ComputedTree,
   ActionsTree,
-  GuardsTree
+  GuardsTree,
+  ExposesTree,
+  SubscribeOptions,
+  Unsubscribe,
+  ExistingSubscribers
 } from './types'
