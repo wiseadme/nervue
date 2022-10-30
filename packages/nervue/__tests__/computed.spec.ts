@@ -16,7 +16,7 @@ describe('Computed', () => {
       fullNameAndAge() {
         return this.fullName + ` ${this.age} years old`
       },
-      userWithAge(){
+      userWithAge(): (years: number) => string{
         return (years) => this.fullName + ` ${ years } years old`
       }
     },

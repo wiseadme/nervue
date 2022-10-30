@@ -26,20 +26,18 @@
     created(){
       this.userStore = useUserStore()
 
-      this.userStore.$patch(state => {
-        state.name = 'Randevounier'
-      })
+      this.userStore.$patch({name: 'Randevounier'})
 
       this.userStore.setName('gandsdklfjghsldfkjghsldkfjghsi')
     },
 
     mounted(){
-      this.userStore.$patch({
-        name: 'Randevounier'
+      this.userStore.$patch(state => {
+        state.name = 'Randevounier'
       })
 
       setTimeout(() => this.userStore.setName('Alexandr'), 2000)
-      setTimeout(() => this.setName('Ronaldinhos'), 4000)
+      setTimeout(() => this.setName('Ron'), 4000)
 
       this.userStore.$guards.name.push((val) => ({ next: !!val }))
 

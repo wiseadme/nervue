@@ -4,17 +4,13 @@ import {
   toRefs,
   toRaw,
   markRaw,
+  getCurrentInstance,
+  onUnmounted,
   computed,
-  UnwrapNestedRefs
+  UnwrapRef,
+  UnwrapNestedRefs,
 } from 'vue-demi'
 import { getRoot } from './createNervue'
-import { $patch } from './patch'
-import { $expose } from './expose'
-import {
-  $subscribe,
-  getSubscribers,
-  triggerSubs
-} from './subscriptions'
 import { logWarning, logError } from './helpers'
 // Types
 import {
@@ -28,125 +24,25 @@ import {
   ExposesTree,
   GuardMethod,
   ComputedTree,
+  SubscribeOptions,
+  Unsubscribe,
+  ExistingSubscribers,
   _StoreWithProperties,
 } from './types'
 
-/**
- * @param {string} storeId - store id
- * @param {object} state - state map
- * @param {object} guards - guards map
- * @returns {proxy} proxy with guarded state
- */
-export function addStateGuards<
-  S extends StateTree,
-  G extends GuardsTree<S>
->(storeId: string, state: S, guards: G){
-  return new Proxy(state, {
-    get: (target, prop, receiver) => {
-      return Reflect.get(target, prop, receiver)
-    },
-    set: (target, prop, value, receiver) => {
-      let result = { next: true, value } as ReturnType<GuardMethod>
-      const { stringify } = JSON
-
-      if (guards[prop]) {
-        /**
-         * check guards map type
-         */
-        if (Array.isArray(guards[prop])) {
-          for (const fn of guards[prop]!) {
-
-            const ret = fn(result.value)
-
-            result.next = ret.next
-            value = ret.value || value
-            result.value = value
-
-            if (!result.next) {
-              logWarning(
-                `{guards}: ${ stringify(value) } is invalid value for the`,
-                `${ stringify(prop) as string } of the ${ stringify(storeId) } store state`
-              )
-
-              break
-            }
-          }
-        } else {
-          logError(
-            `{guards}: wrong type of guards map in the "${ storeId }" store.`,
-            `Guards should be an array of functions.`
-          )
-        }
-      }
-
-      if (result.next) {
-        return Reflect.set(target, prop, result.value, receiver)
-      }
-
-      return true
-    }
-  })
-}
-
 /***
- * @param {object} store - current store instance
- * @param {string} name - name of action
- * @param {function} action - action to wrap
- * @returns {function} a wrapped action to handle subscriptions
+ * @param target
+ * @param newState
  */
-function wrapAction(
-  store: UnwrapNestedRefs<Store>,
-  name: string,
-  action: Method
-){
-  return function (){
-    const {
-      beforeList,
-      afterList,
-      onErrorList
-    } = getSubscribers(store.$id, name)
+function mergeState(target, newState){
+  if (target.toString().includes('Map')) {
+    newState.forEach((it, key) => target.set(key, it))
+  }
 
-    const args = Array.from(arguments)
-
-    if (beforeList) {
-      triggerSubs(beforeList, ...args)
-    }
-
-    let result
-
-    try {
-      result = action.call(store, ...args)
-    } catch (error) {
-      if (onErrorList) {
-        triggerSubs(onErrorList, error)
-      }
-
-      throw error
-    }
-
-    if (result instanceof Promise) {
-      return result
-        .then(res => {
-          if (afterList) {
-            triggerSubs(afterList, res)
-          }
-
-          return res
-        })
-        .catch(error => {
-          if (onErrorList) {
-            triggerSubs(onErrorList, error)
-          }
-
-          return Promise.reject(error)
-        })
-    }
-
-    if (afterList) {
-      triggerSubs(afterList, result)
-    }
-
-    return result
+  if (target.toString().includes('Object')) {
+    Object.keys(newState).forEach((key) => {
+      target[key] = newState[key]
+    })
   }
 }
 
@@ -157,11 +53,13 @@ function wrapAction(
 export function defineStore<
   Id extends string,
   S extends StateTree = {},
-  G extends GuardsTree<S> = {},
+  G extends GuardsTree = {},
   C extends ComputedTree = {},
   A extends ActionsTree = {},
-  E extends ExposesTree = ExposesTree
->(options: StoreOptions<Id, S, G, C, A, E>): StoreDefinition<Id, S, G, C, A>{
+  E extends ExposesTree = {}
+>(
+  options: StoreOptions<Id, S, G, C, A, E>
+): StoreDefinition<Id, S, G, C, A, E>{
   const {
     id,
     state,
@@ -173,16 +71,236 @@ export function defineStore<
 
   const _root = getRoot()
 
-  let initialState = state?.() || {}
+  const { assign } = Object
 
+  /**
+   * @param {string} storeId - store id
+   * @param {object} state - state map
+   * @param {object} guards - guards map
+   * @returns {proxy} proxy with guarded state
+   */
+  function addStateGuards<S extends StateTree,
+    G extends GuardsTree>(storeId: string, state: S, guards: G){
+    return new Proxy(state, {
+      get(target, prop, receiver){
+        return Reflect.get(target, prop, receiver)
+      },
+      set(target: any, prop: string, value: unknown, receiver){
+        let result = { next: true, value } as ReturnType<GuardMethod>
+        const { stringify } = JSON
+
+        if (guards[prop]) {
+          /**
+           * check guards map type
+           */
+          if (Array.isArray(guards[prop])) {
+            for (const fn of guards[prop]!) {
+
+              const ret = fn(result.value)
+
+              result.next = ret.next
+              value = ret.value || value
+              result.value = value
+
+              if (!result.next) {
+                logWarning(
+                  `{guards}: ${ stringify(value) } is invalid value for the`,
+                  `${ stringify(prop) as string } of the ${ stringify(storeId) } store state`
+                )
+
+                break
+              }
+            }
+          } else {
+            logError(
+              `{guards}: wrong type of guards map in the "${ storeId }" store.`,
+              `Guards should be an array of functions.`
+            )
+          }
+        }
+
+        if (result.next) {
+          return Reflect.set(target, prop, result.value, receiver)
+        }
+
+        return true
+      }
+    })
+  }
+
+  const subscriptionsBefore = {}
+  const subscriptionsAfter = {}
+  const onErrorSubscriptions = {}
+
+  /**
+   * @param {object} options - options for subscribing
+   * @returns {Unsubscribe} - unsubscribe function
+   */
+  function $subscribe(options: SubscribeOptions<A>): Unsubscribe{
+    const { name, before, after, onError } = options
+    const subId = `${ this.$id }/${ name as string }`
+
+    if (before && !subscriptionsBefore[subId]) {
+      subscriptionsBefore[subId] = []
+    }
+
+    if (after && !subscriptionsAfter[subId]) {
+      subscriptionsAfter[subId] = []
+    }
+
+    if (onError && !onErrorSubscriptions[subId]) {
+      onErrorSubscriptions[subId] = []
+    }
+
+    let bInd, aInd, oInd
+
+    before && (bInd = subscriptionsBefore[subId].push(before) - 1)
+    after && (aInd = subscriptionsAfter[subId].push(after) - 1)
+    onError && (oInd = onErrorSubscriptions[subId].push(onError) - 1)
+
+    function unsubscribe(): Promise<boolean>{
+      return new Promise((resolve) => {
+        subscriptionsBefore[subId]?.splice(bInd, 1)
+        subscriptionsAfter[subId]?.splice(aInd, 1)
+        onErrorSubscriptions[subId]?.splice(oInd, 1)
+
+        resolve(true)
+      })
+    }
+
+    if (options.detached && getCurrentInstance()) {
+      onUnmounted(unsubscribe)
+    }
+
+    return unsubscribe
+  }
+
+  /***
+   * @param {array} subscribers - array of subscribers
+   * @param {array} args - arguments for subscriber callback function
+   */
+  function triggerSubs(subscribers, ...args: any[]){
+    subscribers.slice().forEach(fn => fn(...args))
+  }
+
+  /***
+   * @param {string} storeId
+   * @param {string} name
+   * @return {ExistingSubscribers}
+   */
+  function getSubscribers(storeId: string, name: string): ExistingSubscribers{
+    return {
+      beforeList: subscriptionsBefore[`${ storeId }/${ name }`],
+      afterList: subscriptionsAfter[`${ storeId }/${ name }`],
+      onErrorList: onErrorSubscriptions[`${ storeId }/${ name }`]
+    }
+  }
+
+  /***
+   * @param {object} store - current store instance
+   * @param {string} name - name of action
+   * @param {function} action - action to wrap
+   * @returns {function} a wrapped action to handle subscriptions
+   */
+  function wrapAction(
+    store: UnwrapNestedRefs<Store<Id, S, G, C, A, E>>,
+    name: string,
+    action: Method
+  ){
+    return function (){
+      const {
+        beforeList,
+        afterList,
+        onErrorList
+      } = getSubscribers(store.$id, name)
+
+      const args = Array.from(arguments)
+
+      if (beforeList) {
+        triggerSubs(beforeList, ...args)
+      }
+
+      let result
+
+      try {
+        result = action.call(store, ...args)
+      } catch (error) {
+        if (onErrorList) {
+          triggerSubs(onErrorList, error)
+        }
+
+        throw error
+      }
+
+      if (result instanceof Promise) {
+        return result
+          .then(res => {
+            if (afterList) {
+              triggerSubs(afterList, res)
+            }
+
+            return res
+          })
+          .catch(error => {
+            if (onErrorList) {
+              triggerSubs(onErrorList, error)
+            }
+
+            return Promise.reject(error)
+          })
+      }
+
+      if (afterList) {
+        triggerSubs(afterList, result)
+      }
+
+      return result
+    }
+  }
+
+  /***
+   * @param {(state: UnwrapRef<S>) => (void | Partial<UnwrapRef<S>>)} mutator
+   */
+  function $patch(mutator: (state: UnwrapRef<S>) => void | Partial<UnwrapRef<S>>){
+    if (typeof mutator === 'function') {
+      mutator(this.$state)
+    } else if (typeof mutator === 'object') {
+      mergeState(this.$state, mutator)
+    }
+  }
+
+  /***
+   * @param {E} exposes
+   */
+  function $expose(exposes: E){
+    if (this._exposed[this.$id]) {
+      return
+    }
+
+    const root = getRoot()
+    root._exposed[this.$id] = {}
+
+    for (const key in exposes) {
+      if (this.hasOwnProperty(key) && exposes[key]) {
+        if (typeof this[key] === 'function') {
+          root._exposed[this.$id][key] = (...args) => {
+            this[key].call(this, ...args)
+          }
+        } else {
+          root._exposed[this.$id][key] = computed(() => this[key])
+        }
+      }
+    }
+  }
+
+  const initialState = state?.() || {}
   const guardedState = guards ? addStateGuards<S, G>(id, initialState as S, guards) : null
   const stateRef = ref(guardedState || initialState)
 
-  const { assign } = Object
   /**
    * defining store properties
    */
-  const _storeProperties = {} as _StoreWithProperties<Id, S, G, E>
+  const _storeProperties = {} as _StoreWithProperties<Id, S, G, C, A, E>
 
   _storeProperties.$id = id
   _storeProperties.$patch = $patch
@@ -220,20 +338,22 @@ export function defineStore<
    */
   const store = reactive(assign(
     _storeProperties,
-    toRefs(stateRef.value),
+    toRefs(stateRef.value) as any,
     actions,
     Object.keys($computed || {}).reduce((mods, key) => {
       mods[key] = markRaw(computed(() => $computed![key].call(store, store.$state)))
       return mods
     }, {})
-  )) as UnwrapNestedRefs<Store>
+  )) as UnwrapNestedRefs<Store<Id, S, G, C, A, E>>
   /**
    * wrapping the actions to handle subscribers
    */
-  actions && Object.keys(actions).forEach(name => {
-    const action = store[name]
-    store[name] = wrapAction(store, name, action)
-  })
+  if (actions) {
+    Object.keys(actions).forEach(name => {
+      const action = store[name];
+      (store as any)[name] = wrapAction(store, name, action)
+    })
+  }
 
   if (expose) {
     $expose.call(store, expose)
@@ -243,5 +363,5 @@ export function defineStore<
 
   useStore.$id = store.$id
 
-  return useStore as StoreDefinition<Id, S, G, C, A>
+  return useStore as StoreDefinition<Id, S, G, C, A, E>
 }

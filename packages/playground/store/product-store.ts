@@ -3,7 +3,7 @@ import { defineStore } from '../../nervue/src'
 export const PRODUCT = 'PRODUCT'
 
 export const useProductStore = defineStore({
-  id: PRODUCT,
+  id: 'PRODUCT',
 
   state: () => ({
     items: null
@@ -46,3 +46,6 @@ export const useProductStore = defineStore({
     items: true
   }
 })
+
+const store = useProductStore()
+store.

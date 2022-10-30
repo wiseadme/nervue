@@ -1,5 +1,4 @@
-import { Plugin, DefineComponent, ComputedRef } from 'vue-demi'
-import { SubscribeOptions, Unsubscribe } from './subscriptions'
+import { Plugin, DefineComponent, ComputedRef, UnwrapRef, UnwrapNestedRefs } from 'vue-demi'
 import { Root } from './createNervue'
 
 export type Method = (...args: any[]) => any
@@ -14,9 +13,7 @@ export type ActionsTree = Record<string, Method>
 
 export type ExposesTree = Record<string, boolean>
 
-export type GuardsTree<S extends StateTree = StateTree> = {
-  [k in keyof S]?: GuardMethod[]
-}
+export type GuardsTree = Record<string, GuardMethod[]>
 
 export type State<S> = {
   [k in keyof S]: S[k]
@@ -29,32 +26,32 @@ export type Actions<A> = {
 }
 
 export type Computed<C> = {
-  [k in keyof C]: M[k] extends () => infer R
-    ? ComputedRef<R>
+  [k in keyof C]: C[k] extends (...args: any) => infer R
+    ? R
     : never
 }
 
-export type Guards<G> = {
-  [k in keyof G]: G[k] extends [ (val: infer P) => { value?: infer V, next: boolean } ]
-    ? [ (val: P) => { value?: V, next: boolean } ]
+export type Guards<G, S> = {
+  [k in keyof S]: G[k] extends ((val: infer P) => { value?: infer V, next: boolean })[]
+    ? ((val: P) => { value?: V, next: boolean })[]
     : never
 }
 
-export type _StoreWithProperties<Id extends string, S, C, G, E = ExposesTree> = {
+export type _StoreWithProperties<Id extends string, S, G, C, A, E> = {
   $id: Id
-  $patch: (fn: (state: StateTree) => void) => void
-  $subscribe: (subscribeOptions: SubscribeOptions) => Unsubscribe
-  $state: StateTree
-  $expose: (exposes: ExposesTree) => void
-  $guards: Guards<G>,
+  $patch: (mutator: (state: UnwrapRef<S>) => void | Partial<UnwrapRef<S>>) => void
+  $subscribe: (subscribeOptions: SubscribeOptions<A>) => Unsubscribe
+  $state: S
+  $expose: (exposes: E) => void
+  $guards: Guards<G, S>,
   $computed: [keyof C],
-  _exposed: Record<Id, Root['_exposed']>
+  _exposed: Record<Id extends string ? Id : string, Root['_exposed']>
 }
 
 export interface StoreOptions<
   Id extends string = string,
   S extends StateTree = {},
-  G extends GuardsTree<S> = {},
+  G extends GuardsTree = {},
   C extends ComputedTree = {},
   A /*extends ActionsTree*/ = {},
   E extends ExposesTree = {}> {
@@ -69,24 +66,26 @@ export interface StoreOptions<
 export type Store<
   Id extends string = string,
   S extends StateTree = {},
-  G extends GuardsTree<S> = {},
+  G extends GuardsTree = {},
   C extends ComputedTree = {},
   A /*extends ActionsTree*/ = {},
-  > = _StoreWithProperties<Id, S, G>
+  E extends ExposesTree = {},
+  > =
+  _StoreWithProperties<Id, S, G, C, A, E>
   & State<S>
-  & Guards<G>
   & Computed<C>
   & Actions<A>
+
 
 export interface StoreDefinition<
   Id extends string,
   S extends StateTree = {},
-  G extends GuardsTree<S> = {},
+  G extends GuardsTree = {},
   C extends ComputedTree = {},
   A /*extends ActionsTree*/ = {},
   E extends ExposesTree = {}
   > {
-  (): Store<Id, S, G, C, A>
+  (): Store<Id, S, G, C, A, E>
 
   $id: Id
 }
@@ -94,7 +93,7 @@ export interface StoreDefinition<
 export declare function defineStore<
   Id extends string,
   S extends StateTree = {},
-  G extends GuardsTree<S> = {},
+  G extends GuardsTree = {},
   C extends ComputedTree = {},
   A /*extends ActionsTree*/ = {},
   E extends ExposesTree = {}
@@ -104,10 +103,11 @@ export type NervuePlugin = {
   add<
     Id extends string,
     S extends StateTree = {},
-    G extends GuardsTree<S> = {},
+    G extends GuardsTree = {},
     C extends ComputedTree = {},
-    A /*extends ActionsTree*/ = {}
-  >(useStore: () => Store<Id, S, G, C, A>): void
+    A /*extends ActionsTree*/ = {},
+    E extends ExposesTree = {}
+    >(useStore: () => Store<Id, S, G, C, A, E>): void
 } & Plugin
 
 export declare function createNervue(): NervuePlugin
@@ -115,17 +115,19 @@ export declare function createNervue(): NervuePlugin
 export declare function useNervue<
   Id extends string,
   S extends StateTree = {},
-  G extends GuardsTree<S> = {},
+  G extends GuardsTree = {},
   C extends ComputedTree = {},
-  A /*extends ActionsTree*/ = {}
->(id?: Id): Store<Id, S, G, A> | unknown
+  A /*extends ActionsTree*/ = {},
+  E extends ExposesTree = {}
+  >(id?: Id): Store<Id, S, G, C, A, E> | unknown
 
 export declare function mapActions<
   Id extends string,
   S extends StateTree = {},
-  G extends GuardsTree<S> = {},
+  G extends GuardsTree = {},
   C extends ComputedTree = {},
-  A /*extends ActionsTree*/ = {}>
+  A /*extends ActionsTree*/ = {},
+  >
 (
   useStore: StoreDefinition<Id, S, G, C, A>,
   mapOrKeys?: [ keyof A ] | { [p: string]: keyof A }
@@ -134,12 +136,30 @@ export declare function mapActions<
 export declare function mapState<
   Id extends string,
   S extends StateTree = {},
-  G extends GuardsTree<S> = {},
+  G extends GuardsTree = {},
   C extends ComputedTree = {},
-  A /*extends ActionsTree*/ = {}>
+  A /*extends ActionsTree*/ = {},
+  E extends ExposesTree = {}
+  >
 (
-  useStore: StoreDefinition<Id, S, G, C, A>,
+  useStore: StoreDefinition<Id, S, G, C, A, E>,
   mapOrKeys?: [ keyof S ] | { [key: string]: Method | keyof S }
 ): StateTree
 
-export declare const VNervue: DefineComponent<{store: string | StoreDefinition}, any, any>
+export type SubscribeOptions<A> = {
+  name: keyof A
+  detached?: boolean
+  before?(...args: any[]): any
+  after?(...result: any[]): any
+  onError?(error: any): any
+}
+
+export type ExistingSubscribers = {
+  beforeList: ((...args: any) => any)[]
+  afterList: ((res: any) => any)[]
+  onErrorList: ((error: unknown) => unknown)[]
+}
+
+export type Unsubscribe = () => Promise<boolean>
+
+export declare const VNervue: DefineComponent<{store: string | StoreDefinition<string>}, any, any>

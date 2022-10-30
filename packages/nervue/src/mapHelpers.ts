@@ -14,7 +14,7 @@ import {
 export function mapActions<
   Id extends string,
   S extends StateTree,
-  G extends GuardsTree<S>,
+  G extends GuardsTree,
   C extends ComputedTree,
   A extends ActionsTree
 >(
@@ -61,7 +61,7 @@ export function mapActions<
 export function mapState<
   Id extends string,
   S extends StateTree,
-  G extends GuardsTree<S>,
+  G extends GuardsTree,
   C extends ComputedTree,
   A extends ActionsTree
 >(

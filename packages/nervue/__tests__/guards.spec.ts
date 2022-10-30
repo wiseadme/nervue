@@ -53,7 +53,7 @@ describe('Guards', () => {
   test('test updated data for the next guard', () => {
     const stub = jest.fn((...args) => ({ next: true, value: args }))
 
-    useStore().$guards.age.push(stub)
+    useStore().$guards.age.push(stub as any)
     useStore().setAge(21)
 
     expect(stub).toBeCalledWith(42)

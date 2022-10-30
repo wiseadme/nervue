@@ -1,5 +1,5 @@
 import { App, UnwrapNestedRefs, reactive } from 'vue-demi'
-import { ActionsTree, GuardsTree, StateTree, Store } from './types'
+import { Store } from './types'
 import { logWarning } from './helpers'
 import { root, ROOT_SYMBOL, Root } from './root'
 
@@ -24,12 +24,7 @@ export function getRoot (): UnwrapNestedRefs<Root> {
   return reactive(root.value)
 }
 
-export function useNervue<
-  Id extends string,
-  S extends StateTree = {},
-  G extends GuardsTree<S> = {},
-  A extends ActionsTree = {}
->(id?: Id): Store<Id, S, G, A> | Record<string, Store<Id, S, G, A>> | void{
+export function useNervue(id?: string): Store | Record<string, Store> | void{
   const storeKey = id?.toString() || id
 
   if (id && !root.value._stores[id]) {
@@ -37,6 +32,6 @@ export function useNervue<
   }
 
   return id ?
-    root.value._stores[id] as Store<Id, S, G, A> :
-    root.value._stores as Record<string, Store<Id, S, G, A>>
+    root.value._stores[id] as Store :
+    root.value._stores as Record<string, Store>
 }
