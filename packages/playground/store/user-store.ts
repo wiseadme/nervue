@@ -31,8 +31,11 @@ export const useUserStore = defineStore({
 
   actions: {
     async setName(name: string): Promise<any>{
-      this.$patch({ name })
-      await new Promise(res => setTimeout(res, 2000))
+
+      await new Promise(res => setTimeout(() => {
+        this.$patch({ name })
+        res(true)
+      }, 2000))
       return name
     },
 
@@ -53,6 +56,7 @@ const store = useUserStore()
 
 store.$subscribe({
   name: 'setAge',
+  detached: true,
   before(){
     console.log('set age')
   }

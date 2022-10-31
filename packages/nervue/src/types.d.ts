@@ -91,7 +91,7 @@ export interface StoreDefinition<
 }
 
 export type SubscribeOptions<A> = {
-  name: keyof A
+  name: keyof A & string
   detached?: boolean
   before?(...args: any[]): any
   after?(...result: any[]): any

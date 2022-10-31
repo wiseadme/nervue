@@ -31,16 +31,16 @@ import {
 
 /***
  * @param target - state of store
- * @param patch - updates to merge
+ * @param patch - object to merge
  */
 function merge(target, patch){
-  if (typeOf(target) === 'Map') {
+  if (typeOf(target) === 'map') {
     patch.forEach((it, key) => target.set(key, it))
   }
 
   for (const key in patch) {
     if (
-      typeOf(patch[key]) === 'Object'
+      typeOf(patch[key]) === 'object'
       && patch.hasOwnProperty(key)
     ) {
       target[key] = merge(target[key], patch[key])
@@ -56,7 +56,8 @@ function merge(target, patch){
  * @param {object} options - store definition object
  * @returns {Store} store instance
  */
-export function defineStore<Id extends string,
+export function defineStore<
+  Id extends string,
   S extends StateTree = {},
   G extends GuardsTree = {},
   C extends ComputedTree = {},
@@ -80,9 +81,9 @@ export function defineStore<Id extends string,
 
   /***
    * @param {string} storeId - store id
-   * @param {object} state - state map
-   * @param {object} guards - guards map
-   * @returns {proxy} proxy with guarded state
+   * @param {object} state - state to wrap
+   * @param {object} guards - guards to protect the state
+   * @returns {proxy} wrapped state
    */
   function addStateGuards<
     S extends StateTree,
@@ -140,9 +141,9 @@ export function defineStore<Id extends string,
     })
   }
 
-  const subscriptionsBefore = {}
-  const subscriptionsAfter = {}
-  const onErrorSubscriptions = {}
+  const subscriptionsBefore: Record<string, Method[]> = {}
+  const subscriptionsAfter: Record<string, Method[]> = {}
+  const subscriptionsOnError: Record<string, Method[]> = {}
 
   /**
    * @param {object} options - options for subscribing
@@ -150,31 +151,30 @@ export function defineStore<Id extends string,
    */
   function $subscribe(options: SubscribeOptions<A>): Unsubscribe{
     const { name, before, after, onError } = options
-    const subId = `${ this.$id }/${ name as string }`
 
-    if (before && !subscriptionsBefore[subId]) {
-      subscriptionsBefore[subId] = []
+    if (before && !subscriptionsBefore[name]) {
+      subscriptionsBefore[name] = []
     }
 
-    if (after && !subscriptionsAfter[subId]) {
-      subscriptionsAfter[subId] = []
+    if (after && !subscriptionsAfter[name]) {
+      subscriptionsAfter[name] = []
     }
 
-    if (onError && !onErrorSubscriptions[subId]) {
-      onErrorSubscriptions[subId] = []
+    if (onError && !subscriptionsOnError[name]) {
+      subscriptionsOnError[name] = []
     }
 
     let bInd, aInd, oInd
 
-    before && (bInd = subscriptionsBefore[subId].push(before) - 1)
-    after && (aInd = subscriptionsAfter[subId].push(after) - 1)
-    onError && (oInd = onErrorSubscriptions[subId].push(onError) - 1)
+    before && (bInd = subscriptionsBefore[name].push(before) - 1)
+    after && (aInd = subscriptionsAfter[name].push(after) - 1)
+    onError && (oInd = subscriptionsOnError[name].push(onError) - 1)
 
     function unsubscribe(): Promise<boolean>{
       return new Promise((resolve) => {
-        subscriptionsBefore[subId]?.splice(bInd, 1)
-        subscriptionsAfter[subId]?.splice(aInd, 1)
-        onErrorSubscriptions[subId]?.splice(oInd, 1)
+        subscriptionsBefore[name]?.splice(bInd, 1)
+        subscriptionsAfter[name]?.splice(aInd, 1)
+        subscriptionsOnError[name]?.splice(oInd, 1)
 
         resolve(true)
       })
@@ -196,15 +196,14 @@ export function defineStore<Id extends string,
   }
 
   /***
-   * @param storeId - store id
-   * @param name - name of action
+   * @param name {string} - name of action
    * @returns {object} object of existing subscribers
    */
-  function getSubscribers(storeId: string, name: string): ExistingSubscribers{
+  function getSubscribers(name: string): ExistingSubscribers{
     return {
-      beforeList: subscriptionsBefore[`${ storeId }/${ name }`],
-      afterList: subscriptionsAfter[`${ storeId }/${ name }`],
-      onErrorList: onErrorSubscriptions[`${ storeId }/${ name }`]
+      beforeList: subscriptionsBefore[name],
+      afterList: subscriptionsAfter[name],
+      onErrorList: subscriptionsOnError[name]
     }
   }
 
@@ -224,7 +223,7 @@ export function defineStore<Id extends string,
         beforeList,
         afterList,
         onErrorList
-      } = getSubscribers(store.$id, name)
+      } = getSubscribers(name)
 
       const args = Array.from(arguments)
 
