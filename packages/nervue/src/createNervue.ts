@@ -1,9 +1,15 @@
-import { App, UnwrapNestedRefs, reactive } from 'vue-demi'
-import { Store } from './types'
+import {
+  App,
+  UnwrapNestedRefs,
+  reactive,
+  isVue2,
+  Vue2,
+} from 'vue-demi'
+import { NervuePlugin, Store } from './types'
 import { logWarning } from './helpers'
 import { root, ROOT_SYMBOL, Root } from './root'
 
-export function createNervue(){
+export function createNervue(): NervuePlugin{
   return {
     install: (app: App) => {
       if (root.value.isInstalled) {
@@ -11,16 +17,21 @@ export function createNervue(){
       }
 
       root.value.isInstalled = true
-      app.provide(ROOT_SYMBOL, root)
+
+      if (isVue2) {
+        Vue2.prototype.$nervue = getRoot()
+      } else {
+        app.provide(ROOT_SYMBOL, root)
+      }
     },
 
     add: (useStore) => {
-      root.value._stores[useStore.$id] = useStore()
+      root.value._stores[useStore.$id] = useStore() as Store
     }
   }
 }
 
-export function getRoot (): UnwrapNestedRefs<Root> {
+export function getRoot(): UnwrapNestedRefs<Root>{
   return reactive(root.value)
 }
 

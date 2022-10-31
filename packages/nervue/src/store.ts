@@ -21,7 +21,6 @@ import {
   Store,
   Method,
   ExposesTree,
-  GuardMethod,
   ComputedTree,
   SubscribeOptions,
   Unsubscribe,
@@ -56,14 +55,12 @@ function merge(target, patch){
  * @param {object} options - store definition object
  * @returns {Store} store instance
  */
-export function defineStore<
-  Id extends string,
+export function defineStore<Id extends string,
   S extends StateTree = {},
   G extends GuardsTree = {},
   C extends ComputedTree = {},
   A extends ActionsTree = {},
-  E extends ExposesTree = {}
->(
+  E extends ExposesTree = {}>(
   options: StoreOptions<Id, S, G, C, A, E>
 ): StoreDefinition<Id, S, G, C, A, E>{
   const {
@@ -85,59 +82,64 @@ export function defineStore<
    * @param {object} guards - guards to protect the state
    * @returns {proxy} wrapped state
    */
-  function addStateGuards<
-    S extends StateTree,
-    G extends GuardsTree
-  >(
+  function wrapState(
     storeId: Id,
     state: S,
     guards: G
   ){
-    return new Proxy(state, {
-      get(target, prop, receiver){
-        return Reflect.get(target, prop, receiver)
-      },
-      set(target, prop, value, receiver){
-        let result = { next: true, value } as ReturnType<GuardMethod>
 
-        const { stringify } = JSON
+    function stateGetter(target, prop, receiver){
+      return Reflect.get(target, prop, receiver)
+    }
 
-        if (guards[prop as string]) {
-          /**
-           * check guards map type
-           */
-          if (Array.isArray(guards[prop as string])) {
+    type GuardReturnType = { next: boolean, value?: any }
 
-            for (const fn of guards[prop as string]!) {
-              const ret = fn(result.value)
+    function stateSetter(target, prop, value, receiver){
+      let result = { next: false, value } as GuardReturnType
 
-              result.next = ret.next
-              value = ret.value || value
-              result.value = value
+      const { stringify } = JSON
 
-              if (!result.next) {
-                logWarning(
-                  `{guards}: ${ stringify(value) } is invalid value for the`,
-                  `${ stringify(prop) as string } of the ${ stringify(storeId) } store state`
-                )
+      if (guards[prop]) {
+        /**
+         * check guards map type
+         */
+        if (Array.isArray(guards[prop])) {
 
-                break
-              }
+          for (const fn of guards[prop]!) {
+            const ret = fn(result.value)
+
+            result.next = ret.next
+            value = ret.value || value
+            result.value = value
+
+            if (!result.next) {
+              logWarning(
+                `{guards}: ${ stringify(value) } is invalid value for the`,
+                `${ stringify(prop) } of the ${ stringify(storeId) } store state`
+              )
+
+              break
             }
-          } else {
-            logError(
-              `{guards}: wrong type of guards map in the "${ storeId }" store.`,
-              `Guards should be an array of functions.`
-            )
           }
+        } else {
+          logError(
+            `{guards}: wrong type of guards map in the "${ storeId }" store.`,
+            `Guards should be an array of functions.`
+          )
         }
-
-        if (result.next) {
-          return Reflect.set(target, prop, result.value, receiver)
-        }
-
-        return true
       }
+
+      if (result.next) {
+        return Reflect.set(target, prop, result.value, receiver)
+      }
+
+      return true
+    }
+
+
+    return new Proxy(state, {
+      get: stateGetter,
+      set: stateSetter
     })
   }
 
@@ -305,7 +307,7 @@ export function defineStore<
   }
 
   const initialState = state?.() || {}
-  const guardedState = guards ? addStateGuards<S, G>(id, initialState as S, guards) : null
+  const guardedState = guards ? wrapState(id, initialState as S, guards as G) : null
   const stateRef = ref(guardedState || initialState)
 
   /**

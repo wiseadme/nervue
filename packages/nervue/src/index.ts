@@ -9,7 +9,6 @@ export type {
   _StoreWithProperties,
   State,
   Actions,
-  Guards,
   Computed,
   StateTree,
   ComputedTree,
