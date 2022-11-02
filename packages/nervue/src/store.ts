@@ -13,20 +13,20 @@ import { getRoot } from './createNervue'
 import { logWarning, logError, typeOf } from './helpers'
 // Types
 import {
-  ActionsTree,
-  GuardsTree,
   StateTree,
+  // GuardsTree,
+  ExposesTree,
+  ComputedTree,
   StoreDefinition,
   StoreOptions,
   Store,
   Method,
-  ExposesTree,
-  ComputedTree,
   SubscribeOptions,
   Unsubscribe,
   ExistingSubscribers,
   _StoreWithProperties,
 } from './types'
+import { ComputedRef } from 'vue'
 
 /***
  * @param target - state of store
@@ -52,14 +52,15 @@ function merge(target, patch){
 }
 
 /**
- * @param {object} options - store definition object
- * @returns {Store} store instance
+ * @param {StoreOptions} options - store definition options object
+ * @returns {StoreDefinition} useStore function
  */
-export function defineStore<Id extends string,
+export function defineStore<
+  Id extends string,
   S extends StateTree = {},
-  G extends GuardsTree = {},
-  C extends ComputedTree = {},
-  A extends ActionsTree = {},
+  G /*extends GuardsTree*/ = {},
+  C extends ComputedTree<S> = {},
+  A /*extends ActionsTree*/ = {},
   E extends ExposesTree = {}>(
   options: StoreOptions<Id, S, G, C, A, E>
 ): StoreDefinition<Id, S, G, C, A, E>{
@@ -296,11 +297,11 @@ export function defineStore<Id extends string,
     for (const key in exposes) {
       if (this.hasOwnProperty(key) && exposes[key]) {
         if (typeof this[key] === 'function') {
-          root._exposed[this.$id][key] = (...args) => {
+          (root._exposed[this.$id][key] as Method) = (...args) => {
             this[key].call(this, ...args)
           }
         } else {
-          root._exposed[this.$id][key] = computed(() => this[key])
+          (root._exposed[this.$id][key] as ComputedRef) = computed(() => this[key])
         }
       }
     }
@@ -313,6 +314,7 @@ export function defineStore<Id extends string,
   /**
    * defining store properties
    */
+
   const _storeProperties = {} as _StoreWithProperties<Id, S, G, C, A, E>
 
   _storeProperties.$id = id
@@ -354,6 +356,7 @@ export function defineStore<Id extends string,
     toRefs(stateRef.value) as any,
     actions,
     Object.keys($computed || {}).reduce((mods, key) => {
+      // @ts-ignore
       mods[key] = markRaw(computed(() => $computed![key].call(store, store.$state)))
       return mods
     }, {})
@@ -376,5 +379,5 @@ export function defineStore<Id extends string,
 
   useStore.$id = store.$id
 
-  return useStore
+  return useStore as StoreDefinition<Id, S, G, C, A, E>
 }

@@ -1,4 +1,4 @@
-import { defineStore } from '../../nervue/src'
+import { defineStore } from '../../nervue/dist/nervue.mjs'
 
 export const useUserStore = defineStore({
   id: 'USER',

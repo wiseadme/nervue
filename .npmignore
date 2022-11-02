@@ -1,16 +1,15 @@
 packages
 scripts
+dist
 
 .github
 .git
 .idea
-.github
 .gitignore
 .husky
 .babelrc
 .browserslistrc
 .editorconfig
 .eslintrc
-jest.config.js
 tsconfig.json
 package-lock.json

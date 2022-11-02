@@ -1,6 +1,6 @@
 src
 node_modules
 __tests__
-tsconfig.json
+api-extractor.json
 jest.config.js
 .babelrc

@@ -24,14 +24,8 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "declarationDir": "packages/nervue/dist/types",
-    "composite": true,
+    "declaration": false,
     "skipLibCheck": true,
-    "plugins": [
-      {
-        "afterDeclarations": true
-      }
-    ],
     "typeRoots": [],
     "types": [
       "@vue/compiler-sfc/dist/compiler-sfc",

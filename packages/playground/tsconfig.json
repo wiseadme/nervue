@@ -1,8 +1,0 @@
-{
-  "extends": "../../tsconfig.json",
-  "include": [
-    "**/*.vue",
-    "**/*.ts",
-    "../nervue/src/**/*.ts",
-  ]
-}

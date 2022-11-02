@@ -1,4 +1,4 @@
-import { createNervue } from '../../nervue/src'
+import { createNervue } from '../../nervue/dist/nervue.mjs'
 import { useUserStore } from './user-store'
 
 export const store = createNervue()

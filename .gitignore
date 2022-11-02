@@ -1,6 +1,7 @@
 node_modules
 packages/nervue/node_modules
-#dist
+dist
 #dev
 .idea
+temp
 package-lock.json

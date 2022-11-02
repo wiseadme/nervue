@@ -1,15 +1,17 @@
 {
   "name": "nervue",
-  "version": "0.0.14",
-  "description": "Vue 3 composition and options API-compatible lightweight store library",
+  "version": "0.0.18",
+  "description": "Vue composition and options API-compatible lightweight store library",
   "sideEffects": false,
   "main": "dist/index.js",
-  "module": "dist/index.js",
-  "typings": "dist/types.d.ts",
+  "module": "dist/nervue.mjs",
+  "unpkg": "dist/nervue.iife.js",
+  "typings": "dist/nervue.d.ts",
   "scripts": {
     "test": "jest",
     "lint": "eslint '**/*.ts' --ignore-pattern node_modules/",
-    "lint:fix": "eslint '**/*.ts' --fix --ignore-pattern node_modules/"
+    "lint:fix": "eslint '**/*.ts' --fix --ignore-pattern node_modules/",
+    "build:dts": "api-extractor run --local --verbose"
   },
   "repository": {
     "type": "git",

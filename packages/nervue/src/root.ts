@@ -1,13 +1,15 @@
-import { ref, ComputedRef } from 'vue-demi'
-import { Method, Store } from './types'
+import { ref } from 'vue-demi'
+import { Store } from './types'
 
 export const ROOT_SYMBOL = Symbol.for('nervue')
 
-export interface Root{
-  isInstalled: boolean
-  _stores: Record<string, Store>,
-  _exposed: Record<string, Record<string, ComputedRef | Method>>
+/*TODO - need define compatible type for the exposed values*/
+export interface Root {
+  isInstalled: boolean;
+  _stores: Record<string, Store>;
+  _exposed: Record<string, /*Method | ComputedRef*/ any>;
 }
+
 
 export const root = ref<Root>({
   isInstalled: false,

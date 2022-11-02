@@ -15,7 +15,7 @@ export function mapActions<
   Id extends string,
   S extends StateTree,
   G extends GuardsTree,
-  C extends ComputedTree,
+  C extends ComputedTree<S>,
   A extends ActionsTree
 >(
   useStore: StoreDefinition<Id, S, G, C, A>,
@@ -62,7 +62,7 @@ export function mapState<
   Id extends string,
   S extends StateTree,
   G extends GuardsTree,
-  C extends ComputedTree,
+  C extends ComputedTree<S>,
   A extends ActionsTree
 >(
   useStore: StoreDefinition<Id, S, G, C, A>,
