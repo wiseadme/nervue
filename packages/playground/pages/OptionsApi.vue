@@ -29,6 +29,8 @@
       this.userStore = useUserStore()
       this.productStore = useProductStore()
 
+      console.log(this.productStore)
+
       this.userStore.$patch({name: 'Randevounier'})
 
       this.userStore.setName('gandsdklfjghsldfkjghsldkfjghsi')
@@ -42,7 +44,7 @@
       setTimeout(() => this.userStore.setName('Alexandr'), 2000)
       setTimeout(() => this.setName('Ron'), 4000)
 
-      this.userStore.$guards.name.push((val) => ({ next: !!val }))
+      this.userStore._guards.name.push((val) => ({ next: !!val }))
 
       console.log(this.userStore)
 
@@ -80,4 +82,5 @@
   <h2>{{ fullName(35) }}</h2>
   <button @click="setNewName">CHANGE NAME</button>
   <h2>{{ productStore.$exposed.USER.name }}</h2>
+  <h2>{{ $nervue.exposed.USER.name }}</h2>
 </template>

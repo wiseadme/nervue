@@ -40,7 +40,7 @@ describe('Guards', () => {
   })
 
   test('test data updating for mutation', () => {
-    useStore().$guards.age.push((val) => ({
+    useStore()._guards.age.push((val) => ({
       next: true,
       value: val * 2
     }))
@@ -52,7 +52,7 @@ describe('Guards', () => {
   test('test updated data for the next guard', () => {
     const stub = jest.fn((...args) => ({ next: true, value: args }))
 
-    useStore().$guards.age.push(stub as any)
+    useStore()._guards.age.push(stub as any)
     useStore().setAge(21)
 
     expect(stub).toBeCalledWith(42)

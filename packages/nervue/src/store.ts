@@ -297,20 +297,30 @@ export function defineStore<Id extends string,
     }
   })
 
-  Object.defineProperty(_storeProperties, '$guards', {
+  Object.defineProperty(_storeProperties, '_guards', {
     writable: false,
     configurable: true,
     value: guards || {}
   })
 
-  Object.defineProperty(_storeProperties, '$computed', {
+  Object.defineProperty(_storeProperties, '_computed', {
     writable: false,
     configurable: false,
     value: Object.keys($computed! || {})
   })
 
   Object.defineProperty(_storeProperties, '_expose', {
-    value: expose,
+    value: Object.keys(expose || {}).map(key => key),
+    writable: true,
+    configurable: true
+  })
+
+  /***
+   * this property will be redefined if
+   * the store is added to the root
+   */
+  Object.defineProperty(_storeProperties, '$exposed', {
+    value: {},
     writable: true,
     configurable: true
   })

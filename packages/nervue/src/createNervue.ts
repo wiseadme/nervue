@@ -1,9 +1,13 @@
 import {
+  App,
   UnwrapNestedRefs,
-  reactive,
-  unref,
-  ref,
   UnwrapRef,
+  Plugin,
+  Vue2,
+  isVue3,
+  reactive,
+  ref,
+  unref
 } from 'vue-demi'
 import {
   ComputedTree,
@@ -13,24 +17,53 @@ import {
   Store
 } from './types'
 import { logWarning } from './helpers'
-import { Nervue, Root } from './root'
+import { Nervue, nervueSymbol, Root } from './root'
 
 const root = ref<Root | null>(null)
 
+export function getRoot(): UnwrapNestedRefs<UnwrapRef<Root>> | null{
+  return unref(root) ? reactive(unref(root)!) : unref(root)
+}
+
 export function createNervue(): NervuePlugin{
-  if (!unref(root)) {
+  if (!getRoot()) {
     root.value = new Nervue()
+  }
+
+  if (isVue3) {
+    unref(root)!.constructor.prototype.install = vue3install()
+  } else {
+    unref(root)!.constructor.prototype.install = vue2Install()
   }
 
   return getRoot()!
 }
 
-export function getRoot(): UnwrapNestedRefs<UnwrapRef<Root>> | null{
-  if (unref(root)) {
-    return reactive(root.value!)
-  }
+function vue3install(): Plugin{
+  const nervue = getRoot() as Root
+  const { install } = nervue
 
-  return null
+  return function (app: App){
+    install.call(nervue)
+
+    app.config.globalProperties.$nervue = getRoot()
+    app.provide(nervueSymbol, getRoot())
+  }
+}
+
+function vue2Install(): Plugin{
+  const nervue = getRoot() as Root
+  const { install } = nervue
+
+  return function (Vue: typeof Vue2){
+    if (nervue!.installed) {
+      return
+    }
+    install.call(nervue)
+
+    nervue!.installed = true
+    Vue.prototype.$nervue = getRoot()
+  }
 }
 
 export function useNervue<Id extends string,

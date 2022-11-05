@@ -2,7 +2,7 @@ export { createNervue, useNervue } from './createNervue'
 export { defineStore } from './store'
 export { mapActions, mapState } from './mapHelpers'
 export { nervueSymbol } from './root'
-export { NervuePlugin } from './vuePlugin'
+
 export type {
   Store,
   StoreDefinition,

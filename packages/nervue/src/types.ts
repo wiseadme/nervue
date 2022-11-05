@@ -37,10 +37,10 @@ export type _StoreWithProperties<Id, S, G, C, A, E> = {
   $patch: (mutator: ((state: UnwrapRef<S>) => void) | Partial<UnwrapRef<S>>) => void
   $subscribe: (subscribeOptions: SubscribeOptions<A>) => Unsubscribe
   $state: S
-  $guards: G
-  $computed: [ keyof C ]
-  $exposed?: Record<Id extends string ? Id : string, Root['exposed']>
-  _expose: E
+  $exposed: Record<string, Root['exposed']>
+  _guards: G
+  _computed: [ keyof C ]
+  _expose: keyof E[]
 }
 
 export type _StateGuards<G extends GuardsTree, K extends string> = Pick<G, K>;
@@ -57,7 +57,7 @@ export interface StoreOptions<Id extends string = string,
   guards?: G extends GuardsTree ? keyof G extends S ? G : _StoreStateWithGuards<keyof S & string, G> : unknown
   computed?: C,
   actions?: A,
-  expose?: { [k in keyof Partial<S & A & C>]: E[k & string] & boolean }
+  expose?: { [k in keyof (S | C | A)]: E[k & string] }
 }
 
 export type Store<Id extends string = string,

@@ -1,11 +1,11 @@
-import { App, isVue2, ComputedRef, computed } from 'vue-demi'
-import { Store, Method } from './types'
+import { ComputedRef, computed } from 'vue-demi'
+import { Store, Method, StoreDefinition } from './types'
 
 export const nervueSymbol = Symbol.for('nervue')
 
 /*TODO - need define compatible type for the exposed values*/
 export interface Root {
-  isInstalled: boolean;
+  installed: boolean;
   stores: Record<string, Store>
   exposed: Record<string, any>
 
@@ -15,33 +15,50 @@ export interface Root {
 
   setExposes(store): void
 
-  install(app: App): void
+  install(): void
 }
 
 export class Nervue implements Root {
-  isInstalled: boolean = false
-  stores: Record<string, Store> = {}
-  exposed: Record<string, any> = {}
+  public installed: boolean = false
+  public stores: Record<string, Store> = {}
+  public exposed: Record<string, any> = {}
+
+  static queue: StoreDefinition[] = []
 
   set(useStore){
-    const store = useStore()
-
-    if (store._expose) {
-      this.setExposes(store)
+    if (!this.installed) {
+      Nervue.queue.push(useStore)
+      /***
+       * add microtask for dropping the queue
+       */
+      Promise.resolve().then(() => Nervue.queue = [])
     } else {
-      this.stores[store.$id] = store
-    }
+      const store = useStore()
 
-    Object.defineProperty(store, '$exposed', {
-      value: this.exposed,
-      writable: false,
-      configurable: false,
-      enumerable: false
-    })
+      if (store._expose) {
+        this.setExposes(store)
+      } else {
+        this.stores[store.$id] = store
+      }
+
+      Object.defineProperty(store, '$exposed', {
+        get: () => Object.keys(this.exposed).reduce((exp, key) => {
+          if (key !== store.$id) {
+            exp[key] = this.exposed[key]
+          }
+
+          return exp
+        }, {})
+      })
+    }
   }
 
   unset(id){
-    delete this.stores[id]
+    if (this.exposed[id]) {
+      delete this.exposed[id]
+    } else {
+      delete this.stores[id]
+    }
   }
 
   setExposes(store){
@@ -53,10 +70,10 @@ export class Nervue implements Root {
 
     this.exposed[$id] = {}
 
-    for (const key in _expose) {
+    for (const key of _expose) {
       if (typeof store[key] === 'function') {
-        (this.exposed[$id][key] as Method) = (...args) => {
-          store[key](...args)
+        (this.exposed[$id][key] as Method) = function (){
+          store[key](...arguments)
         }
       } else {
         (this.exposed[$id][key] as ComputedRef) = computed(() => store[key])
@@ -64,15 +81,15 @@ export class Nervue implements Root {
     }
   }
 
-  install(app: App){
-    if (!this.isInstalled) {
+  install(){
+    if (this.installed) {
       return
     }
 
-    this.isInstalled = true
+    this.installed = true
 
-    if (!isVue2) {
-      app.provide(nervueSymbol, this)
+    if (Nervue.queue.length) {
+      Nervue.queue.forEach(this.set.bind(this))
     }
   }
 }
