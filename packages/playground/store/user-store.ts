@@ -1,4 +1,4 @@
-import { defineStore } from '../../nervue/dist/nervue.mjs'
+import { defineStore } from '../../nervue/src'
 
 export const useUserStore = defineStore({
   id: 'USER',
@@ -14,7 +14,7 @@ export const useUserStore = defineStore({
       val => ({ next: val.length > 5 })
     ],
     age: [
-      val => ({ next: !!val })
+      val => ({ next: val >= 18 })
     ],
   },
 
@@ -39,8 +39,12 @@ export const useUserStore = defineStore({
       return name
     },
 
-    setAge(age){
-      this.$patch({ age })
+    setUser(user){
+      this.$patch(state => {
+        state.name = user.name
+        state.age = user.age
+        state.org = user.org
+      })
     }
   },
 
@@ -48,14 +52,13 @@ export const useUserStore = defineStore({
     name: true,
     fullName: true,
     setName: true,
-    setAge: true
   },
 })
 
 const store = useUserStore()
 
 store.$subscribe({
-  name: 'setAge',
+  name: 'setUser',
   detached: true,
   before(){
     console.log('set age')

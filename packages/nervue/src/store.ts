@@ -9,12 +9,10 @@ import {
   computed,
   UnwrapRef
 } from 'vue-demi'
-import { getRoot } from './createNervue'
 import { logWarning, logError, typeOf } from './helpers'
 // Types
 import {
   StateTree,
-  // GuardsTree,
   ExposesTree,
   ComputedTree,
   StoreDefinition,
@@ -26,7 +24,6 @@ import {
   ExistingSubscribers,
   _StoreWithProperties,
 } from './types'
-import { ComputedRef } from 'vue'
 
 /***
  * @param target - state of store
@@ -55,8 +52,7 @@ function merge(target, patch){
  * @param {StoreOptions} options - store definition options object
  * @returns {StoreDefinition} useStore function
  */
-export function defineStore<
-  Id extends string,
+export function defineStore<Id extends string,
   S extends StateTree = {},
   G /*extends GuardsTree*/ = {},
   C extends ComputedTree<S> = {},
@@ -72,8 +68,6 @@ export function defineStore<
     expose,
     computed: $computed
   } = options
-
-  const _root = getRoot()
 
   const { assign } = Object
 
@@ -283,30 +277,6 @@ export function defineStore<
     }
   }
 
-  /***
-   * @param {E} exposes
-   */
-  function $expose(exposes: E){
-    if (this._exposed[this.$id]) {
-      return
-    }
-
-    const root = getRoot()
-    root._exposed[this.$id] = {}
-
-    for (const key in exposes) {
-      if (this.hasOwnProperty(key) && exposes[key]) {
-        if (typeof this[key] === 'function') {
-          (root._exposed[this.$id][key] as Method) = (...args) => {
-            this[key].call(this, ...args)
-          }
-        } else {
-          (root._exposed[this.$id][key] as ComputedRef) = computed(() => this[key])
-        }
-      }
-    }
-  }
-
   const initialState = state?.() || {}
   const guardedState = guards ? wrapState(id, initialState as S, guards as G) : null
   const stateRef = ref(guardedState || initialState)
@@ -314,12 +284,10 @@ export function defineStore<
   /**
    * defining store properties
    */
-
   const _storeProperties = {} as _StoreWithProperties<Id, S, G, C, A, E>
 
   _storeProperties.$id = id
   _storeProperties.$patch = $patch
-  _storeProperties.$expose = $expose
   _storeProperties.$subscribe = $subscribe
 
   Object.defineProperty(_storeProperties, '$state', {
@@ -341,10 +309,10 @@ export function defineStore<
     value: Object.keys($computed! || {})
   })
 
-  Object.defineProperty(_storeProperties, '_exposed', {
-    value: _root._exposed,
-    writable: false,
-    configurable: false
+  Object.defineProperty(_storeProperties, '_expose', {
+    value: expose,
+    writable: true,
+    configurable: true
   })
 
   /**
@@ -369,10 +337,6 @@ export function defineStore<
       const action = store[name];
       (store as any)[name] = wrapAction(store, name, action)
     })
-  }
-
-  if (expose) {
-    $expose.call(store, expose)
   }
 
   const useStore = () => store

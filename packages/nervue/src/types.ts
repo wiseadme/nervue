@@ -1,4 +1,4 @@
-import { Plugin, UnwrapRef, UnwrapNestedRefs, App } from 'vue-demi'
+import { Plugin, UnwrapRef, UnwrapNestedRefs } from 'vue-demi'
 import { Root } from './root'
 import { ComputedRef } from 'vue'
 
@@ -37,10 +37,10 @@ export type _StoreWithProperties<Id, S, G, C, A, E> = {
   $patch: (mutator: ((state: UnwrapRef<S>) => void) | Partial<UnwrapRef<S>>) => void
   $subscribe: (subscribeOptions: SubscribeOptions<A>) => Unsubscribe
   $state: S
-  $expose: (exposes: E) => void
-  $guards: G,
-  $computed: [ keyof C ],
-  _exposed: Record<Id extends string ? Id : string, Root['_exposed']>
+  $guards: G
+  $computed: [ keyof C ]
+  $exposed?: Record<Id extends string ? Id : string, Root['_exposed']>
+  _expose: E
 }
 
 export type _StateGuards<G extends GuardsTree, K extends string> = Pick<G, K>;
@@ -63,7 +63,7 @@ export interface StoreOptions<Id extends string = string,
 export type Store<Id extends string = string,
   S extends StateTree = {},
   G /*extends GuardsTree*/ = GuardsTree,
-  C extends ComputedTree<S> = {},
+  C /*extends ComputedTree<S>*/ = {},
   A /*extends ActionsTree*/ = {},
   E extends ExposesTree = {},
   > = UnwrapNestedRefs<_StoreWithProperties<Id, S, G, C, A, E>
@@ -71,11 +71,11 @@ export type Store<Id extends string = string,
   & Computed<C>
   & Actions<A>>
 
-export interface StoreDefinition<Id extends string,
+export interface StoreDefinition<Id extends string = string,
   S extends StateTree = {},
   G /*extends GuardsTree*/ = {},
-  C extends ComputedTree<S> = {},
-  A /*extends ActionsTree*/ = {},
+  C /*extends ComputedTree<S>*/ = ComputedTree<S>,
+  A /*extends ActionsTree*/ = ActionsTree,
   E extends ExposesTree = {}> {
   (): Store<Id, S, G, C, A, E>
 
@@ -98,13 +98,5 @@ export type ExistingSubscribers = {
 
 export type Unsubscribe = () => Promise<boolean>
 
-export type NervuePlugin = {
-  add<Id extends string,
-    S extends StateTree = {},
-    G /*extends GuardsTree*/ = {},
-    C extends ComputedTree<S> = {},
-    A /*extends ActionsTree*/ = {},
-    E extends ExposesTree = {}>(useStore: StoreDefinition<Id, S, G, C, A, E>): void
-  install(app: App): void
-} & Plugin
+export type NervuePlugin = UnwrapNestedRefs<Root> & Plugin
 

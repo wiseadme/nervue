@@ -1,5 +1,5 @@
 // @ts-ignore
-import { defineStore } from '../../nervue/dist/nervue.mjs'
+import { defineStore } from '../../nervue/src'
 
 export const PRODUCT = 'PRODUCT'
 
@@ -23,7 +23,7 @@ export const useProductStore = defineStore({
   id: 'PRODUCT',
 
   state: () => ({
-    items: null
+    items: [] as any[]
   }),
 
   guards: {
@@ -44,7 +44,7 @@ export const useProductStore = defineStore({
   },
 
   computed: {
-    visibleItems: (state) => state.items.filter(it => it.isVisible)
+    visibleItems: (state) => state.items?.filter(it => it.isVisible)
   },
 
   actions,

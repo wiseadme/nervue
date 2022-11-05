@@ -8,6 +8,7 @@
 
     data(){
       return {
+        productStore: null
         // userStore: null
       }
     },
@@ -26,6 +27,7 @@
 
     created(){
       this.userStore = useUserStore()
+      this.productStore = useProductStore()
 
       this.userStore.$patch({name: 'Randevounier'})
 
@@ -44,8 +46,6 @@
 
       console.log(this.userStore)
 
-      this.userStore.setAge(45)
-
       const unsubscribe = this.userStore.$subscribe({
         name: 'setName',
         before(){
@@ -62,7 +62,7 @@
     },
 
     methods: {
-      ...mapActions(useUserStore, [ 'setName' ]),
+      ...mapActions(useUserStore, [ 'setName', 'setUser' ]),
 
       ...mapActions(useProductStore, {
         fetchProductItems: 'fetchItems'
@@ -79,4 +79,5 @@
   <h1>Options API Nervue</h1>
   <h2>{{ fullName(35) }}</h2>
   <button @click="setNewName">CHANGE NAME</button>
+  <h2>{{ productStore.$exposed.USER.name }}</h2>
 </template>

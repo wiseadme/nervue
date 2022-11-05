@@ -4,22 +4,56 @@ import type {
   StateTree,
   Method,
   StoreDefinition,
-  ComputedTree
+  ComputedTree, ExposesTree,
 } from './types'
 
 /**
  * @param useStore - store composition
- * @param mapOrKeys - object of actions properties
+ * @param keys - array of action keys
  */
 export function mapActions<
   Id extends string,
   S extends StateTree,
   G extends GuardsTree,
   C extends ComputedTree<S>,
-  A extends ActionsTree
->(
-  useStore: StoreDefinition<Id, S, G, C, A>,
-  mapOrKeys?: [ keyof A ] | { [p: string]: keyof A }
+  A /*extends ActionsTree*/,
+  E extends ExposesTree,
+  Keys extends keyof A>
+(
+  useStore: StoreDefinition<Id, S, G, C, A, E>,
+  keys: Keys[]
+): ActionsTree
+
+/**
+ * @param useStore - store composition
+ * @param keysMap - action keys map
+ */
+export function mapActions<
+  Id extends string,
+  S extends StateTree,
+  G extends GuardsTree,
+  C extends ComputedTree<S>,
+  A /*extends ActionsTree*/,
+  E extends ExposesTree,
+  KeyMapper extends Record<string, keyof A>>(
+  useStore: StoreDefinition<Id, S, G, C, A, E>,
+  keysMap: KeyMapper
+): ActionsTree
+
+/**
+ * @param useStore - store composition
+ * @param mapOrKeys - action keys map or array
+ */
+export function mapActions<
+  Id extends string,
+  S extends StateTree,
+  G extends GuardsTree,
+  C extends ComputedTree<S>,
+  A /*extends ActionsTree*/,
+  E extends ExposesTree
+ >(
+  useStore: StoreDefinition<Id, S, G, C, A, E>,
+  mapOrKeys: any
 ): ActionsTree {
   const store = useStore()
   const map: Record<string, Method> = {}
@@ -56,18 +90,50 @@ export function mapActions<
 
 /**
  * @param useStore - store composition
- * @param mapOrKeys - object of state properties
+ * @param keys - array of state or computed keys
  */
 export function mapState<
   Id extends string,
   S extends StateTree,
   G extends GuardsTree,
   C extends ComputedTree<S>,
-  A extends ActionsTree
->(
+  A,
+  E extends ExposesTree,
+  Keys extends keyof S | keyof C
+  >(
+  useStore: StoreDefinition<Id, S, G, C, A, E>,
+  keys: Keys[]
+): StateTree
+
+/**
+ * @param useStore - store composition
+ * @param keysMap - map of state or computed keys
+ */
+export function mapState<
+  Id extends string,
+  S extends StateTree,
+  G extends GuardsTree,
+  C extends ComputedTree<S>,
+  A,
+  E extends ExposesTree,
+  KeyMapper extends Record<string, (keyof S | C) | ((state: S) => any)>
+  >(
+  useStore: StoreDefinition<Id, S, G, C, A, E>,
+  keysMap: KeyMapper
+): StateTree
+
+/**
+ * @param useStore - store composition
+ * @param mapOrKeys - map or array of state or computed keys
+ */
+export function mapState<Id extends string,
+  S extends StateTree,
+  G extends GuardsTree,
+  C extends ComputedTree<S>,
+  A extends ActionsTree>(
   useStore: StoreDefinition<Id, S, G, C, A>,
-  mapOrKeys?: [ keyof S | keyof C ] | { [key: string]: Method | keyof S | keyof C }
-): StateTree {
+  mapOrKeys?: any
+): StateTree{
   const map: Record<string, any> = {}
 
   if (mapOrKeys) {
