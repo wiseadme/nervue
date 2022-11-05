@@ -6,7 +6,7 @@ export const nervueSymbol = Symbol.for('nervue')
 /*TODO - need define compatible type for the exposed values*/
 export interface Root {
   isInstalled: boolean;
-  stores: Record<string, Store>;
+  stores: Record<string, Store>
   exposed: Record<string, any>
 
   set(useStore): void

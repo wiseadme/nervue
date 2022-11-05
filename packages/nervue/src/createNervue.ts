@@ -42,11 +42,11 @@ export function useNervue<Id extends string,
 
 export function useNervue(id?: string): Store | Record<string, Store> | void{
 
-  if (id && !unref(root)?._stores[id]) {
+  if (id && !unref(root)?.stores[id]) {
     return logWarning(`"${ id }" store doesn't exist in the root object`)
   }
 
   return id ?
-    unref(root)?._stores[id] as Store :
-    unref(root)?._stores as Record<string, Store>
+    unref(root)?.stores[id] as Store :
+    unref(root)?.stores as Record<string, Store>
 }
