@@ -6,8 +6,8 @@ export const nervueSymbol = Symbol.for('nervue')
 /*TODO - need define compatible type for the exposed values*/
 export interface Root {
   isInstalled: boolean;
-  _stores: Record<string, Store>;
-  _exposed: Record<string, any>
+  stores: Record<string, Store>;
+  exposed: Record<string, any>
 
   set(useStore): void
 
@@ -20,8 +20,8 @@ export interface Root {
 
 export class Nervue implements Root {
   isInstalled: boolean = false
-  _stores: Record<string, Store> = {}
-  _exposed: Record<string, any> = {}
+  stores: Record<string, Store> = {}
+  exposed: Record<string, any> = {}
 
   set(useStore){
     const store = useStore()
@@ -29,11 +29,11 @@ export class Nervue implements Root {
     if (store._expose) {
       this.setExposes(store)
     } else {
-      this._stores[store.$id] = store
+      this.stores[store.$id] = store
     }
 
     Object.defineProperty(store, '$exposed', {
-      value: this._exposed,
+      value: this.exposed,
       writable: false,
       configurable: false,
       enumerable: false
@@ -41,25 +41,25 @@ export class Nervue implements Root {
   }
 
   unset(id){
-    delete this._stores[id]
+    delete this.stores[id]
   }
 
   setExposes(store){
     const { $id, _expose } = store
 
-    if (this._exposed[$id]) {
+    if (this.exposed[$id]) {
       return
     }
 
-    this._exposed[$id] = {}
+    this.exposed[$id] = {}
 
     for (const key in _expose) {
       if (typeof store[key] === 'function') {
-        (this._exposed[$id][key] as Method) = (...args) => {
+        (this.exposed[$id][key] as Method) = (...args) => {
           store[key](...args)
         }
       } else {
-        (this._exposed[$id][key] as ComputedRef) = computed(() => store[key])
+        (this.exposed[$id][key] as ComputedRef) = computed(() => store[key])
       }
     }
   }

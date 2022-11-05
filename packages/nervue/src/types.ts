@@ -39,7 +39,7 @@ export type _StoreWithProperties<Id, S, G, C, A, E> = {
   $state: S
   $guards: G
   $computed: [ keyof C ]
-  $exposed?: Record<Id extends string ? Id : string, Root['_exposed']>
+  $exposed?: Record<Id extends string ? Id : string, Root['exposed']>
   _expose: E
 }
 
