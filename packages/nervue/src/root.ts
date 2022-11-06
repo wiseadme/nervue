@@ -23,34 +23,27 @@ export class Nervue implements Root {
   public stores: Record<string, Store> = {}
   public exposed: Record<string, any> = {}
 
-  static queue: StoreDefinition[] = []
-
   set(useStore){
-    if (!this.installed) {
-      Nervue.queue.push(useStore)
-      /***
-       * add microtask for dropping the queue
-       */
-      Promise.resolve().then(() => Nervue.queue = [])
-    } else {
-      const store = useStore()
-
-      if (store._expose) {
-        this.setExposes(store)
-      } else {
-        this.stores[store.$id] = store
-      }
-
-      Object.defineProperty(store, '$exposed', {
-        get: () => Object.keys(this.exposed).reduce((exp, key) => {
-          if (key !== store.$id) {
-            exp[key] = this.exposed[key]
-          }
-
-          return exp
-        }, {})
-      })
+    if (this.exposed[useStore.$id] || this.stores[useStore.$id]) {
+      return
     }
+    const store = useStore()
+
+    if (store._expose) {
+      this.setExposes(store)
+    } else {
+      this.stores[store.$id] = store
+    }
+
+    Object.defineProperty(store, '$exposed', {
+      get: () => Object.keys(this.exposed).reduce((exp, key) => {
+        if (key !== store.$id) {
+          exp[key] = this.exposed[key]
+        }
+
+        return exp
+      }, {})
+    })
   }
 
   unset(id){
@@ -87,9 +80,5 @@ export class Nervue implements Root {
     }
 
     this.installed = true
-
-    if (Nervue.queue.length) {
-      Nervue.queue.forEach(this.set.bind(this))
-    }
   }
 }

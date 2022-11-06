@@ -7,7 +7,7 @@ aside: false
 ## createNervue
 
 Возвращает ```vue``` плагин, который установит ```root``` объект Nervue в качестве глобальной переменной,
-доступ к которой можно получить с помощью инъекции по ключу ```ROOT_SYMBOL```.
+доступ к которой можно получить с помощью инъекции по ключу ```nervueSymbol```.
 
 ```typescript
 import { createNervue } from 'nervue'
@@ -37,11 +37,11 @@ app.use(store)
 
 <script lang="ts">
   import { defineComponent, inject } from 'vue'
-  import { ROOT_SYMBOL } from 'nervue'
+  import { nervueSymbol } from 'nervue'
 
   export default defineComponent({
     setup(){
-      const globalStore = inject(ROOT_SYMBOL)
+      const globalStore = inject(nervueSymbol)
 
       globalStore._stores.PRODUCT.fetchProducts()
     }
@@ -54,11 +54,11 @@ app.use(store)
 
 Функция, которая возвращает ```root``` объект. Если в качестве аргумента передать ```id``` конкретного хранилища,
 которое зарегистрировано в ```root```
-объекте, с помощью метода ```add```, то в таком случае функция вернет хранилище по ```id``` ключу.
+объекте, с помощью метода ```set```, то в таком случае функция вернет хранилище по ```id``` ключу.
 
 ```vue
 <script lang="ts">
-  import { defineComponent, inject } from 'vue'
+  import { defineComponent } from 'vue'
   import { useNervue } from 'nervue'
   
   export default defineComponent({
@@ -140,5 +140,3 @@ const useCounterStore = defineStore({
 ## $patch
 
 ## $subscribe
-
-## $expose

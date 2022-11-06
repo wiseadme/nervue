@@ -25,6 +25,8 @@ import {
   _StoreWithProperties,
 } from './types'
 
+import { getRoot } from './createNervue'
+
 /***
  * @param target - state of store
  * @param patch - object to merge
@@ -350,6 +352,19 @@ export function defineStore<Id extends string,
   }
 
   const useStore = () => store
+
+  /***
+   * register useStore in the root
+   * object for access via $exposed
+   */
+  Promise.resolve()
+    .then(() => {
+      const root = getRoot()
+
+      if (root) {
+        root.set(useStore)
+      }
+  })
 
   useStore.$id = store.$id
 

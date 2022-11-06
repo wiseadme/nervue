@@ -31,9 +31,9 @@ export function createNervue(): NervuePlugin{
   }
 
   if (isVue3) {
-    unref(root)!.constructor.prototype.install = vue3install()
+    getRoot()!.constructor.prototype.install = vue3install()
   } else {
-    unref(root)!.constructor.prototype.install = vue2Install()
+    getRoot()!.constructor.prototype.install = vue2Install()
   }
 
   return getRoot()!
