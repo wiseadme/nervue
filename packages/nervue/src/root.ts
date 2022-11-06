@@ -1,5 +1,5 @@
 import { ComputedRef, computed } from 'vue-demi'
-import { Store, Method, StoreDefinition } from './types'
+import { Store, Method } from './types'
 
 export const nervueSymbol = Symbol.for('nervue')
 

@@ -54,7 +54,8 @@ function merge(target, patch){
  * @param {StoreOptions} options - store definition options object
  * @returns {StoreDefinition} useStore function
  */
-export function defineStore<Id extends string,
+export function defineStore<
+  Id extends string,
   S extends StateTree = {},
   G /*extends GuardsTree*/ = {},
   C extends ComputedTree<S> = {},
@@ -337,7 +338,7 @@ export function defineStore<Id extends string,
     actions,
     Object.keys($computed || {}).reduce((mods, key) => {
       // @ts-ignore
-      mods[key] = markRaw(computed(() => $computed![key].call(store, store.$state)))
+      mods[key] = markRaw(computed(() => $computed![key].call(store, store)))
       return mods
     }, {})
   )) as Store<Id, S, G, C, A, E>
@@ -354,14 +355,13 @@ export function defineStore<Id extends string,
   const useStore = () => store
 
   /***
-   * register useStore in the root
-   * object for access via $exposed
+   * set useStore to the root object
    */
   Promise.resolve()
     .then(() => {
       const root = getRoot()
 
-      if (root) {
+      if (root && root.installed) {
         root.set(useStore)
       }
   })

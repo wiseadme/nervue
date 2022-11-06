@@ -11,7 +11,7 @@ describe('Computed', () => {
     }),
 
     computed: {
-      fullName: (state) => `${ state.name } ${ state.familyName }`,
+      fullName: (store) => `${ store.name } ${ store.familyName }`,
       fullNameAndAge() {
         return this.fullName + ` ${this.age} years old`
       },

@@ -16,6 +16,7 @@ const useUserStore = defineStore({
   },
   expose: {
     name: true,
+    age: true,
     profession: true,
     setUser: true
   }
@@ -34,19 +35,18 @@ const useEmployerStore = defineStore({
     }
   },
   expose: {
+    workers: true,
     setWorkers: true
   }
 })
 
 store.installed = true
-store.set(useUserStore)
-store.set(useEmployerStore)
 
 describe('Expose', () => {
   test('test user store exposed props', () => {
     const employerStore = useEmployerStore()
 
-    employerStore.$exposed!.USER.setUser({
+    employerStore.$exposed.USER.setUser({
       name: 'Alex',
       age: 42,
       profession: 'Programmer'
@@ -62,6 +62,19 @@ describe('Expose', () => {
   })
 
   test('test employer store exposed props', () => {
+    const userStore = useUserStore()
 
+    userStore.$exposed.EMPLOYER.setWorkers([
+      {
+        name: 'Tom',
+        age: '28',
+        profession: 'frontend developer'
+      }
+    ])
+
+    expect(useEmployerStore().workers.length).toEqual(1)
+    expect((useEmployerStore().workers[0] as any).name).toEqual('Tom')
+    expect(useUserStore().$exposed.EMPLOYER.workers[0].name).toEqual('Tom')
+    expect(useUserStore().$exposed!.USER).toEqual(undefined)
   })
 })
