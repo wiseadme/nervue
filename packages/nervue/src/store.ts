@@ -9,7 +9,7 @@ import {
   computed,
   UnwrapRef
 } from 'vue-demi'
-import { logWarning, logError, typeOf } from './helpers'
+import { logWarning, typeOf } from './helpers'
 // Types
 import {
   StateTree,
@@ -31,7 +31,7 @@ import { getRoot } from './createNervue'
  * @param target - state of store
  * @param patch - object to merge
  */
-function merge(target, patch){
+function merge(target, patch) {
   if (typeOf(target) === 'map') {
     patch.forEach((it, key) => target.set(key, it))
   }
@@ -62,7 +62,7 @@ export function defineStore<
   A /*extends ActionsTree*/ = {},
   E extends ExposesTree = {}>(
   options: StoreOptions<Id, S, G, C, A, E>
-): StoreDefinition<Id, S, G, C, A, E>{
+): StoreDefinition<Id, S, G, C, A, E> {
   const {
     id,
     state,
@@ -84,46 +84,36 @@ export function defineStore<
     storeId: Id,
     state: S,
     guards: G
-  ){
+  ) {
 
-    function stateGetter(target, prop, receiver){
+    function get(target, prop, receiver) {
       return Reflect.get(target, prop, receiver)
     }
 
     type GuardReturnType = { next: boolean, value?: any }
 
-    function stateSetter(target, prop, value, receiver){
+    function set(target, prop, value, receiver) {
       let result = { next: false, value } as GuardReturnType
 
       const { stringify } = JSON
 
       if (guards[prop]) {
-        /**
-         * check guards map type
-         */
-        if (Array.isArray(guards[prop])) {
 
-          for (const fn of guards[prop]!) {
-            const ret = fn(result.value)
+        for (const fn of guards[prop]!) {
+          const ret = fn(result.value)
 
-            result.next = ret.next
-            value = ret.value || value
-            result.value = value
+          result.next = ret.next
+          value = ret.value || value
+          result.value = value
 
-            if (!result.next) {
-              logWarning(
-                `{guards}: ${ stringify(value) } is invalid value for the`,
-                `${ stringify(prop) } of the ${ stringify(storeId) } store state`
-              )
+          if (!result.next) {
+            logWarning(
+              `{guards}: ${ stringify(value) } is invalid value for the`,
+              `${ stringify(prop) } of the ${ stringify(storeId) } store state`
+            )
 
-              break
-            }
+            break
           }
-        } else {
-          logError(
-            `{guards}: wrong type of guards map in the "${ storeId }" store.`,
-            `Guards should be an array of functions.`
-          )
         }
       }
 
@@ -134,11 +124,7 @@ export function defineStore<
       return true
     }
 
-
-    return new Proxy(state, {
-      get: stateGetter,
-      set: stateSetter
-    })
+    return new Proxy(state, { get, set })
   }
 
   const subscriptionsBefore: Record<string, Method[]> = {}
@@ -149,7 +135,7 @@ export function defineStore<
    * @param {object} options - options for subscribing
    * @returns {Unsubscribe} - unsubscribe function
    */
-  function $subscribe(options: SubscribeOptions<A>): Unsubscribe{
+  function $subscribe(options: SubscribeOptions<A>): Unsubscribe {
     const { name, before, after, onError } = options
 
     if (before && !subscriptionsBefore[name]) {
@@ -170,7 +156,7 @@ export function defineStore<
     after && (aInd = subscriptionsAfter[name].push(after) - 1)
     onError && (oInd = subscriptionsOnError[name].push(onError) - 1)
 
-    function unsubscribe(): Promise<boolean>{
+    function unsubscribe(): Promise<boolean> {
       return new Promise((resolve) => {
         subscriptionsBefore[name]?.splice(bInd, 1)
         subscriptionsAfter[name]?.splice(aInd, 1)
@@ -191,7 +177,7 @@ export function defineStore<
    * @param {array} subscribers - array of subscribers
    * @param {array} args - arguments for subscriber callback function
    */
-  function triggerSubs(subscribers, ...args: any[]){
+  function triggerSubs(subscribers, ...args: any[]) {
     subscribers.slice().forEach(fn => fn(...args))
   }
 
@@ -199,7 +185,7 @@ export function defineStore<
    * @param name {string} - name of action
    * @returns {object} object of existing subscribers
    */
-  function getSubscribers(name: string): ExistingSubscribers{
+  function getSubscribers(name: string): ExistingSubscribers {
     return {
       beforeList: subscriptionsBefore[name],
       afterList: subscriptionsAfter[name],
@@ -217,8 +203,8 @@ export function defineStore<
     store: Store<Id, S, G, C, A, E>,
     name: string,
     action: Method
-  ){
-    return function (){
+  ) {
+    return function () {
       const {
         beforeList,
         afterList,
@@ -272,7 +258,7 @@ export function defineStore<
   /***
    * @param {(state: UnwrapRef<S>) => (void | Partial<UnwrapRef<S>>)} mutator
    */
-  function $patch(mutator: (state: UnwrapRef<S>) => void | Partial<UnwrapRef<S>>){
+  function $patch(mutator: (state: UnwrapRef<S>) => void | Partial<UnwrapRef<S>>) {
     if (typeof mutator === 'function') {
       mutator(this.$state)
     } else if (typeof mutator === 'object') {
@@ -364,7 +350,7 @@ export function defineStore<
       if (root && root.installed) {
         root.set(useStore)
       }
-  })
+    })
 
   useStore.$id = store.$id
 

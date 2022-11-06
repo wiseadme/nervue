@@ -1,12 +1,11 @@
 .home {
-  height: calc(100vh - 60px);
+  height: calc(100vh - var(--navbar-height));
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .home .hero h1 {
-  font-size: 8rem !important;
   background: -webkit-linear-gradient(315deg, var(--c-brand) 25%, var(--c-brand-light));
   background-clip: text;
   font-family: 'Orbitron', sans-serif;
@@ -15,8 +14,40 @@
   text-align: center;
 }
 
+@media screen and (max-width: 1600px) {
+  .home .hero h1 {
+    font-size: calc(100vw / 1980 * 170) !important;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .home .hero h1 {
+    font-size: calc(100vw / 1980 * 200) !important;
+  }
+}
+
+@media screen and (max-width: 786px) {
+  .home .hero h1 {
+    font-size: calc(100vw / 1980 * 230) !important;
+  }
+}
+
+@media screen and (max-width: 414px) {
+  .home .hero h1 {
+    font-size: calc(100vw / 1980 * 270) !important;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .home .hero h1 {
+    font-size: calc(100vw / 1980 * 290) !important;
+  }
+}
+
 .home .hero .description {
-  font-size: 1.2rem;
+  font-size: 1rem;
+  text-align: center;
+  max-width: 100% !important;
 }
 
 .home .hero h1, .home .hero .description, .home .hero .actions {
@@ -84,6 +115,7 @@
 :root {
   --c-brand: #10213d;
   --c-brand-light: #179df3;
+  --navbar-height: 60px;
   --code-bg-color: var(--c-brand);
   --c-text-accent: var(--c-brand-light);
   --code-hl-bg-color: #28545a;

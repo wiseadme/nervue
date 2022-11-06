@@ -2,5 +2,5 @@
 home: true
 title: Главная
 heroText: Nervue
-tagline: Библиотека совместимая с Vue composition API
+tagline: Библиотека управления состоянием совместимая с Vue composition API
 ---
