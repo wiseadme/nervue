@@ -2,6 +2,7 @@
   "name": "@nervue/docs",
   "version": "1.0.0",
   "main": "index.js",
+  "homepage": "https://github.com/wiseadme/nervue",
   "license": "MIT",
   "scripts": {
     "docs:dev": "vuepress dev .",

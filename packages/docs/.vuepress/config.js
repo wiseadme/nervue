@@ -10,6 +10,7 @@ export default {
       lineNumbers: false,
     }
   },
+  base: '/nervue',
   head: [
     ['link', {rel: 'preconnect', href: 'https://fonts.googleapis.com'}],
     ['link', {rel: 'preconnect', crossOrigin: true, href: 'https://fonts.gstatic.com'}],
@@ -32,7 +33,7 @@ export default {
   theme: defaultTheme({
     colorMode: 'light',
     home: '/',
-    repo: 'wiseadme/nervue',
+    repo: 'https://github.com/wiseadme/nervue',
     editLink: false,
     locales: {
       '/': {
