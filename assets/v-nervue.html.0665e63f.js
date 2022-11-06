@@ -1,0 +1,1 @@
+import{_ as r,o as t,c as a,b as e,d as c}from"./app.59020474.js";const n={},o=e("h1",{id:"vnervue",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#vnervue","aria-hidden":"true"},"#"),c(" VNervue")],-1),s=[o];function _(d,i){return t(),a("div",null,s)}const v=r(n,[["render",_],["__file","v-nervue.html.vue"]]);export{v as default};
