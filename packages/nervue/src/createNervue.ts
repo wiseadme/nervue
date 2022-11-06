@@ -66,20 +66,24 @@ function vue2Install(): Plugin{
   }
 }
 
-export function useNervue<Id extends string,
+export function useNervue<
+  Id extends string,
   S extends StateTree = {},
   G /*extends GuardsTree<S>*/ = {},
   C extends ComputedTree<S> = {},
   A /*extends ActionsTree*/ = {},
   E extends ExposesTree = {}>(id?: Id): Store<Id, S, G, C, A, E> | unknown
 
-export function useNervue(id?: string): Store | Record<string, Store> | void{
+export function useNervue(id?: string): Root | Store | void{
+  const nervue = getRoot()
 
-  if (id && !unref(root)?.stores[id]) {
+  if (!id) {
+    return nervue!
+  }
+
+  if (!nervue?.stores[id] || nervue?.exposed[id]) {
     return logWarning(`"${ id }" store doesn't exist in the root object`)
   }
 
-  return id ?
-    unref(root)?.stores[id] as Store :
-    unref(root)?.stores as Record<string, Store>
+  return nervue.stores[id] || nervue.exposed[id]
 }

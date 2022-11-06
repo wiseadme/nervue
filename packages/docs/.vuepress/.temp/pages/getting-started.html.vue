@@ -19,7 +19,7 @@ app<span class="token punctuation">.</span><span class="token function">use</spa
 
 router<span class="token punctuation">.</span><span class="token function">isReady</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> app<span class="token punctuation">.</span><span class="token function">mount</span><span class="token punctuation">(</span><span class="token string">'#app'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 </code></pre></div><p>Таким образом мы создали <code v-pre>root</code> объект, куда по необходимости мы сможем добавлять локальные хранилища с помощью
-метода <code v-pre>add</code> root объекта.</p>
+метода <code v-pre>set</code> root объекта.</p>
 <div class="custom-container tip"><p class="custom-container-title">TIP</p>
 <p>Примечание! Вы можете прекрасно обходиться и без создания <code v-pre>root</code> объекта, просто импортируя ваши хранилища
 туда, там где вам это необходимо.</p>
@@ -30,8 +30,8 @@ router<span class="token punctuation">.</span><span class="token function">isRea
 
 <span class="token keyword">export</span> <span class="token keyword">const</span> store <span class="token operator">=</span> <span class="token function">createNervue</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 
-store<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>useUserStore<span class="token punctuation">)</span>
-</code></pre></div><p>Метод <code v-pre>add</code> сохранит по <code v-pre>id</code> ключу наше хранилище в <code v-pre>root</code> объекте.</p>
+store<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>useUserStore<span class="token punctuation">)</span>
+</code></pre></div><p>Метод <code v-pre>set</code> сохранит по <code v-pre>id</code> ключу наше хранилище в <code v-pre>root</code> объекте.</p>
 <p>Соответственно теперь для того, что бы получить доступ из любой точки приложения к сохраненному хранилищу, нам будет достаточно
 воспользоваться функцией <code v-pre>useNervue</code>.</p>
 <div class="language-vue" data-ext="vue"><pre v-pre class="language-vue"><code>
@@ -40,6 +40,9 @@ store<span class="token punctuation">.</span><span class="token function">add</s
   
   <span class="token keyword">const</span> userStore <span class="token operator">=</span> <span class="token function">useNervue</span><span class="token punctuation">(</span><span class="token string">'USER'</span><span class="token punctuation">)</span>
 </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
-</code></pre></div></div></template>
+</code></pre></div><p>Но следует учесть одну особенность, если в хранилище определен <code v-pre>expose</code>, то соответственно
+в качестве хранилища по ключу мы получим именно доступные в <code v-pre>expose</code> значения хранилища.
+Подробнее об <code v-pre>expose</code> вы узнаете далее.</p>
+</div></template>
 
 
