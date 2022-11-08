@@ -104,7 +104,7 @@ module.exports = (env = {}) => {
       new HtmlWebpackPlugin({
         title: 'nervue',
         hash: false,
-        template: path.resolve(__dirname,'../index.html'),
+        template: path.resolve(__dirname, '../index.html'),
         filename: 'index.html',
         inject: true,
         collapseWhitespace: true,
@@ -117,6 +117,7 @@ module.exports = (env = {}) => {
       new webpack.DefinePlugin({
         __VUE_OPTIONS_API__: false,
         __VUE_PROD_DEVTOOLS__: false,
+        __DEV__: process.env.NODE_ENV !== 'production'
       }),
       new VueLoaderPlugin(),
     ],

@@ -106,7 +106,7 @@ export function defineStore<
           value = ret.value || value
           result.value = value
 
-          if (!result.next) {
+          if (__DEV__ && !result.next) {
             logWarning(
               `{guards}: ${ stringify(value) } is invalid value for the`,
               `${ stringify(prop) } of the ${ stringify(storeId) } store state`

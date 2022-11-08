@@ -8,6 +8,7 @@
 .home .hero h1 {
   background: -webkit-linear-gradient(315deg, var(--c-brand) 25%, var(--c-brand-light));
   background-clip: text;
+  font-size: 10rem;
   font-family: 'Orbitron', sans-serif;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -16,31 +17,33 @@
 
 @media screen and (max-width: 1600px) {
   .home .hero h1 {
-    font-size: calc(100vw / 1980 * 170) !important;
+    font-size: 8rem;
   }
 }
 
 @media screen and (max-width: 1200px) {
   .home .hero h1 {
-    font-size: calc(100vw / 1980 * 200) !important;
+    font-size: 7rem;
   }
 }
 
 @media screen and (max-width: 786px) {
   .home .hero h1 {
-    font-size: calc(100vw / 1980 * 230) !important;
+    font-size: 6rem;
+    /*font-size: calc(100vw / 1980 * 230) !important;*/
   }
 }
 
 @media screen and (max-width: 414px) {
   .home .hero h1 {
-    font-size: calc(100vw / 1980 * 270) !important;
+    font-size: 5rem;
+    /*font-size: calc(100vw / 1980 * 270) !important;*/
   }
 }
 
 @media screen and (max-width: 320px) {
   .home .hero h1 {
-    font-size: calc(100vw / 1980 * 290) !important;
+    /*font-size: calc(100vw / 1980 * 290) !important;*/
   }
 }
 

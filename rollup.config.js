@@ -2,6 +2,7 @@ import path from 'path'
 import ts from 'rollup-plugin-typescript2'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
+import replace from '@rollup/plugin-replace'
 
 const packagesDir = path.resolve(__dirname, 'packages')
 const packageDir = path.resolve(packagesDir, 'nervue')
@@ -14,7 +15,7 @@ const nodePlugins = [resolve(), commonjs()]
 const tsPlugin = ts({
   check: true,
   tsconfig: path.resolve(__dirname, './tsconfig.json'),
-  declarationDir: `./packages/nervue/dist/${name}.d.ts`,
+  declarationDir: `./packages/nervue/dist/${ name }.d.ts`,
   tsconfigOverride: {
     compilerOptions: {
       declaration: true,
@@ -24,17 +25,25 @@ const tsPlugin = ts({
   },
 })
 
+const replacePlugin = replace({
+  preventAssignment: true,
+  values: {
+    __DEV__: false,
+    'process.env.NODE_ENV': '"production"'
+  }
+})
+
 const outputConfigs = {
   mjs: {
-    file: `packages/nervue/${pkg.module}`,
+    file: `packages/nervue/${ pkg.module }`,
     format: `es`,
   },
   cjs: {
-    file: `packages/nervue/${pkg.module.replace('mjs', 'cjs')}`,
+    file: `packages/nervue/${ pkg.module.replace('mjs', 'cjs') }`,
     format: `cjs`,
   },
   global: {
-    file: `packages/nervue/${pkg.unpkg}`,
+    file: `packages/nervue/${ pkg.unpkg }`,
     format: `iife`,
   },
   browser: {
@@ -59,9 +68,9 @@ packageBuilds.forEach((buildName) => {
 
 function createProductionConfig(format) {
   const extension = format === 'cjs' ? 'cjs' : 'js'
-  const descriptor = format === 'cjs' ? '' : `.${format}`
+  const descriptor = format === 'cjs' ? '' : `.${ format }`
   return createConfig(format, {
-    file: `packages/nervue/dist/${name}${descriptor}.prod.${extension}`,
+    file: `packages/nervue/dist/${ name }${ descriptor }.prod.${ extension }`,
     format: outputConfigs[format].format,
   })
 }
@@ -71,7 +80,7 @@ function createMinifiedConfig(format) {
   return createConfig(
     format,
     {
-      file: `packages/nervue/dist/${name}.${format === 'global' ? 'iife' : format}.prod.js`,
+      file: `packages/nervue/dist/${ name }.${ format === 'global' ? 'iife' : format }.prod.js`,
       format: outputConfigs[format].format,
     },
     [
@@ -93,6 +102,7 @@ function createConfig(format, output, plugins = []) {
     external: ['vue-demi', 'vue', '@vue/composition-api'],
     plugins: [
       tsPlugin,
+      replacePlugin,
       ...nodePlugins,
       ...plugins
     ]

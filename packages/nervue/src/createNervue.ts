@@ -59,9 +59,8 @@ function vue2Install(): Plugin{
     if (nervue!.installed) {
       return
     }
-    install.call(nervue)
 
-    nervue!.installed = true
+    install.call(nervue)
     Vue.prototype.$nervue = getRoot()
   }
 }
