@@ -26,7 +26,9 @@
     "sourceMap": true,
     "declaration": false,
     "skipLibCheck": true,
-    "typeRoots": [],
+    "typeRoots": [
+      "./packages/nervue/src/types",
+    ],
     "types": [
       "@vue/compiler-sfc/dist/compiler-sfc",
       "vue/ref-macros",

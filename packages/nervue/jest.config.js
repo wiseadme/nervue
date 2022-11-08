@@ -31,5 +31,6 @@ module.exports = {
       babelConfig: true,
       diagnostics: false,
     },
+    __DEV__: true
   },
 }
