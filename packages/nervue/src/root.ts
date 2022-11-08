@@ -8,12 +8,15 @@ export interface Root {
   installed: boolean;
   stores: Record<string, Store>
   exposed: Record<string, any>
+  _p: Method[]
 
   set(useStore): void
 
   unset(id: string): void
 
   setExposes(store): void
+
+  use(Method): void
 
   install(): void
 }
@@ -22,6 +25,7 @@ export class Nervue implements Root {
   public installed: boolean = false
   public stores: Record<string, Store> = {}
   public exposed: Record<string, any> = {}
+  public _p: Method[] = []
 
   set(useStore){
     if (this.exposed[useStore.$id] || this.stores[useStore.$id]) {
@@ -72,6 +76,10 @@ export class Nervue implements Root {
         (this.exposed[$id][key] as ComputedRef) = computed(() => store[key])
       }
     }
+  }
+
+  use(plugin){
+    this._p.push(plugin)
   }
 
   install(){

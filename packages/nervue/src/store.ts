@@ -31,7 +31,7 @@ import { getRoot } from './createNervue'
  * @param target - state of store
  * @param patch - object to merge
  */
-function merge(target, patch) {
+function merge(target, patch){
   if (typeOf(target) === 'map') {
     patch.forEach((it, key) => target.set(key, it))
   }
@@ -62,7 +62,7 @@ export function defineStore<
   A /*extends ActionsTree*/ = {},
   E extends ExposesTree = {}>(
   options: StoreOptions<Id, S, G, C, A, E>
-): StoreDefinition<Id, S, G, C, A, E> {
+): StoreDefinition<Id, S, G, C, A, E>{
   const {
     id,
     state,
@@ -84,15 +84,15 @@ export function defineStore<
     storeId: Id,
     state: S,
     guards: G
-  ) {
+  ){
 
-    function get(target, prop, receiver) {
+    function get(target, prop, receiver){
       return Reflect.get(target, prop, receiver)
     }
 
     type GuardReturnType = { next: boolean, value?: any }
 
-    function set(target, prop, value, receiver) {
+    function set(target, prop, value, receiver){
       let result = { next: false, value } as GuardReturnType
 
       const { stringify } = JSON
@@ -135,7 +135,7 @@ export function defineStore<
    * @param {object} options - options for subscribing
    * @returns {Unsubscribe} - unsubscribe function
    */
-  function $subscribe(options: SubscribeOptions<A>): Unsubscribe {
+  function $subscribe(options: SubscribeOptions<A>): Unsubscribe{
     const { name, before, after, onError } = options
 
     if (before && !subscriptionsBefore[name]) {
@@ -156,7 +156,7 @@ export function defineStore<
     after && (aInd = subscriptionsAfter[name].push(after) - 1)
     onError && (oInd = subscriptionsOnError[name].push(onError) - 1)
 
-    function unsubscribe(): Promise<boolean> {
+    function unsubscribe(): Promise<boolean>{
       return new Promise((resolve) => {
         subscriptionsBefore[name]?.splice(bInd, 1)
         subscriptionsAfter[name]?.splice(aInd, 1)
@@ -177,7 +177,7 @@ export function defineStore<
    * @param {array} subscribers - array of subscribers
    * @param {array} args - arguments for subscriber callback function
    */
-  function triggerSubs(subscribers, ...args: any[]) {
+  function triggerSubs(subscribers, ...args: any[]){
     subscribers.slice().forEach(fn => fn(...args))
   }
 
@@ -185,7 +185,7 @@ export function defineStore<
    * @param name {string} - name of action
    * @returns {object} object of existing subscribers
    */
-  function getSubscribers(name: string): ExistingSubscribers {
+  function getSubscribers(name: string): ExistingSubscribers{
     return {
       beforeList: subscriptionsBefore[name],
       afterList: subscriptionsAfter[name],
@@ -203,8 +203,8 @@ export function defineStore<
     store: Store<Id, S, G, C, A, E>,
     name: string,
     action: Method
-  ) {
-    return function () {
+  ){
+    return function (){
       const {
         beforeList,
         afterList,
@@ -258,7 +258,7 @@ export function defineStore<
   /***
    * @param {(state: UnwrapRef<S>) => (void | Partial<UnwrapRef<S>>)} mutator
    */
-  function $patch(mutator: (state: UnwrapRef<S>) => void | Partial<UnwrapRef<S>>) {
+  function $patch(mutator: (state: UnwrapRef<S>) => void | Partial<UnwrapRef<S>>){
     if (typeof mutator === 'function') {
       mutator(this.$state)
     } else if (typeof mutator === 'object') {
@@ -340,15 +340,22 @@ export function defineStore<
 
   const useStore = () => store
 
+  const root = getRoot()
+
+  /**
+   * install plugins
+   */
+  root?._p.forEach(pl => pl({ store }))
+
   /***
    * set useStore to the root object
    */
+
   Promise.resolve()
     .then(() => {
-      const root = getRoot()
-
       if (root && root.installed) {
         root.set(useStore)
+        // root._p = []
       }
     })
 

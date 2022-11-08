@@ -46,7 +46,10 @@
 
       this.userStore._guards.name.push((val) => ({ next: !!val }))
 
-      console.log(this.userStore)
+      this.userStore.$patch({
+        age: 17,
+        name: 'sdfsdfsdf'
+      })
 
       const unsubscribe = this.userStore.$subscribe({
         name: 'setName',
