@@ -1,1 +1,0 @@
-import{_ as o,o as s,c as t,b as e,d as a}from"./app.fe82b37f.js";const c={},r=e("h1",{id:"expose",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#expose","aria-hidden":"true"},"#"),a(" Expose")],-1),n=[r];function _(d,i){return s(),t("div",null,n)}const l=o(c,[["render",_],["__file","expose.html.vue"]]);export{l as default};

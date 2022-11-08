@@ -1,1 +1,0 @@
-import{_ as r,o as s,c as t,b as e,d as a}from"./app.fe82b37f.js";const c={},n=e("h1",{id:"usenervue",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#usenervue","aria-hidden":"true"},"#"),a(" useNervue")],-1),o=[n];function u(_,d){return s(),t("div",null,o)}const h=r(c,[["render",u],["__file","use-nervue.html.vue"]]);export{h as default};
