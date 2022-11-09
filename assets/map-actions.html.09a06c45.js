@@ -1,1 +1,0 @@
-import{_ as a,o as t,c,b as e,d as o}from"./app.e7921d96.js";const s={},n=e("h1",{id:"mapactions",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#mapactions","aria-hidden":"true"},"#"),o(" mapActions")],-1),r=[n];function i(_,d){return t(),c("div",null,r)}const h=a(s,[["render",i],["__file","map-actions.html.vue"]]);export{h as default};
