@@ -24,7 +24,7 @@ const useUserStore = defineStore({
     userFullInfo(){
       // либо можно использовать контекст для доступа как к state, 
       // так и к другим computed значениям.
-      return `name: ${ this.fullName() }, age: ${ this.age }, gender: ${ this.gender }`
+      return `name: ${ this.fullName }, age: ${ this.age }, gender: ${ this.gender }`
     }
   }
 

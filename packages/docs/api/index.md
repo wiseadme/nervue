@@ -6,32 +6,22 @@ aside: false
 
 ## createNervue
 
-Возвращает ```vue``` плагин, который установит ```root``` объект Nervue в качестве глобальной переменной,
-доступ к которой можно получить с помощью инъекции по ключу ```nervueSymbol```.
+Возвращает ```vue``` плагин, который установит ```root``` объект Nervue.
 
 ```typescript
 import { createNervue } from 'nervue'
-import { useProductStore } from './product-store'
-
-export const store = createNervue()
-
-store.add(useProductStore)
-```
-
-Затем импортируем в ```main.ts```
-
-```typescript
 import { createApp } from 'vue'
-import { store } from './store'
+
 import App from './App.vue'
 
+const nervue = createNervue()
 const app = createApp()
 
-app.use(store)
+app.use(nervue)
 ```
 
-Теперь для того чтобы получить доступ к ```root``` объекту, достаточно будет
-использовать ```inject```.
+Для того чтобы получить доступ к ```nervue``` объекту, достаточно будет
+использовать ```inject```, передав ему в качестве аргумента ```nervueSymbol```.
 
 ```vue
 
@@ -43,11 +33,23 @@ app.use(store)
     setup(){
       const globalStore = inject(nervueSymbol)
 
-      globalStore._stores.PRODUCT.fetchProducts()
+      globalStore.stores.USER.getUser()
     }
   })
 </script>
 
+```
+Nervue устанавливается как глобальная переменная и поэтому мы можем обращаться из шаблона
+компонента к нему на прямую:
+
+```vue
+<template>
+  <div class="user">
+    <h1 class="user__name">
+      {{ $nervue.stores.USER.name }}
+    </h1>
+  </div>
+</template>
 ```
 
 ## useNervue
@@ -75,6 +77,7 @@ app.use(store)
 ```
 
 ## defineStore
+...В процессе
 
 ## mapState
 
@@ -136,7 +139,10 @@ const useCounterStore = defineStore({
 :::
 
 ## mapActions
+...В процессе
 
 ## $patch
+...В процессе
 
 ## $subscribe
+...В процессе

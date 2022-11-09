@@ -355,7 +355,6 @@ export function defineStore<
     .then(() => {
       if (root && root.installed) {
         root.set(useStore)
-        // root._p = []
       }
     })
 
