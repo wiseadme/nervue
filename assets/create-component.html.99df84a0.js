@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-09b023df","path":"/api/create-component.html","title":"createComponent","lang":"ru-RU","frontmatter":{},"excerpt":"","headers":[],"git":{"updatedTime":1668021943000,"contributors":[{"name":"Anar Allakhverdiev","email":"wiseadme@gmail.com","commits":1}]},"filePathRelative":"api/create-component.md"}');export{e as data};

@@ -1,1 +1,0 @@
-const e=JSON.parse('{"key":"v-d1e31c6e","path":"/api/v-nervue.html","title":"VNervue","lang":"ru-RU","frontmatter":{"aside":false},"excerpt":"","headers":[],"git":{"updatedTime":1668013562000,"contributors":[{"name":"Anar","email":"wiseadme@gmail.com","commits":2}]},"filePathRelative":"api/v-nervue.md"}');export{e as data};
