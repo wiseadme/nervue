@@ -1,7 +1,11 @@
 <script setup lang="ts">
   // import { useNervue } from '../../nervue/src'
   import { useUserStore } from '../store/user-store'
+  import { createComponent } from '../../nervue/src'
 
+  const userStoreComponent = createComponent(useUserStore)
+
+  console.log(userStoreComponent)
   const userStore = useUserStore()
 
   // const { name } = userStore
@@ -10,9 +14,19 @@
 
   setTimeout(() => {
     userStore.$patch({ name: 'Hoolio' })
-  },2000)
+  }, 2000)
 </script>
+
 <template>
-  <h1>Composition API Nervue</h1>
-  <div>{{ userStore.name }}</div>
+  <user-store-component
+    v-slot="{name, age, setName}"
+    :name="useUserStore"
+  >
+    <h1>Composition API Nervue</h1>
+    <div>{{ name }}{{ age }}</div>
+
+    <button @click="setName('Vladimir Putin')">
+      set name
+    </button>
+  </user-store-component>
 </template>

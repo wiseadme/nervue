@@ -55,7 +55,9 @@ app<span class="token punctuation">.</span><span class="token function">use</spa
 </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
 
 </code></pre></div><h2 id="definestore" tabindex="-1"><a class="header-anchor" href="#definestore" aria-hidden="true">#</a> defineStore</h2>
-<p>...В процессе</p>
+<p>В процессе...</p>
+<h2 id="createcomponent" tabindex="-1"><a class="header-anchor" href="#createcomponent" aria-hidden="true">#</a> createComponent</h2>
+<p>В процессе...</p>
 <h2 id="mapstate" tabindex="-1"><a class="header-anchor" href="#mapstate" aria-hidden="true">#</a> mapState</h2>
 <p>Позволяет получить доступ к свойствам <code v-pre>state</code> и <code v-pre>computed</code> хранилища, путем распространения в <code v-pre>computed</code> свойстве
 компонента, с использованием <code v-pre>options api</code>. В качестве первого аргумента принимает <code v-pre>useStore</code> функцию, возвращающую хранилище, вторым аргументом необходимо
@@ -105,11 +107,11 @@ app<span class="token punctuation">.</span><span class="token function">use</spa
 <p>Нет необходимости использовать <code v-pre>mapState</code> при использовании <code v-pre>composition api</code>.</p>
 </div>
 <h2 id="mapactions" tabindex="-1"><a class="header-anchor" href="#mapactions" aria-hidden="true">#</a> mapActions</h2>
-<p>...В процессе</p>
+<p>В процессе...</p>
 <h2 id="patch" tabindex="-1"><a class="header-anchor" href="#patch" aria-hidden="true">#</a> $patch</h2>
-<p>...В процессе</p>
+<p>В процессе...</p>
 <h2 id="subscribe" tabindex="-1"><a class="header-anchor" href="#subscribe" aria-hidden="true">#</a> $subscribe</h2>
-<p>...В процессе</p>
+<p>В процессе...</p>
 </div></template>
 
 

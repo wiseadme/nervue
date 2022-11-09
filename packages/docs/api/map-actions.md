@@ -2,4 +2,4 @@
 aside: false
 ---
 # mapActions
-...В процессе
+В процессе...

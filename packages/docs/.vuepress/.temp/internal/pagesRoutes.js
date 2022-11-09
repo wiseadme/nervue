@@ -3,6 +3,7 @@ export const pagesRoutes = [
   ["v-5dc4b15a","/getting-started.html",{"title":"Установка"},["/getting-started","/getting-started.md"]],
   ["v-8daa1a0e","/",{"title":"Главная"},["/index.html","/index.md"]],
   ["v-52062726","/introduction.html",{"title":"Что такое Nervue?"},["/introduction","/introduction.md"]],
+  ["v-09b023df","/api/create-component.html",{"title":"createComponent"},["/api/create-component","/api/create-component.md"]],
   ["v-50fff2ab","/api/create-nervue.html",{"title":"createNervue"},["/api/create-nervue","/api/create-nervue.md"]],
   ["v-2e1da9dc","/api/define-store.html",{"title":"defineStore"},["/api/define-store","/api/define-store.md"]],
   ["v-744497ce","/api/",{"title":"Документация API"},["/api/index.html","/api/index.md"]],

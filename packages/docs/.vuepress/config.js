@@ -15,18 +15,19 @@ export default {
     ['link', {rel: 'preconnect', href: 'https://fonts.googleapis.com'}],
     ['link', {rel: 'preconnect', crossOrigin: true, href: 'https://fonts.gstatic.com'}],
     ['link', {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap'}],
+    ['meta', {name: 'description', content: "Nervue библиотека стэйт менеджмента для современных Vue приложений"}],
   ],
   locales: {
     '/': {
       lang: 'ru-RU',
       title: 'Nervue',
-      lastUpdated: true,
+      lastUpdated: false,
       lastUpdatedText: 'Последнее обновление',
     },
     '/en/': {
       lang: 'en-US',
       title: 'Nervue',
-      lastUpdated: true,
+      lastUpdated: false,
       lastUpdatedText: 'Last Updated',
     },
   },
@@ -40,6 +41,7 @@ export default {
         selectLanguageName: 'Русский',
         navbar: RuNavbar,
         sidebar: RuSidebar,
+        home: '/',
         selectLanguageText: 'Язык'
       },
       '/en/': {
@@ -47,6 +49,7 @@ export default {
         label: 'English',
         navbar: EnNavbar,
         sidebar: EnSidebar,
+        home: '/en/',
         selectLanguageText: 'Languages'
       },
     }

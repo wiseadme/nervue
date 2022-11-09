@@ -5,3 +5,5 @@
 </a>
 </p>
 <p align="center">The library is under development and has not yet been fully tested. It is not recommended to use it in projects yet.</p>
+
+The [documentation](https://wiseadme.github.io/nervue/) will be ready soon.

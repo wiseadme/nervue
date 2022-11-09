@@ -77,7 +77,10 @@ Nervue устанавливается как глобальная перемен
 ```
 
 ## defineStore
-...В процессе
+В процессе...
+
+## createComponent
+В процессе...
 
 ## mapState
 
@@ -139,10 +142,10 @@ const useCounterStore = defineStore({
 :::
 
 ## mapActions
-...В процессе
+В процессе...
 
 ## $patch
-...В процессе
+В процессе...
 
 ## $subscribe
-...В процессе
+В процессе...
