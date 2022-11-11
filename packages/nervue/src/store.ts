@@ -2,13 +2,15 @@ import {
   ref,
   reactive,
   toRefs,
+  computed,
   toRaw,
   markRaw,
-  getCurrentInstance,
   onUnmounted,
-  computed,
-  UnwrapRef
+  getCurrentInstance,
+  UnwrapRef,
+  UnwrapNestedRefs
 } from 'vue-demi'
+// Helpers
 import { logWarning, typeOf } from './helpers'
 // Types
 import {
@@ -200,7 +202,7 @@ export function defineStore<
    * @returns {function} a wrapped action to handle subscriptions
    */
   function wrapAction(
-    store: Store<Id, S, G, C, A, E>,
+    store: UnwrapNestedRefs<Store<Id, S, G, C, A, E>>,
     name: string,
     action: Method
   ){
@@ -258,7 +260,7 @@ export function defineStore<
   /***
    * @param {(state: UnwrapRef<S>) => (void | Partial<UnwrapRef<S>>)} mutator
    */
-  function $patch(mutator: (state: UnwrapRef<S>) => void | Partial<UnwrapRef<S>>){
+  function $patch(mutator: (state: UnwrapNestedRefs<UnwrapRef<S>>) => void | Record<keyof S, any>){
     if (typeof mutator === 'function') {
       mutator(this.$state)
     } else if (typeof mutator === 'object') {
@@ -268,7 +270,7 @@ export function defineStore<
 
   const initialState = state?.() || {}
   const guardedState = guards ? wrapState(id, initialState as S, guards as G) : null
-  const stateRef = ref(guardedState || initialState)
+  const stateRef = ref(guardedState || initialState) as UnwrapRef<S>
 
   /**
    * defining store properties
@@ -320,14 +322,14 @@ export function defineStore<
    */
   const store = reactive(assign(
     _storeProperties,
-    toRefs(stateRef.value) as any,
+    toRefs(stateRef.value),
     actions,
     Object.keys($computed || {}).reduce((mods, key) => {
       // @ts-ignore
       mods[key] = markRaw(computed(() => $computed![key].call(store, store)))
       return mods
     }, {})
-  )) as Store<Id, S, G, C, A, E>
+  )) as UnwrapNestedRefs<Store<Id, S, G, C, A, E>>
   /**
    * wrapping the actions to handle subscribers
    */
@@ -345,7 +347,11 @@ export function defineStore<
   /**
    * install plugins
    */
-  root?._p.forEach(pl => pl({ store }))
+  const pluginExtends = {}
+
+  root?._p.forEach(pl => assign(pluginExtends, (pl({ store }) || {})))
+
+  assign(store, pluginExtends)
 
   /***
    * set useStore to the root object

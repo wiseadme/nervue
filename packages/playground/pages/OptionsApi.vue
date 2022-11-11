@@ -29,8 +29,6 @@
       this.userStore = useUserStore()
       this.productStore = useProductStore()
 
-      console.log(this.productStore)
-
       this.userStore.$patch({name: 'Randevounier'})
 
       this.userStore.setName('gandsdklfjghsldfkjghsldkfjghsi')
@@ -40,6 +38,8 @@
       this.userStore.$patch(state => {
         state.name = 'Randevounier'
       })
+
+      console.log(this.userStore, useProductStore())
 
       setTimeout(() => this.userStore.setName('Alexandr'), 2000)
       setTimeout(() => this.setName('Ron'), 4000)

@@ -31,7 +31,6 @@ export const useUserStore = defineStore({
 
   actions: {
     async setName(name: string): Promise<any>{
-
       await new Promise(res => setTimeout(() => {
         this.$patch({ name })
         res(true)

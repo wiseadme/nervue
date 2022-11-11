@@ -3,21 +3,9 @@ import { defineStore } from '../../nervue/src'
 
 export const PRODUCT = 'PRODUCT'
 
-type ProductActions = {
-  fetchItems(): Promise<void>
-}
-
-const actions: ProductActions = {
-  async fetchItems(){
-    setTimeout(() => {
-      this.items = [
-        { title: 'DJI mini 3 Pro', visible: false },
-        { title: 'DJI air 2s', visible: true },
-        { title: 'DJI Mavic 3', visible: true },
-      ]
-    })
-  }
-}
+// type ProductActions = {
+//   fetchItems(): Promise<void>
+// }
 
 export const useProductStore = defineStore({
   id: 'PRODUCT',
@@ -47,9 +35,22 @@ export const useProductStore = defineStore({
     visibleItems: (state) => state.items?.filter(it => it.isVisible)
   },
 
-  actions,
+  actions: {
+    async fetchItems(){
+      setTimeout(() => {
+        this.items = [
+          { title: 'DJI mini 3 Pro', visible: false },
+          { title: 'DJI air 2s', visible: true },
+          { title: 'DJI Mavic 3', visible: true },
+        ]
+      })
+    }
+  }
+  ,
 
   expose: {
     items: true
   }
 })
+
+// const store = useProductStore()

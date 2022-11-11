@@ -11,7 +11,6 @@ aside: false
 ```typescript
 import { createNervue } from 'nervue'
 import { createApp } from 'vue'
-
 import App from './App.vue'
 
 const nervue = createNervue()

@@ -12,8 +12,8 @@ describe('Computed', () => {
 
     computed: {
       fullName: (store) => `${ store.name } ${ store.familyName }`,
-      fullNameAndAge() {
-        return this.fullName + ` ${this.age} years old`
+      fullNameAndAge(){
+        return this.fullName + ` ${ this.age } years old`
       },
       userWithAge(): (years: number) => string{
         return (years) => this.fullName + ` ${ years } years old`
@@ -42,6 +42,7 @@ describe('Computed', () => {
   })
 
   test('test computed func with argument', () => {
+    // @ts-ignore
     expect(useStore().userWithAge(35)).toEqual('Antonio Handel 35 years old')
   })
 })

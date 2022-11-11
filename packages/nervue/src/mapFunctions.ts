@@ -1,10 +1,12 @@
 import type {
+  Store,
   ActionsTree,
   GuardsTree,
   StateTree,
+  ComputedTree,
+  ExposesTree,
   Method,
   StoreDefinition,
-  ComputedTree, ExposesTree,
 } from './types'
 
 /**
@@ -116,7 +118,7 @@ export function mapState<
   C extends ComputedTree<S>,
   A,
   E extends ExposesTree,
-  KeyMapper extends Record<string, (keyof S | C) | ((state: S) => any)>
+  KeyMapper extends Record<string, (keyof S | keyof C) | ((store: Store<Id, S, G, C, A, E>) => any)>
   >(
   useStore: StoreDefinition<Id, S, G, C, A, E>,
   keysMap: KeyMapper
@@ -126,12 +128,14 @@ export function mapState<
  * @param useStore - store composition
  * @param mapOrKeys - map or array of state or computed keys
  */
-export function mapState<Id extends string,
+export function mapState<
+  Id extends string,
   S extends StateTree,
   G extends GuardsTree,
   C extends ComputedTree<S>,
-  A extends ActionsTree>(
-  useStore: StoreDefinition<Id, S, G, C, A>,
+  A extends ActionsTree,
+  E extends ExposesTree>(
+  useStore: StoreDefinition<Id, S, G, C, A, E>,
   mapOrKeys?: any
 ): StateTree{
   const map: Record<string, any> = {}
