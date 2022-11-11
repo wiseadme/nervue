@@ -45,8 +45,7 @@ export const useProductStore = defineStore({
         ]
       })
     }
-  }
-  ,
+  },
 
   expose: {
     items: true

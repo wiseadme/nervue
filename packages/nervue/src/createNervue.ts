@@ -69,9 +69,9 @@ export function useNervue(id?: string): Root | Store | void{
     return nervue!
   }
 
-  if (!nervue?.exposed[id]) {
+  if (!nervue?.stores[id]) {
     return logWarning(`"${ id }" store doesn't exist in the root object`)
   }
 
-  return nervue.exposed[id] || nervue.exposed[id]
+  return nervue.stores[id]
 }
