@@ -34,10 +34,10 @@ export type Computed<C> = {
 
 export type _StoreWithProperties<Id, S, G, C, A, E> = {
   $id: Id
-  $patch: (mutator: ((state: UnwrapNestedRefs<UnwrapRef<S>>) => void) | Record<keyof S, any>) => void
+  $patch: (mutator: ((state: UnwrapRef<S>) => void) | Record<keyof S, any>) => void
   $subscribe: (subscribeOptions: SubscribeOptions<A>) => Unsubscribe
-  $state: S
-  $exposed: Record<string, Root['exposed']>
+  $state: UnwrapRef<S>
+  // $exposed: Record<string, Root['exposed']>
   _guards: G
   _computed: [ keyof C ]
   _expose: [ keyof E ]
@@ -61,9 +61,10 @@ export interface StoreOptions<
   expose?: E
 }
 
-export type Store<Id extends string = string,
+export type Store<
+  Id extends string = string,
   S extends StateTree = {},
-  G /*extends GuardsTree*/ = GuardsTree,
+  G /*extends GuardsTree*/ = {},
   C /*extends ComputedTree<S>*/ = {},
   A /*extends ActionsTree*/ = {},
   E /*extends ExposesTree*/ = {},
@@ -72,7 +73,8 @@ export type Store<Id extends string = string,
   & Computed<C>
   & Actions<A>
 
-export interface StoreDefinition<Id extends string = string,
+export interface StoreDefinition<
+  Id extends string = string,
   S extends StateTree = {},
   G /*extends GuardsTree*/ = {},
   C /*extends ComputedTree<S>*/ = ComputedTree<S>,

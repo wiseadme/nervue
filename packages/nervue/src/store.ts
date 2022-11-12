@@ -260,7 +260,7 @@ export function defineStore<
   /***
    * @param {(state: UnwrapRef<S>) => (void | Partial<UnwrapRef<S>>)} mutator
    */
-  function $patch(mutator: (state: UnwrapNestedRefs<UnwrapRef<S>>) => void | Record<keyof S, any>){
+  function $patch(mutator: (state: S) => void | Record<keyof S, any>){
     if (typeof mutator === 'function') {
       mutator(this.$state)
     } else if (typeof mutator === 'object') {
@@ -306,15 +306,15 @@ export function defineStore<
     configurable: true
   })
 
-  /***
-   * this property will be redefined if
-   * the store is added to the root
-   */
-  Object.defineProperty(_storeProperties, '$exposed', {
-    value: {},
-    writable: true,
-    configurable: true
-  })
+  // /***
+  //  * this property will be redefined if
+  //  * the store is added to the root
+  //  */
+  // Object.defineProperty(_storeProperties, '$exposed', {
+  //   value: {},
+  //   writable: true,
+  //   configurable: true
+  // })
 
   /**
    * create the store and wrapping

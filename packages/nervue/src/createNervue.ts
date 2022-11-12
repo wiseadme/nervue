@@ -11,7 +11,6 @@ import {
 } from 'vue-demi'
 import {
   NervuePlugin,
-  Store
 } from './types'
 import { logWarning } from './helpers'
 import { Nervue, nervueSymbol, Root } from './root'
@@ -62,7 +61,7 @@ export function createNervue(): NervuePlugin{
   return getRoot()!
 }
 
-export function useNervue(id?: string): Root | Store | void{
+export function useNervue(id?: string): Record<string, any>{
   const nervue = getRoot()
 
   if (!id) {
@@ -70,8 +69,8 @@ export function useNervue(id?: string): Root | Store | void{
   }
 
   if (!nervue?.stores[id]) {
-    return logWarning(`"${ id }" store doesn't exist in the root object`)
+    logWarning(`"${ id }" store doesn't exist in the root object`)
   }
 
-  return nervue.stores[id]
+  return nervue?.stores[id] as any
 }

@@ -26,10 +26,11 @@ export class Nervue implements Root {
     if (this.stores[useStore.$id]) {
       return
     }
+
     const store = useStore()
+    const { $id, _expose } = store
 
     if (store._expose.length) {
-      const { $id, _expose } = store
 
       if (this.stores[$id]) {
         return
@@ -47,17 +48,19 @@ export class Nervue implements Root {
           (this.stores[$id][key] as ComputedRef) = computed(() => store[key])
         }
       }
+    } else {
+      this.stores[$id] = store
     }
 
-    Object.defineProperty(store, '$exposed', {
-      get: () => Object.keys(this.stores).reduce((exp, key) => {
-        if (key !== store.$id) {
-          exp[key] = this.stores[key]
-        }
-
-        return exp
-      }, {})
-    })
+    // Object.defineProperty(store, '$exposed', {
+    //   get: () => Object.keys(this.stores).reduce((exp, key) => {
+    //     if (key !== store.$id) {
+    //       exp[key] = this.stores[key]
+    //     }
+    //
+    //     return exp
+    //   }, {})
+    // })
   }
 
   unset(id){

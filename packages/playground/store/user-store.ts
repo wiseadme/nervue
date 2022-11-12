@@ -19,7 +19,7 @@ export const useUserStore = defineStore({
   },
 
   computed: {
-    fullName: (state) => state.name + ' Sivkov',
+    fullName: (store) => store.name + ' Sivkov',
     /***
      * Returns full name with user age
      * @returns {(age) => string}
@@ -46,6 +46,10 @@ export const useUserStore = defineStore({
       })
     }
   },
+
+  // events: {
+  //   ['fetch-user']: createEvent()
+  // },
 
   expose: {
     name: true,

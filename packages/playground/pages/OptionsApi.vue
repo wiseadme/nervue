@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { mapActions, mapState } from '../../nervue/src'
+  import { mapActions, mapState, useNervue } from '../../nervue/src'
   import { useUserStore } from '../store/user-store'
   import { useProductStore } from '../store/product-store'
 
@@ -8,7 +8,7 @@
 
     data(){
       return {
-        productStore: null
+        productStore: useNervue('PRODUCT')
         // userStore: null
       }
     },
@@ -27,7 +27,6 @@
 
     created(){
       this.userStore = useUserStore()
-      this.productStore = useProductStore()
 
       this.userStore.$patch({name: 'Randevounier'})
 
@@ -39,7 +38,7 @@
         state.name = 'Randevounier'
       })
 
-      console.log(this.userStore, useProductStore())
+      console.log(this.userStore, this.productStore)
 
       setTimeout(() => this.userStore.setName('Alexandr'), 2000)
       setTimeout(() => this.setName('Ron'), 4000)
@@ -84,6 +83,5 @@
   <h1>Options API Nervue</h1>
   <h2>{{ fullName(35) }}</h2>
   <button @click="setNewName">CHANGE NAME</button>
-  <h2>{{ productStore.$exposed.USER.name }}</h2>
   <h2>{{ $nervue.stores.USER.name }}</h2>
 </template>
