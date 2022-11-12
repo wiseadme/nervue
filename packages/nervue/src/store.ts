@@ -138,7 +138,7 @@ export function defineStore<
    * @returns {Unsubscribe} - unsubscribe function
    */
   function $subscribe(options: SubscribeOptions<A>): Unsubscribe{
-    const { name, before, after, onError } = options
+    const { name, detached, before, after, onError } = options
 
     if (before && !subscriptionsBefore[name]) {
       subscriptionsBefore[name] = []
@@ -168,7 +168,7 @@ export function defineStore<
       })
     }
 
-    if (options.detached && getCurrentInstance()) {
+    if (!detached && getCurrentInstance()) {
       onUnmounted(unsubscribe)
     }
 

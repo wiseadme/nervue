@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { mapActions, mapState, useNervue } from '../../nervue/src'
+  import { mapActions, mapState, useStore } from '../../nervue/src'
   import { useUserStore } from '../store/user-store'
   import { useProductStore } from '../store/product-store'
 
@@ -8,7 +8,7 @@
 
     data(){
       return {
-        productStore: useNervue('PRODUCT')
+        productStore: useStore('PRODUCT')
         // userStore: null
       }
     },
@@ -52,19 +52,16 @@
 
       const unsubscribe = this.userStore.$subscribe({
         name: 'setName',
-        before(){
-          console.log('it happend before setName')
+        before(args){
+          console.log('it happend before setName', args)
         },
         after(res){
-          console.log(res)
-          console.log('it happend after setName')
+          console.log('it happend after setName', res)
         },
         onError(error: any): any{
           console.log(error, 'on error')
         }
       })
-
-      unsubscribe()
     },
 
     methods: {

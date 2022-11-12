@@ -20,5 +20,5 @@ export type {
   ExposesTree,
   SubscribeOptions,
   Unsubscribe,
-  ExistingSubscribers
+  NervuePlugin
 } from './types'

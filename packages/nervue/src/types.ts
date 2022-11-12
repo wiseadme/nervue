@@ -103,6 +103,5 @@ export type ExistingSubscribers = {
 }
 
 export type Unsubscribe = () => Promise<boolean>
-
 export type NervuePlugin = UnwrapNestedRefs<Nervue> & Plugin
 

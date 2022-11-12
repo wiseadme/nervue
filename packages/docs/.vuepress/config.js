@@ -22,13 +22,11 @@ export default {
       lang: 'ru-RU',
       title: 'Nervue',
       lastUpdated: false,
-      lastUpdatedText: 'Последнее обновление',
     },
     '/en/': {
       lang: 'en-US',
       title: 'Nervue',
       lastUpdated: false,
-      lastUpdatedText: 'Last Updated',
     },
   },
   theme: defaultTheme({
@@ -36,13 +34,16 @@ export default {
     home: '/',
     repo: 'https://github.com/wiseadme/nervue',
     editLink: false,
+    contributors: false,
     locales: {
       '/': {
         selectLanguageName: 'Русский',
         navbar: RuNavbar,
         sidebar: RuSidebar,
         home: '/',
-        selectLanguageText: 'Язык'
+        selectLanguageText: 'Язык',
+        lastUpdatedText: 'Последнее обновление',
+        contributorsText: 'Контрибутор',
       },
       '/en/': {
         selectLanguageName: 'English',
@@ -50,7 +51,9 @@ export default {
         navbar: EnNavbar,
         sidebar: EnSidebar,
         home: '/en/',
-        selectLanguageText: 'Languages'
+        selectLanguageText: 'Languages',
+        lastUpdatedText: 'Last Updated',
+        contributorsText: 'Contributor',
       },
     }
   })

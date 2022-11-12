@@ -3,9 +3,8 @@ import {
   defineComponent,
   DefineComponent,
 } from 'vue-demi'
-import { StoreDefinition } from './types'
 
-export function createComponent(useStore: StoreDefinition): DefineComponent {
+export function createComponent(useStore): DefineComponent {
   return defineComponent({
     name: (`use-${ useStore.$id }-store`).toLowerCase(),
 

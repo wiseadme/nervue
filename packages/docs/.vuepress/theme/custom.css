@@ -110,16 +110,11 @@
   box-shadow: 0 0 8px -1px rgba(0, 0, 0, .3);
 }
 
-.highlight-line {
-  background-color: var(--code-hl-bg-color) !important;
-  margin-top: -6px !important;
-}
-
 :root {
   --c-brand: #10213d;
   --c-brand-light: #179df3;
   --navbar-height: 60px;
-  --code-bg-color: var(--c-brand);
+  --code-bg-color: #ececec;
   --c-text-accent: var(--c-brand-light);
   --code-hl-bg-color: #28545a;
   --vp-c-brand: var(--c-brand-light);
