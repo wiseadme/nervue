@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-b7c39e4c","path":"/api/use-nervue.html","title":"useNervue","lang":"ru-RU","frontmatter":{"aside":false},"excerpt":"","headers":[],"git":{"updatedTime":1668021943000},"filePathRelative":"api/use-nervue.md"}');export{e as data};
