@@ -1,5 +1,5 @@
 import { Plugin, UnwrapRef, UnwrapNestedRefs } from 'vue-demi'
-import { Root } from './root'
+import type { Nervue } from './root'
 import { ComputedRef } from 'vue'
 
 export type Method = (...args: any[]) => any
@@ -34,10 +34,9 @@ export type Computed<C> = {
 
 export type _StoreWithProperties<Id, S, G, C, A, E> = {
   $id: Id
-  $patch: (mutator: ((state: UnwrapRef<S>) => void) | Record<keyof S, any>) => void
-  $subscribe: (subscribeOptions: SubscribeOptions<A>) => Unsubscribe
+  $patch(mutator: ((state: UnwrapRef<S>) => void) | Partial<Record<keyof S, any>>): void
+  $subscribe(subscribeOptions: SubscribeOptions<A>): Unsubscribe
   $state: UnwrapRef<S>
-  // $exposed: Record<string, Root['exposed']>
   _guards: G
   _computed: [ keyof C ]
   _expose: [ keyof E ]
@@ -73,6 +72,10 @@ export type Store<
   & Computed<C>
   & Actions<A>
 
+export type ExposedStore<SS> = SS extends Store<string, infer S, GuardsTree, infer C, infer A, infer E>
+  ? keyof E extends never ? Record<keyof A | keyof S | keyof C, any> : Record<keyof E, any>
+  : any
+
 export interface StoreDefinition<
   Id extends string = string,
   S extends StateTree = {},
@@ -101,5 +104,5 @@ export type ExistingSubscribers = {
 
 export type Unsubscribe = () => Promise<boolean>
 
-export type NervuePlugin = UnwrapNestedRefs<Root> & Plugin
+export type NervuePlugin = UnwrapNestedRefs<Nervue> & Plugin
 

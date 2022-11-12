@@ -1,4 +1,4 @@
-export { createNervue, useNervue } from './createNervue'
+export { createNervue, useStore, useNervue } from './createNervue'
 export { defineStore } from './store'
 export { mapActions, mapState } from './mapFunctions'
 export { nervueSymbol } from './root'

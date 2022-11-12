@@ -63,6 +63,8 @@
           console.log(error, 'on error')
         }
       })
+
+      unsubscribe()
     },
 
     methods: {

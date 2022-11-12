@@ -27,7 +27,7 @@ import {
   _StoreWithProperties,
 } from './types'
 
-import { getRoot } from './createNervue'
+import { useNervue } from './createNervue'
 
 /***
  * @param target - state of store
@@ -257,10 +257,9 @@ export function defineStore<
     }
   }
 
-  /***
-   * @param {(state: UnwrapRef<S>) => (void | Partial<UnwrapRef<S>>)} mutator
-   */
-  function $patch(mutator: (state: S) => void | Record<keyof S, any>){
+  function $patch(mutator: Record<keyof S, any>): void
+  function $patch(mutator: (state: UnwrapRef<S>) => void): void
+  function $patch(mutator: any){
     if (typeof mutator === 'function') {
       mutator(this.$state)
     } else if (typeof mutator === 'object') {
@@ -306,16 +305,6 @@ export function defineStore<
     configurable: true
   })
 
-  // /***
-  //  * this property will be redefined if
-  //  * the store is added to the root
-  //  */
-  // Object.defineProperty(_storeProperties, '$exposed', {
-  //   value: {},
-  //   writable: true,
-  //   configurable: true
-  // })
-
   /**
    * create the store and wrapping
    * into reactive for unwrapping the refs
@@ -342,25 +331,24 @@ export function defineStore<
 
   const useStore = () => store
 
-  const root = getRoot()
+  const nervue = useNervue()
 
   /**
    * install plugins
    */
   const pluginExtends = {}
 
-  root?._p.forEach(pl => assign(pluginExtends, (pl({ store }) || {})))
+  nervue?._p.forEach(pl => assign(pluginExtends, (pl({ store }) || {})))
 
   assign(store, pluginExtends)
 
   /***
    * set useStore to the root object
    */
-
   Promise.resolve()
     .then(() => {
-      if (root && root.installed) {
-        root.set(useStore)
+      if (nervue && nervue.installed) {
+        nervue.set(useStore)
       }
     })
 

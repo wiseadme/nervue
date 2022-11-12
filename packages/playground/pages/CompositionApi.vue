@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  // import { useNervue } from '../../nervue/src'
   import { useUserStore } from '../store/user-store'
   import { createComponent } from '../../nervue/src'
 
@@ -11,6 +10,10 @@
   // const { name } = userStore
 
   userStore.$patch({ name: 'jamessss' })
+
+  userStore.$patch(state => {
+    state.name = ''
+  })
 
   setTimeout(() => {
     userStore.$patch({ name: 'Hoolio' })

@@ -25,7 +25,7 @@ export const useUserStore = defineStore({
      * @returns {(age) => string}
      */
     fullNameAndAge(){
-      return (age) => this.fullName + ` ${ age } + ${this.age}`
+      return (age) => this.fullName + ` ${ age } + ${ this.age }`
     }
   },
 
@@ -53,8 +53,8 @@ export const useUserStore = defineStore({
 
   expose: {
     name: true,
-    fullName: true,
-    setName: true,
+    // fullName: true,
+    // setName: true,
   },
 })
 

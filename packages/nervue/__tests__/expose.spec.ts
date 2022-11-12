@@ -1,4 +1,4 @@
-import { createNervue, defineStore, useNervue } from '../src'
+import { createNervue, defineStore, useStore } from '../src'
 
 const store = createNervue()
 
@@ -17,7 +17,6 @@ const useUserStore = defineStore({
   expose: {
     name: true,
     age: true,
-    profession: true,
     setUser: true
   }
 })
@@ -26,7 +25,7 @@ store.installed = true
 
 describe('Expose', () => {
   test('test store exposed props', () => {
-    const userStore = useNervue('USER')
+    const userStore = useStore('USER')
 
     userStore.setUser({
       name: 'Alex',
@@ -35,7 +34,7 @@ describe('Expose', () => {
     })
 
     expect(useUserStore().name).toEqual('Alex')
-    expect(useUserStore()._expose).toEqual(['name', 'age', 'profession', 'setUser'])
+    expect(useUserStore()._expose).toEqual(['name', 'age', 'setUser'])
     expect(userStore.name).toEqual('Alex')
   })
 })

@@ -3,21 +3,9 @@ import { Method } from './types'
 
 export const nervueSymbol = Symbol.for('nervue')
 
-export interface Root {
-  installed: boolean;
-  stores: Record<string, any>
-  _p: Method[]
+const nervueProps = [ '$patch', '$subscribe', '$id' ]
 
-  set(useStore): void
-
-  unset(id: string): void
-
-  use(Method): void
-
-  install(): void
-}
-
-export class Nervue implements Root {
+export class Nervue {
   public installed: boolean = false
   public stores: Record<string, any> = {}
   public _p: Method[] = []
@@ -30,37 +18,26 @@ export class Nervue implements Root {
     const store = useStore()
     const { $id, _expose } = store
 
-    if (store._expose.length) {
+    this.stores[$id] = {}
 
-      if (this.stores[$id]) {
-        return
+    const exposedProps = _expose.length ? _expose : Object.keys(store)
+
+
+    /*TODO - need define compatible type for the exposed values*/
+
+    for (const key of exposedProps) {
+      if (nervueProps.includes(key as string)) {
+        continue
       }
 
-      /*TODO - need define compatible type for the exposed values*/
-      this.stores[$id] = {}
-
-      for (const key of _expose) {
-        if (typeof store[key] === 'function') {
-          (this.stores[$id][key] as Method) = function (){
-            store[key](...arguments)
-          }
-        } else {
-          (this.stores[$id][key] as ComputedRef) = computed(() => store[key])
+      if (typeof store[key] === 'function') {
+        (this.stores[$id][key as string] as Method) = function (){
+          store[key](...arguments)
         }
+      } else {
+        (this.stores[$id][key as string] as ComputedRef) = computed(() => store[key] as any)
       }
-    } else {
-      this.stores[$id] = store
     }
-
-    // Object.defineProperty(store, '$exposed', {
-    //   get: () => Object.keys(this.stores).reduce((exp, key) => {
-    //     if (key !== store.$id) {
-    //       exp[key] = this.stores[key]
-    //     }
-    //
-    //     return exp
-    //   }, {})
-    // })
   }
 
   unset(id){
