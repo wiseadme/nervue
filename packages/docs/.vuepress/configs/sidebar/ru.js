@@ -28,6 +28,7 @@ export default {
         '/core-concepts/guards.md',
         '/core-concepts/actions.md',
         '/core-concepts/expose.md',
+        '/core-concepts/plugins.md',
       ],
     }
   ],

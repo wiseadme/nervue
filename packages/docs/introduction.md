@@ -42,7 +42,7 @@ const useCounterStore = defineStore({
   export default defineComponent({
     setup(){
       const store = useCounterStore()
-      // можно применять деструктуризация, 
+      // можно применять деструктуризацию, 
       // действия не потеряют контекст.
       const { increment } = store
 

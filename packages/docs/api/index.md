@@ -6,7 +6,7 @@ aside: false
 
 ## createNervue
 
-Возвращает ```vue``` плагин, который установит ```root``` объект Nervue.
+Возвращает ```vue``` плагин, который устанавливает Nervue.
 
 ```typescript
 import { createNervue } from 'nervue'

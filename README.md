@@ -1,9 +1,7 @@
-<h1 align="center">Nervue</h1>
 <p align="center">    
 <a href="https://github.com/wiseadme/nervue">
-<img src="https://i.ibb.co/N3pMDjL/nervue.png" alt="nervue">
+<img src="https://i.ibb.co/PYt6Z8c/nervue.png" alt="nervue">
 </a>
 </p>
-<p align="center">The library is under development and has not yet been fully tested. It is not recommended to use it in projects yet.</p>
 
-The [documentation](https://wiseadme.github.io/nervue/) will be ready soon.
+The library [documentation](https://wiseadme.github.io/nervue/) is in progress, and will be fully finalized in the near future.

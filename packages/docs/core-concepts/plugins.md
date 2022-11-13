@@ -1,3 +1,3 @@
-# createComponent
+# Plugins
 
 В процессе...

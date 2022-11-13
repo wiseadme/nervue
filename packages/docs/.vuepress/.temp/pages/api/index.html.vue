@@ -1,6 +1,6 @@
 <template><div><h1 id="документация-api" tabindex="-1"><a class="header-anchor" href="#документация-api" aria-hidden="true">#</a> Документация API</h1>
 <h2 id="createnervue" tabindex="-1"><a class="header-anchor" href="#createnervue" aria-hidden="true">#</a> createNervue</h2>
-<p>Возвращает <code v-pre>vue</code> плагин, который установит <code v-pre>root</code> объект Nervue.</p>
+<p>Возвращает <code v-pre>vue</code> плагин, который устанавливает Nervue.</p>
 <div class="language-typescript" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> createNervue <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> createApp <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span>
 <span class="token keyword">import</span> App <span class="token keyword">from</span> <span class="token string">'./App.vue'</span>
