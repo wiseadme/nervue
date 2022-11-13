@@ -1,6 +1,5 @@
-import { Plugin, UnwrapRef, UnwrapNestedRefs } from 'vue-demi'
+import {ComputedRef, Plugin, UnwrapRef, UnwrapNestedRefs } from 'vue-demi'
 import type { Nervue } from './root'
-import { ComputedRef } from 'vue'
 
 export type Method = (...args: any[]) => any
 

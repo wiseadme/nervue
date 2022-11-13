@@ -1,7 +1,6 @@
 import {
   App,
   UnwrapNestedRefs,
-  UnwrapRef,
   Plugin,
   Vue2,
   isVue3,
@@ -19,7 +18,7 @@ import { Nervue, nervueSymbol } from './root'
 
 const root = ref<Nervue | null>(null)
 
-export function useNervue(): UnwrapNestedRefs<UnwrapRef<Nervue>> | null{
+export function useNervue(): UnwrapNestedRefs<Nervue> | null{
   return unref(root) ? reactive(unref(root)!) : unref(root)
 }
 
@@ -87,7 +86,7 @@ export function useStore<T = {}>(id: string): ExposedStore<T> | void{
           store[key](...arguments)
         }
       } else {
-        exposedStore[key as string] = reactive(computed(() => store[key] as any))
+        exposedStore[key as string] = nervue._s.run(() => reactive(computed(() => store[key] as any)))
       }
     }
 
