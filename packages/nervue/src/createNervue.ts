@@ -5,6 +5,7 @@ import {
   Plugin,
   Vue2,
   isVue3,
+  computed,
   reactive,
   ref,
   unref
@@ -62,12 +63,34 @@ export function createNervue(): NervuePlugin{
   return useNervue()!
 }
 
-export function useStore<T = {}>(id: string): ExposedStore<T>{
+const nervueProps = [ '$patch', '$subscribe', '$id' ]
+
+export function useStore<T = {}>(id: string): ExposedStore<T> | void{
   const nervue = useNervue()!
 
   if (!nervue?.stores[id!]) {
     logWarning(`"${ id }" store doesn't exist in the root object`)
-  }
+  } else {
+    const store = nervue.stores[id]()
+    const { _expose } = store
 
-  return nervue?.stores[id!] as ExposedStore<T>
+    const exposedStore = {}
+
+    const exposedProps = _expose.length
+      ? _expose
+      : Array.from(new Set(Object.keys(store).concat(nervueProps)))
+
+    /*TODO - need define compatible type for the exposed values*/
+    for (const key of exposedProps) {
+      if (typeof store[key] === 'function') {
+        exposedStore[key as string] = function (){
+          store[key](...arguments)
+        }
+      } else {
+        exposedStore[key as string] = reactive(computed(() => store[key] as any))
+      }
+    }
+
+    return reactive(exposedStore) as ExposedStore<T>
+  }
 }

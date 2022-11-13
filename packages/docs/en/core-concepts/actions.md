@@ -82,7 +82,7 @@ export default {
 Мы можем наблюдать за действиями, с помощью функций обратного вызова получать результаты, обрабатывать ошибки,
 создавать сторонние эффекты.
 
-```ts
+```typescript
 import { useItemsStore } from './store/items-store'
 
 const store = useItemsStore()
@@ -90,8 +90,8 @@ const store = useItemsStore()
 const unsubscribe = store.$subscribe({
   // Имя действия.
   name: 'fetchItems',
-  // Удаление подписки при размонтировании setup()
-  // компонента, если установлено значение равное false.
+  // Удаление подписки при размонтировании компонента,
+  // если установлено значение false.
   // По умолчанию установлен false.
   detached: false,
 
