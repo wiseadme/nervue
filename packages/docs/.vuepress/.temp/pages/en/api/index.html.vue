@@ -90,7 +90,7 @@ app<span class="token punctuation">.</span><span class="token function">use</spa
     <span class="token literal-property property">computed</span><span class="token operator">:</span> <span class="token punctuation">{</span>
       <span class="token operator">...</span><span class="token function">mapState</span><span class="token punctuation">(</span>useCounterStore<span class="token punctuation">,</span> <span class="token punctuation">{</span>
         <span class="token literal-property property">counterValue</span><span class="token operator">:</span> <span class="token string">'count'</span><span class="token punctuation">,</span>
-        <span class="token function-variable function">doubleCount</span><span class="token operator">:</span> <span class="token parameter">state</span> <span class="token operator">=></span> state<span class="token punctuation">.</span>count <span class="token operator">*</span> <span class="token number">2</span>
+        <span class="token function-variable function">doubleCount</span><span class="token operator">:</span> <span class="token parameter">store</span> <span class="token operator">=></span> store<span class="token punctuation">.</span>count <span class="token operator">*</span> <span class="token number">2</span>
       <span class="token punctuation">}</span><span class="token punctuation">)</span>
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
 

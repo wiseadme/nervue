@@ -11,7 +11,7 @@ import {
   UnwrapNestedRefs
 } from 'vue-demi'
 // Helpers
-import { logWarning, typeOf } from './helpers'
+import { logWarning, merge } from './helpers'
 // Types
 import {
   StateTree,
@@ -28,29 +28,6 @@ import {
 } from './types'
 
 import { useNervue } from './createNervue'
-
-/***
- * @param target - state of store
- * @param patch - object to merge
- */
-function merge(target, patch){
-  if (typeOf(target) === 'map') {
-    patch.forEach((it, key) => target.set(key, it))
-  }
-
-  for (const key in patch) {
-    if (
-      typeOf(patch[key]) === 'object'
-      && patch.hasOwnProperty(key)
-    ) {
-      target[key] = merge(target[key], patch[key])
-    } else {
-      target[key] = patch[key]
-    }
-  }
-
-  return target
-}
 
 /**
  * @param {StoreOptions} options - store definition options object

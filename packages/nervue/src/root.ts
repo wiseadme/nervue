@@ -22,9 +22,7 @@ export class Nervue {
 
     const exposedProps = _expose.length ? _expose : Object.keys(store)
 
-
     /*TODO - need define compatible type for the exposed values*/
-
     for (const key of exposedProps) {
       if (nervueProps.includes(key as string)) {
         continue

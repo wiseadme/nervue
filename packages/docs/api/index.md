@@ -122,7 +122,7 @@ const useCounterStore = defineStore({
     computed: {
       ...mapState(useCounterStore, {
         counterValue: 'count',
-        doubleCount: state => state.count * 2
+        doubleCount: store => store.count * 2
       })
     },
 

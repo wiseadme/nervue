@@ -55,7 +55,7 @@ export interface StoreOptions<
   id: Id
   state?: () => S,
   guards?: G extends GuardsTree ? keyof G extends S ? G : _StoreStateWithGuards<keyof S & string, G> : unknown
-  computed?: C & ThisType<UnwrapRef<S> & ComputedTree<S> & ActionsTree>,
+  computed?: C & ThisType<UnwrapRef<S> & ComputedTree<S> & _StoreWithProperties<Id, S, G, C, A, E>>,
   actions?: A & ThisType<UnwrapRef<S> & ComputedTree<S> & _StoreWithProperties<Id, S, G, C, A, E>>,
   expose?: E
 }
