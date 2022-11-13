@@ -1,4 +1,4 @@
-import{_ as n,o as s,c as a,a as t}from"./app.3e877641.js";const p={},o=t(`<h1 id="actions" tabindex="-1"><a class="header-anchor" href="#actions" aria-hidden="true">#</a> Actions</h1><p>Действия это то место, где определяются методы вашего хранилища. Именно здесь можно реализовать бизнес логику и взаимодействие с серверной частью.</p><div class="language-typescript" data-ext="ts"><pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> defineStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&#39;nervue&#39;</span>
+import{_ as n,o as s,c as a,a as t}from"./app.5f494808.js";const p={},o=t(`<h1 id="actions" tabindex="-1"><a class="header-anchor" href="#actions" aria-hidden="true">#</a> Actions</h1><p>Действия это то место, где определяются методы вашего хранилища. Именно здесь можно реализовать бизнес логику и взаимодействие с серверной частью.</p><div class="language-typescript" data-ext="ts"><pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> defineStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&#39;nervue&#39;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> axios <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&#39;axios&#39;</span>
 
 <span class="token keyword">export</span> <span class="token keyword">const</span> useItemsStore <span class="token operator">=</span> <span class="token function">defineStore</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -56,8 +56,8 @@ import{_ as n,o as s,c as a,a as t}from"./app.3e877641.js";const p={},o=t(`<h1 i
 <span class="token keyword">const</span> unsubscribe <span class="token operator">=</span> store<span class="token punctuation">.</span><span class="token function">$subscribe</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   <span class="token comment">// Имя действия.</span>
   name<span class="token operator">:</span> <span class="token string">&#39;fetchItems&#39;</span><span class="token punctuation">,</span>
-  <span class="token comment">// Удаление подписки при размонтировании setup()</span>
-  <span class="token comment">// компонента, если установлено значение равное false.</span>
+  <span class="token comment">// Удаление подписки при размонтировании компонента,</span>
+  <span class="token comment">// если установлено значение false.</span>
   <span class="token comment">// По умолчанию установлен false.</span>
   detached<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
 
