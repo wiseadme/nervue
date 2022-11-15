@@ -96,7 +96,7 @@ export type SubscribeOptions<A> = {
   onError?(error: any): any
 }
 
-export type ExistingSubscribers = {
+export type SubscribersLists = {
   beforeList: ((...args: any) => any)[]
   afterList: ((res: any) => any)[]
   onErrorList: ((error: unknown) => unknown)[]

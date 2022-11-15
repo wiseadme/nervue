@@ -23,7 +23,7 @@ import {
   Method,
   SubscribeOptions,
   Unsubscribe,
-  ExistingSubscribers,
+  SubscribersLists,
   _StoreWithProperties,
 } from './types'
 
@@ -164,7 +164,7 @@ export function defineStore<
    * @param name {string} - name of action
    * @returns {object} object of existing subscribers
    */
-  function getSubscribers(name: string): ExistingSubscribers{
+  function getSubscribers(name: string): SubscribersLists{
     return {
       beforeList: subscriptionsBefore[name],
       afterList: subscriptionsAfter[name],
