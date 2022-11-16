@@ -8,7 +8,7 @@ import {
   onUnmounted,
   getCurrentInstance,
   UnwrapRef,
-  UnwrapNestedRefs
+  UnwrapNestedRefs, effectScope
 } from 'vue-demi'
 // Helpers
 import { logWarning, merge } from './helpers'
@@ -282,20 +282,28 @@ export function defineStore<
     configurable: true
   })
 
+  const nervue = useNervue()
+
   /**
    * create the store and wrapping
    * into reactive for unwrapping the refs
    */
-  const store = reactive(assign(
-    _storeProperties,
-    toRefs(stateRef.value),
-    actions,
-    Object.keys($computed || {}).reduce((mods, key) => {
-      // @ts-ignore
-      mods[key] = markRaw(computed(() => $computed![key].call(store, store)))
-      return mods
-    }, {})
-  )) as UnwrapNestedRefs<Store<Id, S, G, C, A, E>>
+  const store = nervue._s.run(() => {
+    const scope = effectScope()
+    /**
+     * effects scope for the created store
+     */
+    return scope.run(() => reactive(assign(
+      _storeProperties,
+      toRefs(stateRef.value),
+      actions,
+      Object.keys($computed || {}).reduce((mods, key) => {
+        // @ts-ignore
+        mods[key] = markRaw(computed(() => $computed![key].call(store, store)))
+        return mods
+      }, {})
+    )))
+  }) as UnwrapNestedRefs<Store<Id, S, G, C, A, E>>
   /**
    * wrapping the actions to handle subscribers
    */
@@ -308,18 +316,16 @@ export function defineStore<
 
   const useStore = () => store
 
-  const nervue = useNervue()
+  const plugins = {}
 
   /**
    * install plugins
    */
-  const pluginExtends = {}
+  nervue?._p.forEach(pl => assign(plugins, (pl({ store }) || {})))
 
-  nervue?._p.forEach(pl => assign(pluginExtends, (pl({ store }) || {})))
+  assign(store, plugins)
 
-  assign(store, pluginExtends)
-
-  /***
+  /**
    * set useStore to the root object
    */
   Promise.resolve()

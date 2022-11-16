@@ -82,5 +82,5 @@
   <h1>Options API Nervue</h1>
   <h2>{{ fullName(35) }}</h2>
   <button @click="setNewName">CHANGE NAME</button>
-  <h2>{{ $nervue.stores.USER.name }}</h2>
+  <h2>{{ $nervue.stores.USER().name }}</h2>
 </template>

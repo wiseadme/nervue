@@ -1,5 +1,4 @@
-import {ComputedRef, Plugin, UnwrapRef, UnwrapNestedRefs } from 'vue-demi'
-import type { Nervue } from './root'
+import {ComputedRef, UnwrapRef } from 'vue-demi'
 
 export type Method = (...args: any[]) => any
 
@@ -102,5 +101,3 @@ export type SubscribersLists = {
 }
 
 export type Unsubscribe = () => Promise<boolean>
-export type NervuePlugin = UnwrapNestedRefs<Nervue> & Plugin
-

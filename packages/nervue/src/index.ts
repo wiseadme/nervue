@@ -19,6 +19,5 @@ export type {
   GuardsTree,
   ExposesTree,
   SubscribeOptions,
-  Unsubscribe,
-  NervuePlugin
+  Unsubscribe
 } from './types'

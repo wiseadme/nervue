@@ -16,8 +16,6 @@ const events = {
   }
 }
 
-// const scope = effectScope()
-
 export function createEvent(event?: string){
   const eventName = event || Symbol()
 
