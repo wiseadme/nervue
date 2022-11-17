@@ -3,12 +3,13 @@ import {
   reactive,
   toRefs,
   computed,
+  effectScope,
   toRaw,
   markRaw,
   onUnmounted,
   getCurrentInstance,
   UnwrapRef,
-  UnwrapNestedRefs
+  UnwrapNestedRefs,
 } from 'vue-demi'
 // Helpers
 import { logWarning, merge } from './helpers'
@@ -29,19 +30,16 @@ import {
 
 import { useNervue } from './createNervue'
 
-/**
- * @param {StoreOptions} options - store definition options object
- * @returns {StoreDefinition} useStore function
- */
-export function defineStore<
+function setupStore<
   Id extends string,
   S extends StateTree = {},
   G /*extends GuardsTree*/ = {},
   C extends ComputedTree<S> = {},
   A /*extends ActionsTree*/ = {},
-  E extends ExposesTree = {}>(
+  E extends ExposesTree = {}
+>(
   options: StoreOptions<Id, S, G, C, A, E>
-): StoreDefinition<Id, S, G, C, A, E>{
+){
   const {
     id,
     state,
@@ -53,7 +51,7 @@ export function defineStore<
 
   const { assign } = Object
 
-  /***
+  /**
    * @param {string} storeId - store id
    * @param {object} state - state to wrap
    * @param {object} guards - guards to protect the state
@@ -282,10 +280,6 @@ export function defineStore<
     configurable: true
   })
 
-  /**
-   * create the store and wrapping
-   * into reactive for unwrapping the refs
-   */
   const store = reactive(assign(
     _storeProperties,
     toRefs(stateRef.value),
@@ -296,9 +290,7 @@ export function defineStore<
       return mods
     }, {})
   )) as UnwrapNestedRefs<Store<Id, S, G, C, A, E>>
-  /**
-   * wrapping the actions to handle subscribers
-   */
+
   if (actions) {
     Object.keys(actions).forEach(name => {
       const action = store[name];
@@ -306,20 +298,54 @@ export function defineStore<
     })
   }
 
-  const useStore = () => store
+  return store
+}
+
+/**
+ * @param {StoreOptions} options - store definition options object
+ * @returns {StoreDefinition} useStore function
+ */
+export function defineStore<
+  Id extends string,
+  S extends StateTree = {},
+  G /*extends GuardsTree*/ = {},
+  C extends ComputedTree<S> = {},
+  A /*extends ActionsTree*/ = {},
+  E extends ExposesTree = {}>(
+  options: StoreOptions<Id, S, G, C, A, E>
+): StoreDefinition<Id, S, G, C, A, E>{
+
+  const { assign } = Object
 
   const nervue = useNervue()
 
   /**
+   * create the store and wrapping
+   * into reactive for unwrapping the refs
+   */
+  const store = nervue._s.run(() => {
+    const scope = effectScope()
+    /**
+     * effects scope for the created store
+     */
+    return scope.run(() => setupStore(options))
+  }) as UnwrapNestedRefs<Store<Id, S, G, C, A, E>>
+  /**
+   * wrapping the actions to handle subscribers
+   */
+
+  const useStore = () => store
+
+  const plugins = {}
+
+  /**
    * install plugins
    */
-  const pluginExtends = {}
+  nervue?._p.forEach(pl => assign(plugins, (pl({ store }) || {})))
 
-  nervue?._p.forEach(pl => assign(pluginExtends, (pl({ store }) || {})))
+  assign(store, plugins)
 
-  assign(store, pluginExtends)
-
-  /***
+  /**
    * set useStore to the root object
    */
   Promise.resolve()

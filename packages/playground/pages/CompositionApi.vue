@@ -1,12 +1,15 @@
 <script setup lang="ts">
   // import { useUserStore } from '../store/user-store'
-  import { useStore } from '../../nervue/src'
+  import { useStore, useNervue } from '../../nervue/src'
 
   // const userStore = useUserStore()
   const store = useStore('USER')
 
-  console.log(store)
+  const nervue = useNervue()
 
+  // nervue._s.stop()
+
+  console.log(store, nervue)
 </script>
 
 <template>

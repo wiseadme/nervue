@@ -1,4 +1,4 @@
-// import { computed } from 'vue-demi'
+import { effectScope, EffectScope } from 'vue-demi'
 import { Method } from './types'
 
 export const nervueSymbol = Symbol.for('nervue')
@@ -7,6 +7,7 @@ export class Nervue {
   public installed: boolean = false
   public stores: Record<string, any> = {}
   public _p: Method[] = []
+  public _s: EffectScope = effectScope()
 
   set(useStore){
     this.stores[useStore.$id] = useStore
