@@ -345,17 +345,11 @@ export function defineStore<
 
   assign(store, plugins)
 
+  useStore.$id = store.$id
   /**
    * set useStore to the root object
    */
-  Promise.resolve()
-    .then(() => {
-      if (nervue && nervue.installed) {
-        nervue.set(useStore)
-      }
-    })
-
-  useStore.$id = store.$id
+  nervue.set(useStore)
 
   return useStore as StoreDefinition<Id, S, G, C, A, E>
 }
