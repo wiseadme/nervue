@@ -27,6 +27,10 @@ function vue3Install(): Plugin{
   const { install } = nervue
 
   return function (app: App){
+    if (!app) {
+      return
+    }
+
     install.call(nervue)
 
     app.config.globalProperties.$nervue = useNervue()

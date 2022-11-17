@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "dev": "pnpm run -r dev",
+    "dev:nuxt": "pnpm run -r dev:nuxt",
     "test": "pnpm run -r test",
     "docs:dev": "pnpm run -r docs:dev",
     "docs:build": "pnpm run -r docs:build",
