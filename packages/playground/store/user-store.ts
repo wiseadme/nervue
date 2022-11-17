@@ -53,8 +53,8 @@ export const useUserStore = defineStore({
 
   expose: {
     name: true,
-    // fullName: true,
-    // setName: true,
+    fullName: true,
+    setName: true,
   },
 })
 

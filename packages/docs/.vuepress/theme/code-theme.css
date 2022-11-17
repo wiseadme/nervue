@@ -20,7 +20,7 @@ div[class='language-'] {
 }
 
 pre > code {
-  font-size: .95rem;
+  font-size: 1rem;
   color: var(--c-brand) !important;
 }
 

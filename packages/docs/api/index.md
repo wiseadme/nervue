@@ -6,8 +6,7 @@ aside: false
 
 ## createNervue
 
-Возвращает ```vue``` плагин, который устанавливает Nervue.
-
+Возвращает ```vue``` плагин **Nervue**.
 ```typescript
 import { createNervue } from 'nervue'
 import { createApp } from 'vue'
@@ -50,13 +49,11 @@ Nervue устанавливается как глобальная перемен
   </div>
 </template>
 ```
+## createComponent
+В процессе...
 
 ## useNervue
-
-Функция, которая возвращает ```root``` объект. Если в качестве аргумента передать ```id``` конкретного хранилища,
-которое зарегистрировано в ```root```
-объекте, с помощью метода ```set```, то в таком случае функция вернет хранилище по ```id``` ключу.
-
+Функция, которая возвращает корневой объект **Nervue**.
 ```vue
 <script lang="ts">
   import { defineComponent } from 'vue'
@@ -64,21 +61,21 @@ Nervue устанавливается как глобальная перемен
   
   export default defineComponent({
     setup() {
-      const productStore = useNervue('PRODUCT')
+      // корневой объект Nervue
+      const nervue = useNervue()
       
       return {
-        productStore
+        nervue
       }
     }
   })
 </script>
 
 ```
-
-## defineStore
+## useStore
 В процессе...
 
-## createComponent
+## defineStore
 В процессе...
 
 ## mapState

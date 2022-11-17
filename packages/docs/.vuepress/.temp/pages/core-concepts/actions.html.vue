@@ -68,8 +68,8 @@
 <span class="token keyword">const</span> unsubscribe <span class="token operator">=</span> store<span class="token punctuation">.</span><span class="token function">$subscribe</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   <span class="token comment">// Имя действия.</span>
   name<span class="token operator">:</span> <span class="token string">'fetchItems'</span><span class="token punctuation">,</span>
-  <span class="token comment">// Удаление подписки при размонтировании setup()</span>
-  <span class="token comment">// компонента, если установлено значение равное false.</span>
+  <span class="token comment">// Удаление подписки при размонтировании компонента,</span>
+  <span class="token comment">// если установлено значение false.</span>
   <span class="token comment">// По умолчанию установлен false.</span>
   detached<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
 
