@@ -17,6 +17,7 @@
     "lint:editor": "editorconfig-checker",
     "prepare": "husky install",
     "build": "rollup --bundleConfigAsCjs -c ./rollup.config.js",
+    "build:nuxt": "pnpm run -r build:nuxt",
     "build:all": "npm run build && pnpm run -r build:dts && node scripts/rm-temps.mjs",
     "build:pages": "gh-pages -d ./packages/docs/.vuepress/dist",
     "deploy:docs": "npm run docs:build && npm run build:pages"

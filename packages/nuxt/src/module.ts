@@ -1,5 +1,5 @@
 import {
-  // isNuxt2,
+  isNuxt2,
   addPlugin,
   addImports,
   createResolver,
@@ -9,10 +9,10 @@ import {
 
 const module = defineNuxtModule({
   meta: {
-    name: 'nervue',
+    name: '@nervue/nuxt',
     configKey: 'nervue',
     compatibility: {
-      nuxt: '^2.0.0 || ^3.0.0-rc.5',
+      nuxt: '^2.0.0 || ^3.0.0',
       bridge: true,
     },
   },
@@ -21,28 +21,30 @@ const module = defineNuxtModule({
     autoImports: [],
   },
 
-  setup(options, nuxt){
+  async setup(options, nuxt){
     const resolver = createResolver(import.meta.url)
 
-    // if (options.disableVuex && isNuxt2()) {
-    //
-    // }
+    if (options.disableVuex && isNuxt2()) {
+      nuxt.options.build.transpile.push(resolver.resolve('./runtime/plugin.nuxt2'))
+    } else {
+      nuxt.options.build.transpile.push(resolver.resolve('./runtime/plugin.nuxt3'))
+    }
 
-    nuxt.options.build.transpile.push(resolver.resolve('./plugins/plugin.nuxt3'))
-
-    nuxt.options.alias.nervue =
-      nuxt.options.alias.pinia ||
-      resolveModule('nervue/dist/nervue.mjs', {
-        paths: [ nuxt.options.rootDir, import.meta.url ],
-      })
+    nuxt.options.alias.nervue = nuxt.options.alias.nervue || resolveModule('nervue/dist/nervue.mjs', {
+      paths: [ nuxt.options.rootDir, import.meta.url ],
+    })
 
     nuxt.hook('prepare:types', ({ references }) => {
       references.push({ types: '@nervue/nuxt' })
     })
 
-    addPlugin(resolver.resolve('./plugins/plugin.nuxt3.ts'))
+    nuxt.hook('ready', async () => {
 
-    const plugins = resolver.resolve('./plugins/index')
+    })
+
+    addPlugin(resolver.resolve('./runtime/plugin.nuxt3.ts'))
+
+    const plugins = resolver.resolve('./runtime/index')
 
     addImports([
       { from: plugins, name: 'useNervueStore' },
@@ -55,4 +57,4 @@ const module = defineNuxtModule({
   }
 })
 
-export default module
+export default module as any

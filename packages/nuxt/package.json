@@ -2,7 +2,8 @@
   "name": "@nervue/nuxt",
   "version": "0.0.1",
   "description": "Nuxt module for nervue",
-  "main": "index.js",
+  "main": "./dist/module.cjs",
+  "types": "./dist/types.d.ts",
   "private": true,
   "author": {
     "name": "Anar Allakhverdiev",
@@ -11,7 +12,9 @@
   },
   "license": "ISC",
   "scripts": {
-    "dev:nuxt": "nuxi dev playground"
+    "dev:nuxt": "nuxi dev playground",
+    "build:nuxt": "pnpm dev:prepare && nuxt-module-build",
+    "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground"
   },
   "dependencies": {
     "@nuxt/kit": "^3.0.0",
