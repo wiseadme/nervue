@@ -1,14 +1,32 @@
 {
   "name": "@nervue/nuxt",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Nuxt module for nervue",
   "main": "./dist/module.cjs",
   "types": "./dist/types.d.ts",
-  "private": true,
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/module.mjs",
+      "require": "./dist/module.cjs"
+    }
+  },
   "author": {
     "name": "Anar Allakhverdiev",
     "email": "wiseadme@gmail.com",
     "url": "https://projs.net"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wiseadme/nervue.git",
+    "directory": "packages/nervue"
+  },
+  "bugs": {
+    "url": "https://github.com/wiseadme/nervue/issues",
+    "email": "wiseadme@gmail.com"
   },
   "license": "ISC",
   "scripts": {
@@ -26,5 +44,8 @@
     "@nuxt/test-utils": "^3.0.0",
     "nuxt": "3.0.0",
     "typescript": "^4.8.4"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
