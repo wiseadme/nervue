@@ -1,9 +1,9 @@
 {
   "name": "nervue",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "Vue composition and options API-compatible lightweight store library",
   "sideEffects": false,
-  "main": "dist/index.js",
+  "main": "dist/nervue.mjs",
   "module": "dist/nervue.mjs",
   "unpkg": "dist/nervue.iife.js",
   "typings": "dist/nervue.d.ts",
