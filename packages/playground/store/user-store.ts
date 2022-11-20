@@ -47,10 +47,6 @@ export const useUserStore = defineStore({
     }
   },
 
-  // events: {
-  //   ['fetch-user']: createEvent()
-  // },
-
   expose: {
     name: true,
     fullName: true,

@@ -5,17 +5,28 @@ import 'regenerator-runtime/runtime'
 
 const useStore = defineStore({
   id: 'USER',
-  state: () => ({ name: 'Alex' }),
+  state: () => ({ name: 'Alex', secondName: 'Winski' }),
+  guards: {
+    name: [
+      val => ({ next: val.length > 3 })
+    ]
+  },
+  computed: {
+    fullName: store => `${ store.name } ${ store.secondName }`
+  },
   actions: {
     setName(name){
       this.$patch({ name })
     }
+  },
+  expose: {
+    name: true,
+    fullName: true,
+    setName: true
   }
 })
 
-const store = useStore()
-
-const TestComponent = defineComponent({
+const createCmp = (store) => defineComponent({
   setup(){
     return () => h('div', {
       class: 'container'
@@ -24,10 +35,33 @@ const TestComponent = defineComponent({
 })
 
 describe('defineStore', () => {
+  let mountFunction, Component, store
 
-  const mountFunction = (options = {}) => mount(TestComponent, { ...options })
+  beforeEach(() => {
+    mountFunction = (options = {}) => mount(Component, { ...options })
+  })
 
   test('should test the store definition', async () => {
+    store = useStore()
+
+    expect(store.$id).toEqual('USER')
+    expect(store.$patch).toBeTruthy()
+    expect(store.$subscribe).toBeTruthy()
+    expect(store.$state).toBeTruthy()
+    expect(store.$state.name).toBeTruthy()
+    expect(store.name).toBe('Alex')
+    expect(store.name).toEqual(store.$state.name)
+    expect(store.setName).toBeTruthy()
+    expect(store._guards).toBeTruthy()
+    expect(store._computed.length).toEqual(1)
+    expect(store._computed).toContain('fullName')
+    expect(store._expose.length).toEqual(3)
+    expect(store._expose).toEqual(['name', 'fullName', 'setName'])
+  })
+
+  test('should test reactivity in component', async () => {
+    store = useStore()
+    Component = createCmp(store)
     const wrapper = mountFunction()
 
     store.setName('John')
