@@ -31,9 +31,9 @@ export const useProductStore = defineStore({
     ]
   },
 
-  computed: {
-    visibleItems: (state) => state.items?.filter(it => it.isVisible)
-  },
+  // computed: {
+  //   visibleItems: (state) => state.items?.filter(it => it.isVisible)
+  // },
 
   actions: {
     async fetchItems(){

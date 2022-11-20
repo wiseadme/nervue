@@ -270,13 +270,13 @@ function setupStore<
 
   Object.defineProperty(_storeProperties, '_computed', {
     writable: false,
-    configurable: false,
+    configurable: true,
     value: Object.keys($computed! || {})
   })
 
   Object.defineProperty(_storeProperties, '_expose', {
     value: Object.keys(expose || {}).map(key => key),
-    writable: true,
+    writable: false,
     configurable: true
   })
 
