@@ -1,7 +1,7 @@
 <template><div><h1 id="actions" tabindex="-1"><a class="header-anchor" href="#actions" aria-hidden="true">#</a> Actions</h1>
 <p>Действия это то место, где определяются методы вашего хранилища. Именно здесь можно реализовать бизнес логику и
 взаимодействие с серверной частью.</p>
-<div class="language-typescript" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> defineStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> defineStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> axios <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'axios'</span>
 
 <span class="token keyword">export</span> <span class="token keyword">const</span> useItemsStore <span class="token operator">=</span> <span class="token function">defineStore</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -20,11 +20,11 @@
     <span class="token punctuation">}</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
-</code></pre></div><p>Наверное нет необходимости объяснять свободу в использовании функций как таковых. Вы можете определять их с любым
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>Наверное нет необходимости объяснять свободу в использовании функций как таковых. Вы можете определять их с любым
 количеством аргументов, использовать как для синхронных действий, так и для асинхронных, либо для вызова других
 действий. Действия имеют полный доступ к контексту всего хранилища через ключевое слово <code v-pre>this</code>.</p>
 <h2 id="использование-деиствии-c-setup" tabindex="-1"><a class="header-anchor" href="#использование-деиствии-c-setup" aria-hidden="true">#</a> Использование действий c <code v-pre>setup()</code></h2>
-<div class="language-typescript" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> defineComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> defineComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> useItemsStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./store/items-store'</span>
 
 <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">defineComponent</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -40,9 +40,9 @@
     <span class="token punctuation">}</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
-</code></pre></div><h2 id="использование-деиствии-c-options-api" tabindex="-1"><a class="header-anchor" href="#использование-деиствии-c-options-api" aria-hidden="true">#</a> Использование действий c Options API</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="использование-деиствии-c-options-api" tabindex="-1"><a class="header-anchor" href="#использование-деиствии-c-options-api" aria-hidden="true">#</a> Использование действий c Options API</h2>
 <p>Для этого можно использовать функцию <strong>mapActions</strong>.</p>
-<div class="language-typescript" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> mapActions <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> mapActions <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> useItemsStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./store/items-store'</span>
 
 <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
@@ -58,10 +58,10 @@
     <span class="token punctuation">}</span><span class="token punctuation">)</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
-</code></pre></div><h2 id="подписка-на-деиствия" tabindex="-1"><a class="header-anchor" href="#подписка-на-деиствия" aria-hidden="true">#</a> Подписка на действия</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="подписка-на-деиствия" tabindex="-1"><a class="header-anchor" href="#подписка-на-деиствия" aria-hidden="true">#</a> Подписка на действия</h2>
 <p>Мы можем наблюдать за действиями, с помощью функций обратного вызова получать результаты, обрабатывать ошибки,
 создавать сторонние эффекты.</p>
-<div class="language-typescript" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> useItemsStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./store/items-store'</span>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> useItemsStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./store/items-store'</span>
 
 <span class="token keyword">const</span> store <span class="token operator">=</span> <span class="token function">useItemsStore</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 
@@ -89,6 +89,6 @@
     <span class="token comment">// перехваченную ошибку.</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
-</code></pre></div></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></div></template>
 
 

@@ -8,12 +8,11 @@ aside: false
 Они объявляются по имени свойства которое будут валидировать, в виде массива функций
 валидаторов, которые должны возвращать объект нижеследующего вида:
 
-```typescript
+```ts
 // typescript
-{
-  value ? : any, next
-:
-  boolean
+type GuardReturnType = { 
+  value?: any,
+  next: boolean 
 }
 ```
 
