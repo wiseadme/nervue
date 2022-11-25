@@ -10,11 +10,7 @@ aside: false
 
 ```typescript
 // typescript
-{
-  value ? : any, next
-:
-  boolean
-}
+type GuardReturnType = { value?: any, next: boolean }
 ```
 
 Давайте рассмотрим небольшой боевой пример кода:

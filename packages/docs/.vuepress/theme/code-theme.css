@@ -55,6 +55,10 @@ pre > code {
   color: #afaeae
 }
 
+.token.property, .token.class-name, .token.constant, .token.symbol {
+  color: #a22bb4 !important;
+}
+
 .token.punctuation {
   color: #0e4ec7;
 }
