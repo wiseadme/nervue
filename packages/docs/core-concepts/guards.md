@@ -10,7 +10,11 @@ aside: false
 
 ```typescript
 // typescript
-{ value?: any, next: boolean }
+{
+  value ? : any, next
+:
+  boolean
+}
 ```
 
 Давайте рассмотрим небольшой боевой пример кода:
@@ -23,18 +27,18 @@ const usersStore = defineStore({
   id: 'PRODUCTS',
 
   state: () => ({
-    visibleiItems: null,
+    products: null,
     categories: null
   }),
 
   guards: {
-    visibleiItems: [
+    products: [
       // валидация массива вернет true или false
-      products => ({
-        next: products.every(it => it.visible),
+      (items) => ({
+        next: items.every(it => it.visible),
       }),
-      products => ({
-        next: !products.some(it => !it.available)
+      (items) => ({
+        next: !items.some(it => !it.available)
       })
     ]
   },
@@ -42,8 +46,8 @@ const usersStore = defineStore({
   actions: {
     async fetchProductItems(){
       try {
-        const items = await axios.get('/products')
-        this.visibleItems = items
+        const { data } = await axios.get('/products')
+        this.products = data.items
       } catch (error) {
         return Promise.reject(error)
       }
@@ -53,14 +57,15 @@ const usersStore = defineStore({
 ```
 
 В случае если хотя бы одна проверка ```items```  гуардами вернет значение ```next``` равное ```false```,
-мутация состояния будет пропущена, то есть сработает защита от нежелательных мутаций состояния приложения. 
+мутация состояния будет пропущена, то есть сработает защита от нежелательных мутаций состояния приложения.
 
 # Не только валидаторы
 
-Гуарды можно использовать не только как валидаторы, но и для модификации данных. С их помощью можно привести данные в нужный вид для мутации состояния.
+Гуарды можно использовать не только как валидаторы, но и для модификации данных. С их помощью можно привести данные в
+нужный вид для мутации состояния.
 Давайте рассмотрим тот же пример, но немного изменив его:
 
-```typescript{15-25}
+```typescript{17-19}
 import { defineStore } from 'nervue'
 import axios from 'axios'
 
@@ -68,17 +73,17 @@ const usersStore = defineStore({
   id: 'PRODUCTS',
 
   state: () => ({
-    visibleiItems: null,
+    products: null,
     categories: null
   }),
 
   guards: {
-    visibleiItems: [
-      products => {
-        const visibleProducts = products.filter(it => it.visible)
+    products: [
+      (items) => {
+        const visibleItems = items.filter(it => it.visible)
         return {
-            next: visibleProducts.length,
-            value: visibleProducts
+            next: items.length,
+            value: visibleItems
         }
       }
     ]
@@ -87,8 +92,8 @@ const usersStore = defineStore({
   actions: {
     async fetchProductItems(){
       try {
-        const items = await axios.get('/products')
-        this.visibleItems = items
+        const { data } = await axios.get('/products')
+        this.products = data.items
       } catch (error) {
         return Promise.reject(error)
       }
@@ -96,8 +101,10 @@ const usersStore = defineStore({
   }
 })
 ```
-Как видно из примера выше, гуард возвращает объект у которого присутствует совйство ```value```, которое и будет сохранено для мутации,
-если не будет модифицировано нижеследующим гуардом. 
+
+Как видно из примера выше, гуард возвращает объект у которого присутствует совйство ```value```, которое и будет
+сохранено для мутации,
+если не будет модифицировано нижеследующим гуардом.
 Давайте продолжим рассматривать все тот же пример:
 
 ```typescript
@@ -108,22 +115,23 @@ const usersStore = defineStore({
   id: 'PRODUCTS',
 
   state: () => ({
-    visibleiItems: null,
+    products: null,
     categories: null
   }),
 
   guards: {
-    visibleiItems: [
-      products => {
-        const visibleProducts = products.filter(it => it.visible)
+    products: [
+      (items) => {
+        const visibleItems = items.filter(it => it.visible)
+
         return {
-            next: visibleProducts.length,
-            value: visibleProducts
+          next: visibleItems.length,
+          value: visibleItems
         }
       },
       // В качестве массива products мы получаем уже
       // отфильтрованный массив предыдущим гуардом
-      products => {
+      (items) => {
         // тут некая логика...
       }
     ]
@@ -132,8 +140,8 @@ const usersStore = defineStore({
   actions: {
     async fetchProductItems(){
       try {
-        const items = await axios.get('/products')
-        this.visibleItems = items
+        const { data } = await axios.get('/products')
+        this.products = data.items
       } catch (error) {
         return Promise.reject(error)
       }
