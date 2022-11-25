@@ -1,1 +1,0 @@
-const e=JSON.parse('{"key":"v-6810e0a9","path":"/en/core-concepts/computed.html","title":"Computed","lang":"en-US","frontmatter":{},"excerpt":"","headers":[],"git":{"updatedTime":1668335775000,"contributors":[{"name":"Anar","email":"wiseadme@gmail.com","commits":1}]},"filePathRelative":"en/core-concepts/computed.md"}');export{e as data};
