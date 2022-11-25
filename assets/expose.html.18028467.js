@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-563f3192","path":"/en/core-concepts/expose.html","title":"Expose","lang":"en-US","frontmatter":{},"excerpt":"","headers":[],"git":{"updatedTime":1668335775000,"contributors":[{"name":"Anar","email":"wiseadme@gmail.com","commits":1}]},"filePathRelative":"en/core-concepts/expose.md"}');export{e as data};

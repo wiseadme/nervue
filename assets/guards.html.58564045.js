@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-2933a928","path":"/en/core-concepts/guards.html","title":"Guards","lang":"en-US","frontmatter":{"aside":false},"excerpt":"","headers":[],"git":{"updatedTime":1668335775000,"contributors":[{"name":"Anar","email":"wiseadme@gmail.com","commits":1}]},"filePathRelative":"en/core-concepts/guards.md"}');export{e as data};

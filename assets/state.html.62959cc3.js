@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-5092b14b","path":"/en/core-concepts/state.html","title":"State","lang":"en-US","frontmatter":{"aside":false},"excerpt":"","headers":[],"git":{"updatedTime":1668335775000,"contributors":[{"name":"Anar","email":"wiseadme@gmail.com","commits":1}]},"filePathRelative":"en/core-concepts/state.md"}');export{e as data};
