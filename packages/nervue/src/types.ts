@@ -44,8 +44,8 @@ export type _StateGuards<G extends GuardsTree, K extends string> = Pick<G, K>;
 export type _StoreStateWithGuards<K extends string, G> = G extends GuardsTree ? keyof G extends K ? G : _StateGuards<G, K> : unknown;
 
 export interface StoreOptions<
-  Id extends string = string,
-  S extends StateTree = {},
+  Id extends string,
+  S extends StateTree,
   G /*extends GuardsTree*/ = {},
   C extends ComputedTree<S> = {},
   A /*extends ActionsTree*/ = {},
@@ -53,8 +53,8 @@ export interface StoreOptions<
   id: Id
   state?: () => S,
   guards?: G extends GuardsTree ? keyof G extends S ? G : _StoreStateWithGuards<keyof S & string, G> : unknown
-  computed?: C & ThisType<UnwrapRef<S> & ComputedTree<S> & _StoreWithProperties<Id, S, G, C, A, E>>,
-  actions?: A & ThisType<UnwrapRef<S> & ComputedTree<S> & _StoreWithProperties<Id, S, G, C, A, E>>,
+  computed?: C & ThisType<C & A & UnwrapRef<S> & _StoreWithProperties<Id, S, G, C, A, E>>,
+  actions?: A & ThisType<A & C & UnwrapRef<S> & _StoreWithProperties<Id, S, G, C, A, E>>,
   expose?: E
 }
 
