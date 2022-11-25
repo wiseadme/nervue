@@ -10,7 +10,7 @@
     "incremental": true,
     "noEmit": false,
     "noImplicitAny": false,
-    "noImplicitThis": false,
+    "noImplicitThis": true,
     "noEmitOnError": true,
     "strictNullChecks": true,
     "strictFunctionTypes": false,
