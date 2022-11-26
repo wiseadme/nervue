@@ -1,42 +1,47 @@
-import { effectScope, EffectScope } from 'vue-demi'
-import { Method } from './types'
+import { effectScope, EffectScope, App } from 'vue-demi'
+import { NervuePlugin } from './types'
 
 export const nervueSymbol = Symbol.for('nervue')
 
 export class Nervue {
   public installed: boolean = false
-  public stores: Record<string, any> = {}
-  public _p: Method[] = []
+  public _s: Record<string, any> = {}
+  public _p: NervuePlugin[] = []
   public _e: EffectScope = effectScope()
+  public _a: App = {} as App
 
   static sets = [] as any[]
 
   set(useStore){
     if (this.installed) {
-      this.stores[useStore.$id] = useStore
+      this._s[useStore.$id] = useStore
     } else {
       Nervue.sets.push(useStore)
     }
   }
 
   unset(id){
-    if (this.stores[id]) {
-      delete this.stores[id]
+    if (this._s[id]) {
+      delete this._s[id]
     }
   }
 
-  use(plugin){
+  use(plugin: NervuePlugin){
     this._p.push(plugin)
   }
 
-  install(){
+  install(app = {} as App){
     if (this.installed) {
       return
     }
 
     if (Nervue.sets.length) {
-      Nervue.sets.forEach(s => this.stores[s.$id] = s)
+      Nervue.sets.forEach(s => this._s[s.$id] = s)
       Nervue.sets = []
+    }
+
+    if (app) {
+      this._a = app
     }
 
     this.installed = true

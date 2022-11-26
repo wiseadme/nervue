@@ -1,4 +1,4 @@
-import {ComputedRef, UnwrapRef } from 'vue-demi'
+import { ComputedRef, UnwrapRef } from 'vue-demi'
 
 export type Method = (...args: any[]) => any
 
@@ -40,13 +40,12 @@ export type _StoreWithProperties<Id, S, G, C, A> = {
 export type _StateGuards<G extends GuardsTree, K extends string> = Pick<G, K>;
 export type _StoreStateWithGuards<K extends string, G> = G extends GuardsTree ? keyof G extends K ? G : _StateGuards<G, K> : unknown;
 
-export interface StoreOptions<
-  Id extends string,
+export interface StoreOptions<Id extends string,
   S extends StateTree,
   G /*extends GuardsTree*/ = {},
   C extends ComputedTree<S> = {},
   A /*extends ActionsTree*/ = {},
-> {
+  > {
   id: Id
   state?: () => S,
   guards?: G extends GuardsTree ? keyof G extends S ? G : _StoreStateWithGuards<keyof S & string, G> : unknown
@@ -54,8 +53,7 @@ export interface StoreOptions<
   actions?: A & ThisType<A & C & UnwrapRef<S> & _StoreWithProperties<Id, S, G, C, A>>,
 }
 
-export type Store<
-  Id extends string = string,
+export type Store<Id extends string = string,
   S extends StateTree = {},
   G /*extends GuardsTree*/ = {},
   C /*extends ComputedTree<S>*/ = {},
@@ -65,13 +63,12 @@ export type Store<
   & Computed<C>
   & Actions<A>
 
-export interface StoreDefinition<
-  Id extends string = string,
+export interface StoreDefinition<Id extends string = string,
   S extends StateTree = {},
   G /*extends GuardsTree*/ = {},
   C /*extends ComputedTree<S>*/ = ComputedTree<S>,
   A /*extends ActionsTree*/ = ActionsTree,
-> {
+  > {
   (): Store<Id, S, G, C, A>
 
   $id: Id
@@ -92,3 +89,9 @@ export type SubscribersLists = {
 }
 
 export type Unsubscribe = () => Promise<boolean>
+
+export type PluginContext = {
+  store: Store<string, StateTree, GuardsTree, ComputedTree<any>, ActionsTree>,
+  options: StoreOptions<string, StateTree, GuardsTree, ComputedTree<any>, ActionsTree>
+}
+export type NervuePlugin = (ctx: PluginContext) => void | Record<string, any>

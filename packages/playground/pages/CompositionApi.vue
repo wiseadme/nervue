@@ -7,7 +7,7 @@
 
   const nervue = useNervue()
 
-  // nervue._s.stop()
+  // nervue._e.stop()
 
   console.log(store, nervue)
 </script>
