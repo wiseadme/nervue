@@ -94,4 +94,4 @@ export type PluginContext = {
   store: Store<string, StateTree, GuardsTree, ComputedTree<any>, ActionsTree>,
   options: StoreOptions<string, StateTree, GuardsTree, ComputedTree<any>, ActionsTree>
 }
-export type NervuePlugin = (ctx: PluginContext) => void | Record<string, any>
+export type StorePlugin = (ctx: PluginContext) => void | Record<string, any>

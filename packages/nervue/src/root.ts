@@ -1,12 +1,12 @@
 import { effectScope, EffectScope, App } from 'vue-demi'
-import { NervuePlugin } from './types'
+import { StorePlugin } from './types'
 
 export const nervueSymbol = Symbol.for('nervue')
 
 export class Nervue {
   public installed: boolean = false
   public _s: Record<string, any> = {}
-  public _p: NervuePlugin[] = []
+  public _p: StorePlugin[] = []
   public _e: EffectScope = effectScope()
   public _a: App = {} as App
 
@@ -26,7 +26,7 @@ export class Nervue {
     }
   }
 
-  use(plugin: NervuePlugin){
+  use(plugin: StorePlugin){
     this._p.push(plugin)
   }
 
