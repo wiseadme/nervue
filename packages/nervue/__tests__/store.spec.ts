@@ -18,11 +18,6 @@ const useStore = defineStore({
     setName(name){
       this.$patch({ name })
     }
-  },
-  expose: {
-    name: true,
-    fullName: true,
-    setName: true
   }
 })
 
@@ -55,8 +50,6 @@ describe('defineStore', () => {
     expect(store._guards).toBeTruthy()
     expect(store._computed.length).toEqual(1)
     expect(store._computed).toContain('fullName')
-    expect(store._expose.length).toEqual(3)
-    expect(store._expose).toEqual(['name', 'fullName', 'setName'])
   })
 
   test('should test reactivity in component', async () => {

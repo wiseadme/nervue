@@ -17,7 +17,6 @@ export type {
   ComputedTree,
   ActionsTree,
   GuardsTree,
-  ExposesTree,
   SubscribeOptions,
   Unsubscribe
 } from './types'

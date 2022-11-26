@@ -4,7 +4,6 @@ import type {
   GuardsTree,
   StateTree,
   ComputedTree,
-  ExposesTree,
   Method,
   StoreDefinition,
 } from './types'
@@ -19,10 +18,9 @@ export function mapActions<
   G extends GuardsTree,
   C extends ComputedTree<S>,
   A /*extends ActionsTree*/,
-  E extends ExposesTree,
   Keys extends keyof A>
 (
-  useStore: StoreDefinition<Id, S, G, C, A, E>,
+  useStore: StoreDefinition<Id, S, G, C, A>,
   keys: Keys[]
 ): ActionsTree
 
@@ -36,9 +34,8 @@ export function mapActions<
   G extends GuardsTree,
   C extends ComputedTree<S>,
   A /*extends ActionsTree*/,
-  E extends ExposesTree,
   KeyMapper extends Record<string, keyof A>>(
-  useStore: StoreDefinition<Id, S, G, C, A, E>,
+  useStore: StoreDefinition<Id, S, G, C, A>,
   keysMap: KeyMapper
 ): ActionsTree
 
@@ -52,9 +49,8 @@ export function mapActions<
   G extends GuardsTree,
   C extends ComputedTree<S>,
   A /*extends ActionsTree*/,
-  E extends ExposesTree
  >(
-  useStore: StoreDefinition<Id, S, G, C, A, E>,
+  useStore: StoreDefinition<Id, S, G, C, A>,
   mapOrKeys: any
 ): ActionsTree {
   const store = useStore()
@@ -100,10 +96,9 @@ export function mapState<
   G extends GuardsTree,
   C extends ComputedTree<S>,
   A,
-  E extends ExposesTree,
   Keys extends keyof S | keyof C
   >(
-  useStore: StoreDefinition<Id, S, G, C, A, E>,
+  useStore: StoreDefinition<Id, S, G, C, A>,
   keys: Keys[]
 ): StateTree
 
@@ -117,10 +112,9 @@ export function mapState<
   G extends GuardsTree,
   C extends ComputedTree<S>,
   A,
-  E extends ExposesTree,
-  KeyMapper extends Record<string, (keyof S | keyof C) | ((store: Store<Id, S, G, C, A, E>) => any)>
+  KeyMapper extends Record<string, (keyof S | keyof C) | ((store: Store<Id, S, G, C, A>) => any)>
   >(
-  useStore: StoreDefinition<Id, S, G, C, A, E>,
+  useStore: StoreDefinition<Id, S, G, C, A>,
   keysMap: KeyMapper
 ): StateTree
 
@@ -134,8 +128,8 @@ export function mapState<
   G extends GuardsTree,
   C extends ComputedTree<S>,
   A extends ActionsTree,
-  E extends ExposesTree>(
-  useStore: StoreDefinition<Id, S, G, C, A, E>,
+>(
+  useStore: StoreDefinition<Id, S, G, C, A>,
   mapOrKeys?: any
 ): StateTree{
   const map: Record<string, any> = {}

@@ -3,7 +3,7 @@
 Они объявляются по имени свойства которое будут валидировать, в виде массива функций
 валидаторов, которые должны возвращать объект нижеследующего вида:</p>
 <div class="language-typescript" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token comment">// typescript</span>
-<span class="token keyword">type</span> <span class="token class-name">GuardReturnType</span> <span class="token operator">=</span> <span class="token punctuation">{</span> value<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">,</span> next<span class="token operator">:</span> <span class="token builtin">boolean</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span> value<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">,</span> next<span class="token operator">:</span> <span class="token builtin">boolean</span> <span class="token punctuation">}</span>
 </code></pre></div><p>Давайте рассмотрим небольшой боевой пример кода:</p>
 <div class="language-typescript" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> defineStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
 <span class="token keyword">import</span> axios <span class="token keyword">from</span> <span class="token string">'axios'</span>
@@ -79,7 +79,7 @@
     <span class="token punctuation">}</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
-</code></pre><div class="highlight-lines"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><div class="highlight-line">&nbsp;</div><div class="highlight-line">&nbsp;</div><div class="highlight-line">&nbsp;</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></div></div><p>Как видно из примера выше, гуард возвращает объект у которого присутствует совйство <code v-pre>value</code>, которое и будет
+</code></pre><div class="highlight-lines"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><div class="highlight-line">&nbsp;</div><div class="highlight-line">&nbsp;</div><div class="highlight-line">&nbsp;</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></div></div><p>Как видно из примера выше, гуард возвращает объект у которого присутствует свойство <code v-pre>value</code>, которое и будет
 сохранено для мутации,
 если не будет модифицировано нижеследующим гуардом.
 Давайте продолжим рассматривать все тот же пример:</p>
