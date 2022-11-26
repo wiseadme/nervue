@@ -17,7 +17,7 @@ export function useNervue(): Nervue{
   return root
 }
 
-function vue3Install(): Plugin{
+function genVue3Install(): Plugin{
   const nervue = useNervue() as Nervue
   const { install } = nervue
 
@@ -26,24 +26,37 @@ function vue3Install(): Plugin{
       return
     }
 
-    install.call(nervue, app)
+    install.call(nervue)
+
+    nervue._a = app
 
     app.config.globalProperties.$nervue = useNervue()
     app.provide(nervueSymbol, useNervue())
   }
 }
 
-function vue2Install(): Plugin{
-  const nervue = useNervue() as Nervue
+function genVue2Install(): Plugin{
+  const nervue = useNervue()
   const { install } = nervue
 
   return function (Vue: typeof Vue2){
-    if (nervue!.installed) {
+    if (nervue.installed) {
       return
     }
-
     install.call(nervue)
-    Vue.prototype.$nervue = useNervue()
+    // Vue.prototype.$nervue = useNervue()
+
+    Vue.mixin({
+      beforeCreate(){
+        const options = this.$options
+
+        if (options.nervue) {
+          this.$nervue = options.nervue
+
+          nervue._a = this
+        }
+      }
+    })
   }
 }
 
@@ -51,9 +64,9 @@ type NervuePlugin = Nervue & Plugin
 
 export function createNervue(): NervuePlugin{
   if (isVue3) {
-    useNervue().constructor.prototype.install = vue3Install()
+    useNervue().constructor.prototype.install = genVue3Install()
   } else {
-    useNervue().constructor.prototype.install = vue2Install()
+    useNervue().constructor.prototype.install = genVue2Install()
   }
 
   return useNervue()!
