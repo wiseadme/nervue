@@ -30,7 +30,7 @@ export class Nervue {
     this._p.push(plugin)
   }
 
-  install(app = {} as App){
+  install(){
     if (this.installed) {
       return
     }
@@ -38,10 +38,6 @@ export class Nervue {
     if (Nervue.sets.length) {
       Nervue.sets.forEach(s => this._s[s.$id] = s)
       Nervue.sets = []
-    }
-
-    if (app) {
-      this._a = app
     }
 
     this.installed = true
