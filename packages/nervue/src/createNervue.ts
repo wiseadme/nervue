@@ -26,7 +26,7 @@ function vue3Install(): Plugin{
       return
     }
 
-    install.call(nervue)
+    install.call(nervue, app)
 
     app.config.globalProperties.$nervue = useNervue()
     app.provide(nervueSymbol, useNervue())
@@ -66,9 +66,9 @@ export function useStore(id: string){
     return logWarning('[nervue]: You should to create Nervue instance')
   }
 
-  if (!nervue?.stores[id!]) {
+  if (!nervue?._s[id!]) {
     logWarning(`"${ id }" store doesn't exist in the root object`)
   } else {
-    return nervue.stores[id]()
+    return nervue._s[id]()
   }
 }

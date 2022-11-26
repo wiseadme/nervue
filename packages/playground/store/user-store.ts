@@ -46,12 +46,6 @@ export const useUserStore = defineStore({
       })
     }
   },
-
-  expose: {
-    name: true,
-    fullName: true,
-    setName: true,
-  },
 })
 
 const store = useUserStore()

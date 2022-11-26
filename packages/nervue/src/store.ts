@@ -24,7 +24,7 @@ import {
   SubscribeOptions,
   Unsubscribe,
   SubscribersLists,
-  _StoreWithProperties,
+  _StoreWithProperties, PluginContext,
 } from './types'
 
 import { useNervue } from './createNervue'
@@ -332,7 +332,7 @@ export function defineStore<
   /**
    * install plugins
    */
-  nervue?._p.forEach(pl => assign(plugins, (pl({ store }) || {})))
+  nervue?._p.forEach(pl => assign(plugins, (pl({ store, options } as PluginContext) || {})))
 
   assign(store, plugins)
 
