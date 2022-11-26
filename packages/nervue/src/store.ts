@@ -23,8 +23,9 @@ import {
   Method,
   SubscribeOptions,
   Unsubscribe,
+  PluginContext,
   SubscribersLists,
-  _StoreWithProperties, PluginContext,
+  _StoreWithProperties,
 } from './types'
 
 import { useNervue } from './createNervue'

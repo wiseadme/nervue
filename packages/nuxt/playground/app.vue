@@ -5,6 +5,9 @@
   console.log(useNervueStore(), 'store')
 
   const store = useUserStore()
+
+  await store.setName('Alex')
+
 </script>
 <template>
   <div>
