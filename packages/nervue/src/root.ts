@@ -7,10 +7,16 @@ export class Nervue {
   public installed: boolean = false
   public stores: Record<string, any> = {}
   public _p: Method[] = []
-  public _s: EffectScope = effectScope()
+  public _e: EffectScope = effectScope()
+
+  static sets = [] as any[]
 
   set(useStore){
-    this.stores[useStore.$id] = useStore
+    if (this.installed) {
+      this.stores[useStore.$id] = useStore
+    } else {
+      Nervue.sets.push(useStore)
+    }
   }
 
   unset(id){
@@ -26,6 +32,11 @@ export class Nervue {
   install(){
     if (this.installed) {
       return
+    }
+
+    if (Nervue.sets.length) {
+      Nervue.sets.forEach(s => this.stores[s.$id] = s)
+      Nervue.sets = []
     }
 
     this.installed = true

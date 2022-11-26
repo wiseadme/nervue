@@ -9,16 +9,10 @@ export const pagesComponents = {
   "v-52062726": defineAsyncComponent(() => import(/* webpackChunkName: "v-52062726" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/introduction.html.vue")),
   // path: /api/
   "v-744497ce": defineAsyncComponent(() => import(/* webpackChunkName: "v-744497ce" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/api/index.html.vue")),
-  // path: /en/
-  "v-2d0a870d": defineAsyncComponent(() => import(/* webpackChunkName: "v-2d0a870d" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/en/index.html.vue")),
-  // path: /en/introduction.html
-  "v-2bb284dc": defineAsyncComponent(() => import(/* webpackChunkName: "v-2bb284dc" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/en/introduction.html.vue")),
   // path: /core-concepts/actions.html
   "v-7fa0208b": defineAsyncComponent(() => import(/* webpackChunkName: "v-7fa0208b" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/core-concepts/actions.html.vue")),
   // path: /core-concepts/computed.html
   "v-b28f3d86": defineAsyncComponent(() => import(/* webpackChunkName: "v-b28f3d86" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/core-concepts/computed.html.vue")),
-  // path: /core-concepts/expose.html
-  "v-3835c726": defineAsyncComponent(() => import(/* webpackChunkName: "v-3835c726" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/core-concepts/expose.html.vue")),
   // path: /core-concepts/guards.html
   "v-0b2a3ebc": defineAsyncComponent(() => import(/* webpackChunkName: "v-0b2a3ebc" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/core-concepts/guards.html.vue")),
   // path: /core-concepts/
@@ -27,14 +21,16 @@ export const pagesComponents = {
   "v-e8e6c070": defineAsyncComponent(() => import(/* webpackChunkName: "v-e8e6c070" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/core-concepts/plugins.html.vue")),
   // path: /core-concepts/state.html
   "v-ed2dcd92": defineAsyncComponent(() => import(/* webpackChunkName: "v-ed2dcd92" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/core-concepts/state.html.vue")),
+  // path: /en/
+  "v-2d0a870d": defineAsyncComponent(() => import(/* webpackChunkName: "v-2d0a870d" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/en/index.html.vue")),
+  // path: /en/introduction.html
+  "v-2bb284dc": defineAsyncComponent(() => import(/* webpackChunkName: "v-2bb284dc" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/en/introduction.html.vue")),
   // path: /en/api/
   "v-075401e2": defineAsyncComponent(() => import(/* webpackChunkName: "v-075401e2" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/en/api/index.html.vue")),
   // path: /en/core-concepts/actions.html
   "v-22c4039f": defineAsyncComponent(() => import(/* webpackChunkName: "v-22c4039f" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/en/core-concepts/actions.html.vue")),
   // path: /en/core-concepts/computed.html
   "v-6810e0a9": defineAsyncComponent(() => import(/* webpackChunkName: "v-6810e0a9" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/en/core-concepts/computed.html.vue")),
-  // path: /en/core-concepts/expose.html
-  "v-563f3192": defineAsyncComponent(() => import(/* webpackChunkName: "v-563f3192" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/en/core-concepts/expose.html.vue")),
   // path: /en/core-concepts/guards.html
   "v-2933a928": defineAsyncComponent(() => import(/* webpackChunkName: "v-2933a928" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/en/core-concepts/guards.html.vue")),
   // path: /en/core-concepts/

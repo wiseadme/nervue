@@ -3,12 +3,7 @@ import {
   Plugin,
   Vue2,
   isVue3,
-  computed,
-  reactive,
 } from 'vue-demi'
-import {
-  ExposedStore,
-} from './types'
 import { logWarning } from './helpers'
 import { Nervue, nervueSymbol } from './root'
 
@@ -64,38 +59,16 @@ export function createNervue(): NervuePlugin{
   return useNervue()!
 }
 
-const nervueProps = [ '$patch', '$subscribe', '$id' ]
-
-export function useStore<T = {}>(id: string): ExposedStore<T> | void{
+export function useStore(id: string){
   const nervue = useNervue()!
 
   if (!nervue.installed) {
-    logWarning('[nervue]: You should to create Nervue')
+    return logWarning('[nervue]: You should to create Nervue instance')
+  }
+
+  if (!nervue?.stores[id!]) {
+    logWarning(`"${ id }" store doesn't exist in the root object`)
   } else {
-    if (!nervue?.stores[id!]) {
-      logWarning(`"${ id }" store doesn't exist in the root object`)
-    } else {
-      const store = nervue.stores[id]()
-      const { _expose } = store
-
-      const exposedStore = {}
-
-      const exposedProps = _expose.length
-        ? _expose
-        : Array.from(new Set(Object.keys(store).concat(nervueProps)))
-
-      /*TODO - need define compatible type for the exposed values*/
-      for (const key of exposedProps) {
-        if (typeof store[key] === 'function') {
-          exposedStore[key as string] = function (){
-            store[key](...arguments)
-          }
-        } else {
-          exposedStore[key as string] = computed(() => store[key] as any)
-        }
-      }
-
-      return reactive(exposedStore) as ExposedStore<T>
-    }
+    return nervue.stores[id]()
   }
 }

@@ -10,8 +10,6 @@ export declare type ComputedTree<S extends StateTree> = Record<string, ((state: 
 
 export type ActionsTree = Record<string, Method>
 
-export type ExposesTree = Record<string, boolean>
-
 export type GuardsTree = Record<string, GuardMethod[]>
 
 export type State<S> = {
@@ -30,14 +28,13 @@ export type Computed<C> = {
     : never
 }
 
-export type _StoreWithProperties<Id, S, G, C, A, E> = {
+export type _StoreWithProperties<Id, S, G, C, A> = {
   $id: Id
   $patch(mutator: ((state: UnwrapRef<S>) => void) | Partial<Record<keyof S, any>>): void
   $subscribe(subscribeOptions: SubscribeOptions<A>): Unsubscribe
   $state: UnwrapRef<S>
   _guards: G
   _computed: [ keyof C ]
-  _expose: [ keyof E ]
 }
 
 export type _StateGuards<G extends GuardsTree, K extends string> = Pick<G, K>;
@@ -49,13 +46,12 @@ export interface StoreOptions<
   G /*extends GuardsTree*/ = {},
   C extends ComputedTree<S> = {},
   A /*extends ActionsTree*/ = {},
-  E extends ExposesTree = {}> {
+> {
   id: Id
   state?: () => S,
   guards?: G extends GuardsTree ? keyof G extends S ? G : _StoreStateWithGuards<keyof S & string, G> : unknown
-  computed?: C & ThisType<C & A & UnwrapRef<S> & _StoreWithProperties<Id, S, G, C, A, E>>,
-  actions?: A & ThisType<A & C & UnwrapRef<S> & _StoreWithProperties<Id, S, G, C, A, E>>,
-  expose?: E
+  computed?: C & ThisType<C & A & UnwrapRef<S> & _StoreWithProperties<Id, S, G, C, A>>,
+  actions?: A & ThisType<A & C & UnwrapRef<S> & _StoreWithProperties<Id, S, G, C, A>>,
 }
 
 export type Store<
@@ -64,15 +60,10 @@ export type Store<
   G /*extends GuardsTree*/ = {},
   C /*extends ComputedTree<S>*/ = {},
   A /*extends ActionsTree*/ = {},
-  E /*extends ExposesTree*/ = {},
-  > = _StoreWithProperties<Id, S, G, C, A, E>
+  > = _StoreWithProperties<Id, S, G, C, A>
   & State<S>
   & Computed<C>
   & Actions<A>
-
-export type ExposedStore<SS> = SS extends Store<string, infer S, GuardsTree, infer C, infer A, infer E>
-  ? keyof E extends never ? Record<keyof A | keyof S | keyof C, any> : Record<keyof E, any>
-  : any
 
 export interface StoreDefinition<
   Id extends string = string,
@@ -80,8 +71,8 @@ export interface StoreDefinition<
   G /*extends GuardsTree*/ = {},
   C /*extends ComputedTree<S>*/ = ComputedTree<S>,
   A /*extends ActionsTree*/ = ActionsTree,
-  E /*extends ExposesTree*/ = ExposesTree> {
-  (): Store<Id, S, G, C, A, E>
+> {
+  (): Store<Id, S, G, C, A>
 
   $id: Id
 }

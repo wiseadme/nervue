@@ -23,15 +23,16 @@ describe('createNervue', () => {
 
   test('should test nervue initialization', () => {
     expect(nervue.install).toBeTruthy()
+
     expect(nervue.installed).toBe(false)
     expect(nervue.stores).toBeTruthy()
     expect(nervue._p.length).toBe(1)
-    expect((nervue._s as any).scopes.length).toBe(1)
-    expect(nervue.stores.USER).toBeTruthy()
-    expect(useStore()).toEqual(nervue.stores.USER())
+    expect((nervue._e as any).scopes.length).toBe(1)
 
     nervue.install(createApp(h('div')))
 
+    expect(nervue.stores.USER).toBeTruthy()
+    expect(useStore()).toEqual(nervue.stores.USER())
     expect(nervue.installed).toBe(true)
   })
 
