@@ -1,8 +1,9 @@
 // @ts-ignore
 export const useUserStore = defineNervueStore({
   id: 'USER',
+
   state: () => ({
-    name: 'Alexandr'
+    name: ''
   }),
 
   computed: {
@@ -10,8 +11,14 @@ export const useUserStore = defineNervueStore({
   },
 
   actions: {
-    setName(name){
-      this.$patch({ name })
+    async setName(name){
+      const response = await fetch('https://jsonplaceholder.typicode.com/posts/1')
+
+      const post: any = await response.json()
+
+      console.log(post.title)
+
+      this.$patch({ name: post.title })
     }
   }
 })

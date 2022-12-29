@@ -1,12 +1,12 @@
-export function logWarning (...args: string[]) {
+export function logWarning(...args: string[]){
   console.warn(`[nervue]:`, ...args)
 }
 
-export function logError (...args: string[]) {
+export function logError(...args: string[]){
   console.error(`[nervue]:`, ...args)
 }
 
-export function typeOf(arg) {
+export function typeOf(arg){
   return Object.prototype.toString.call(arg).slice(8, -1).toLowerCase()
 }
 
@@ -20,10 +20,11 @@ export function merge(target, patch){
   }
 
   for (const key in patch) {
-    if (
-      typeOf(patch[key]) === 'object'
-      && patch.hasOwnProperty(key)
-    ) {
+    if (!patch.hasOwnProperty(key)) {
+      continue
+    }
+
+    if (typeOf(patch[key]) === 'object') {
       target[key] = merge(target[key], patch[key])
     } else {
       target[key] = patch[key]
