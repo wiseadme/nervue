@@ -77,8 +77,9 @@ const usersStore = defineStore({
     products: [
       (items) => {
         const visibleItems = items.filter(it => it.visible)
+        
         return {
-            next: items.length,
+            next: !!visibleItems.length,
             value: visibleItems
         }
       }
@@ -121,7 +122,7 @@ const usersStore = defineStore({
         const visibleItems = items.filter(it => it.visible)
 
         return {
-          next: visibleItems.length,
+          next: !!visibleItems.length,
           value: visibleItems
         }
       },

@@ -60,8 +60,9 @@
     products<span class="token operator">:</span> <span class="token punctuation">[</span>
       <span class="token punctuation">(</span>items<span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
         <span class="token keyword">const</span> visibleItems <span class="token operator">=</span> items<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>it <span class="token operator">=></span> it<span class="token punctuation">.</span>visible<span class="token punctuation">)</span>
+        
         <span class="token keyword">return</span> <span class="token punctuation">{</span>
-            next<span class="token operator">:</span> items<span class="token punctuation">.</span>length<span class="token punctuation">,</span>
+            next<span class="token operator">:</span> <span class="token operator">!</span><span class="token operator">!</span>visibleItems<span class="token punctuation">.</span>length<span class="token punctuation">,</span>
             value<span class="token operator">:</span> visibleItems
         <span class="token punctuation">}</span>
       <span class="token punctuation">}</span>
@@ -79,7 +80,7 @@
     <span class="token punctuation">}</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
-</code></pre><div class="highlight-lines"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><div class="highlight-line">&nbsp;</div><div class="highlight-line">&nbsp;</div><div class="highlight-line">&nbsp;</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></div></div><p>Как видно из примера выше, гуард возвращает объект у которого присутствует свойство <code v-pre>value</code>, которое и будет
+</code></pre><div class="highlight-lines"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><div class="highlight-line">&nbsp;</div><div class="highlight-line">&nbsp;</div><div class="highlight-line">&nbsp;</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></div></div><p>Как видно из примера выше, гуард возвращает объект у которого присутствует свойство <code v-pre>value</code>, которое и будет
 сохранено для мутации,
 если не будет модифицировано нижеследующим гуардом.
 Давайте продолжим рассматривать все тот же пример:</p>
@@ -100,7 +101,7 @@
         <span class="token keyword">const</span> visibleItems <span class="token operator">=</span> items<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>it <span class="token operator">=></span> it<span class="token punctuation">.</span>visible<span class="token punctuation">)</span>
 
         <span class="token keyword">return</span> <span class="token punctuation">{</span>
-          next<span class="token operator">:</span> visibleItems<span class="token punctuation">.</span>length<span class="token punctuation">,</span>
+          next<span class="token operator">:</span> <span class="token operator">!</span><span class="token operator">!</span>visibleItems<span class="token punctuation">.</span>length<span class="token punctuation">,</span>
           value<span class="token operator">:</span> visibleItems
         <span class="token punctuation">}</span>
       <span class="token punctuation">}</span><span class="token punctuation">,</span>
