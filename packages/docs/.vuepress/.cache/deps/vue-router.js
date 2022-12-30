@@ -15,8 +15,8 @@ import {
   unref,
   watch,
   watchEffect
-} from "./chunk-R272KDGL.js";
-import "./chunk-3FE2ABCD.js";
+} from "./chunk-RIXLEJIS.js";
+import "./chunk-ZGZYMJVT.js";
 
 // ../../node_modules/.pnpm/@vue+devtools-api@6.4.5/node_modules/@vue/devtools-api/lib/esm/env.js
 function getDevtoolsGlobalHook() {
@@ -175,7 +175,7 @@ function setupDevtoolsPlugin(pluginDescriptor, setupFn) {
   }
 }
 
-// ../../node_modules/.pnpm/vue-router@4.1.6_vue@3.2.41/node_modules/vue-router/dist/vue-router.mjs
+// ../../node_modules/.pnpm/vue-router@4.1.6_vue@3.2.45/node_modules/vue-router/dist/vue-router.mjs
 var isBrowser = typeof window !== "undefined";
 function isESModule(obj) {
   return obj.__esModule || obj[Symbol.toStringTag] === "Module";
