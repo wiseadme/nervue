@@ -61,7 +61,7 @@ const usersStore = defineStore({
 нужный вид для мутации состояния.
 Давайте рассмотрим тот же пример, но немного изменив его:
 
-```typescript{17-19}
+```typescript{18-20}
 import { defineStore } from 'nervue'
 import axios from 'axios'
 

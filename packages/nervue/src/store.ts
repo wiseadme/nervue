@@ -30,13 +30,12 @@ import {
 
 import { useNervue } from './createNervue'
 
-function setupStore<
-  Id extends string,
+function setupStore<Id extends string,
   S extends StateTree = {},
   G /*extends GuardsTree*/ = {},
   C extends ComputedTree<S> = {},
   A /*extends ActionsTree*/ = {},
->(
+  >(
   options: StoreOptions<Id, S, G, C, A>
 ){
   const {
@@ -90,10 +89,12 @@ function setupStore<
             break
           }
         }
-      }
 
-      if (result.next) {
-        return Reflect.set(target, prop, result.value, receiver)
+        if (result.next) {
+          Reflect.set(target, prop, result.value, receiver)
+        }
+      } else {
+        Reflect.set(target, prop, value, receiver)
       }
 
       return true
@@ -297,13 +298,12 @@ function setupStore<
  * @param {StoreOptions} options - store definition options object
  * @returns {StoreDefinition} useStore function
  */
-export function defineStore<
-  Id extends string,
+export function defineStore<Id extends string,
   S extends StateTree = {},
   G /*extends GuardsTree*/ = {},
   C extends ComputedTree<S> = {},
   A /*extends ActionsTree*/ = {},
->(
+  >(
   options: StoreOptions<Id, S, G, C, A>
 ): StoreDefinition<Id, S, G, C, A>{
 

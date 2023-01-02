@@ -23,8 +23,6 @@ export const pagesData = {
   "v-2d0a870d": () => import(/* webpackChunkName: "v-2d0a870d" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/en/index.html.js").then(({ data }) => data),
   // path: /en/introduction.html
   "v-2bb284dc": () => import(/* webpackChunkName: "v-2bb284dc" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/en/introduction.html.js").then(({ data }) => data),
-  // path: /en/api/
-  "v-075401e2": () => import(/* webpackChunkName: "v-075401e2" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/en/api/index.html.js").then(({ data }) => data),
   // path: /en/core-concepts/actions.html
   "v-22c4039f": () => import(/* webpackChunkName: "v-22c4039f" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/en/core-concepts/actions.html.js").then(({ data }) => data),
   // path: /en/core-concepts/computed.html
@@ -37,6 +35,8 @@ export const pagesData = {
   "v-2eb082dc": () => import(/* webpackChunkName: "v-2eb082dc" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/en/core-concepts/plugins.html.js").then(({ data }) => data),
   // path: /en/core-concepts/state.html
   "v-5092b14b": () => import(/* webpackChunkName: "v-5092b14b" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/en/core-concepts/state.html.js").then(({ data }) => data),
+  // path: /en/api/
+  "v-075401e2": () => import(/* webpackChunkName: "v-075401e2" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/en/api/index.html.js").then(({ data }) => data),
   // path: /404.html
   "v-3706649a": () => import(/* webpackChunkName: "v-3706649a" */"/home/wisead/Рабочий стол/projects/nervue/packages/docs/.vuepress/.temp/pages/404.html.js").then(({ data }) => data),
 }
