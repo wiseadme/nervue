@@ -11,12 +11,12 @@ export const pagesRoutes = [
   ["v-ed2dcd92","/core-concepts/state.html",{"title":"State"},["/core-concepts/state","/core-concepts/state.md"]],
   ["v-2d0a870d","/en/",{"title":"Main page"},["/en/index.html","/en/index.md"]],
   ["v-2bb284dc","/en/introduction.html",{"title":"What is Nervue?"},["/en/introduction","/en/introduction.md"]],
+  ["v-075401e2","/en/api/",{"title":"API documentation"},["/en/api/index.html","/en/api/index.md"]],
   ["v-22c4039f","/en/core-concepts/actions.html",{"title":"Actions"},["/en/core-concepts/actions","/en/core-concepts/actions.md"]],
   ["v-6810e0a9","/en/core-concepts/computed.html",{"title":"Computed"},["/en/core-concepts/computed","/en/core-concepts/computed.md"]],
   ["v-2933a928","/en/core-concepts/guards.html",{"title":"Guards"},["/en/core-concepts/guards","/en/core-concepts/guards.md"]],
   ["v-f975dbba","/en/core-concepts/",{"title":"Store"},["/en/core-concepts/index.html","/en/core-concepts/index.md"]],
   ["v-2eb082dc","/en/core-concepts/plugins.html",{"title":"Plugins"},["/en/core-concepts/plugins","/en/core-concepts/plugins.md"]],
   ["v-5092b14b","/en/core-concepts/state.html",{"title":"State"},["/en/core-concepts/state","/en/core-concepts/state.md"]],
-  ["v-075401e2","/en/api/",{"title":"API documentation"},["/en/api/index.html","/en/api/index.md"]],
   ["v-3706649a","/404.html",{"title":""},["/404"]],
 ]
