@@ -5,8 +5,6 @@ export const pagesData = {
   "v-8daa1a0e": () => import(/* webpackChunkName: "v-8daa1a0e" */"/Users/Anar/Desktop/projects/nervue/packages/docs/.vuepress/.temp/pages/index.html.js").then(({ data }) => data),
   // path: /introduction.html
   "v-52062726": () => import(/* webpackChunkName: "v-52062726" */"/Users/Anar/Desktop/projects/nervue/packages/docs/.vuepress/.temp/pages/introduction.html.js").then(({ data }) => data),
-  // path: /api/
-  "v-744497ce": () => import(/* webpackChunkName: "v-744497ce" */"/Users/Anar/Desktop/projects/nervue/packages/docs/.vuepress/.temp/pages/api/index.html.js").then(({ data }) => data),
   // path: /core-concepts/actions.html
   "v-7fa0208b": () => import(/* webpackChunkName: "v-7fa0208b" */"/Users/Anar/Desktop/projects/nervue/packages/docs/.vuepress/.temp/pages/core-concepts/actions.html.js").then(({ data }) => data),
   // path: /core-concepts/computed.html
@@ -19,6 +17,8 @@ export const pagesData = {
   "v-e8e6c070": () => import(/* webpackChunkName: "v-e8e6c070" */"/Users/Anar/Desktop/projects/nervue/packages/docs/.vuepress/.temp/pages/core-concepts/plugins.html.js").then(({ data }) => data),
   // path: /core-concepts/state.html
   "v-ed2dcd92": () => import(/* webpackChunkName: "v-ed2dcd92" */"/Users/Anar/Desktop/projects/nervue/packages/docs/.vuepress/.temp/pages/core-concepts/state.html.js").then(({ data }) => data),
+  // path: /api/
+  "v-744497ce": () => import(/* webpackChunkName: "v-744497ce" */"/Users/Anar/Desktop/projects/nervue/packages/docs/.vuepress/.temp/pages/api/index.html.js").then(({ data }) => data),
   // path: /en/
   "v-2d0a870d": () => import(/* webpackChunkName: "v-2d0a870d" */"/Users/Anar/Desktop/projects/nervue/packages/docs/.vuepress/.temp/pages/en/index.html.js").then(({ data }) => data),
   // path: /en/introduction.html

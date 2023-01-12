@@ -1,15 +1,32 @@
 <script setup lang="ts">
-  // import { useUserStore } from '../store/user-store'
-  import { useStore, useNervue } from '../../nervue/src'
+  import { useStore } from '../../nervue/src'
+  import { wrapRef } from '../../nervue/src/wrapRef'
 
-  // const userStore = useUserStore()
+  const user = wrapRef({
+    name: 'alex',
+    age: 25
+  })
+
+  const newName = wrapRef('Loko')
+
+  newName.set('87')
+
+  console.log(newName.prev(), newName.next(), newName.value())
+
   const store = useStore('USER')
 
-  const nervue = useNervue()
+  user.set({
+    name: 'john',
+  })
+
+  const onClick = () => {
+    user.effect()
+    newName.effect()
+  }
 
   // nervue._e.stop()
 
-  console.log(store, nervue)
+  console.log(user.prev(), user.next(), user.value())
 </script>
 
 <template>
@@ -20,5 +37,6 @@
     <button @click="store.setName('Vladimir Putin')">
       set name
     </button>
+    <h1 @click="onClick">{{ user.value().name }}</h1>
   </div>
 </template>

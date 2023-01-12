@@ -7,8 +7,6 @@ export const pagesComponents = {
   "v-8daa1a0e": defineAsyncComponent(() => import(/* webpackChunkName: "v-8daa1a0e" */"/Users/Anar/Desktop/projects/nervue/packages/docs/.vuepress/.temp/pages/index.html.vue")),
   // path: /introduction.html
   "v-52062726": defineAsyncComponent(() => import(/* webpackChunkName: "v-52062726" */"/Users/Anar/Desktop/projects/nervue/packages/docs/.vuepress/.temp/pages/introduction.html.vue")),
-  // path: /api/
-  "v-744497ce": defineAsyncComponent(() => import(/* webpackChunkName: "v-744497ce" */"/Users/Anar/Desktop/projects/nervue/packages/docs/.vuepress/.temp/pages/api/index.html.vue")),
   // path: /core-concepts/actions.html
   "v-7fa0208b": defineAsyncComponent(() => import(/* webpackChunkName: "v-7fa0208b" */"/Users/Anar/Desktop/projects/nervue/packages/docs/.vuepress/.temp/pages/core-concepts/actions.html.vue")),
   // path: /core-concepts/computed.html
@@ -21,6 +19,8 @@ export const pagesComponents = {
   "v-e8e6c070": defineAsyncComponent(() => import(/* webpackChunkName: "v-e8e6c070" */"/Users/Anar/Desktop/projects/nervue/packages/docs/.vuepress/.temp/pages/core-concepts/plugins.html.vue")),
   // path: /core-concepts/state.html
   "v-ed2dcd92": defineAsyncComponent(() => import(/* webpackChunkName: "v-ed2dcd92" */"/Users/Anar/Desktop/projects/nervue/packages/docs/.vuepress/.temp/pages/core-concepts/state.html.vue")),
+  // path: /api/
+  "v-744497ce": defineAsyncComponent(() => import(/* webpackChunkName: "v-744497ce" */"/Users/Anar/Desktop/projects/nervue/packages/docs/.vuepress/.temp/pages/api/index.html.vue")),
   // path: /en/
   "v-2d0a870d": defineAsyncComponent(() => import(/* webpackChunkName: "v-2d0a870d" */"/Users/Anar/Desktop/projects/nervue/packages/docs/.vuepress/.temp/pages/en/index.html.vue")),
   // path: /en/introduction.html

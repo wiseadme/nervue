@@ -9,15 +9,15 @@
 <span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">createApp</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 
 app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>nervue<span class="token punctuation">)</span>
-</code></pre></div><p>Для того чтобы получить доступ к <code v-pre>nervue</code> объекту, достаточно будет
-использовать <code v-pre>inject</code>, передав ему в качестве аргумента <code v-pre>nervueSymbol</code>.</p>
+</code></pre></div><p>Для того чтобы получить доступ к <code v-pre>nervue</code> объекту, достаточно будет использовать <code v-pre>inject</code>, передав ему в
+качестве аргумента <code v-pre>nervueSymbol</code>.</p>
 <div class="language-vue" data-ext="vue"><pre v-pre class="language-vue"><code>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ts<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
   <span class="token keyword">import</span> <span class="token punctuation">{</span> defineComponent<span class="token punctuation">,</span> inject <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span>
   <span class="token keyword">import</span> <span class="token punctuation">{</span> nervueSymbol <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
 
   <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">defineComponent</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-    <span class="token function">setup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token function">setup</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
       <span class="token keyword">const</span> globalStore <span class="token operator">=</span> <span class="token function">inject</span><span class="token punctuation">(</span>nervueSymbol<span class="token punctuation">)</span>
 
       globalStore<span class="token punctuation">.</span>stores<span class="token punctuation">.</span><span class="token constant">USER</span><span class="token punctuation">.</span><span class="token function">getUser</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
@@ -25,9 +25,9 @@ app<span class="token punctuation">.</span><span class="token function">use</spa
   <span class="token punctuation">}</span><span class="token punctuation">)</span>
 </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
 
-</code></pre></div><p>Nervue устанавливается как глобальная переменная и поэтому мы можем обращаться из шаблона
-компонента к нему на прямую:</p>
-<div class="language-vue" data-ext="vue"><pre v-pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">></span></span>
+</code></pre></div><p>Nervue устанавливается как глобальная переменная и поэтому мы можем обращаться из шаблона компонента к нему на прямую:</p>
+<div class="language-vue" data-ext="vue"><pre v-pre class="language-vue"><code>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">></span></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>user<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>user__name<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
       {{ $nervue.stores.USER.name }}
@@ -38,15 +38,16 @@ app<span class="token punctuation">.</span><span class="token function">use</spa
 <p>В процессе...</p>
 <h2 id="usenervue" tabindex="-1"><a class="header-anchor" href="#usenervue" aria-hidden="true">#</a> useNervue</h2>
 <p>Функция, которая возвращает корневой объект <strong>Nervue</strong>.</p>
-<div class="language-vue" data-ext="vue"><pre v-pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ts<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
+<div class="language-vue" data-ext="vue"><pre v-pre class="language-vue"><code>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ts<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
   <span class="token keyword">import</span> <span class="token punctuation">{</span> defineComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span>
   <span class="token keyword">import</span> <span class="token punctuation">{</span> useNervue <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
-  
+
   <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">defineComponent</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
     <span class="token function">setup</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
       <span class="token comment">// корневой объект Nervue</span>
       <span class="token keyword">const</span> nervue <span class="token operator">=</span> <span class="token function">useNervue</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-      
+
       <span class="token keyword">return</span> <span class="token punctuation">{</span>
         nervue
       <span class="token punctuation">}</span>
@@ -59,9 +60,9 @@ app<span class="token punctuation">.</span><span class="token function">use</spa
 <h2 id="definestore" tabindex="-1"><a class="header-anchor" href="#definestore" aria-hidden="true">#</a> defineStore</h2>
 <p>В процессе...</p>
 <h2 id="mapstate" tabindex="-1"><a class="header-anchor" href="#mapstate" aria-hidden="true">#</a> mapState</h2>
-<p>Позволяет получить доступ к свойствам <code v-pre>state</code> и <code v-pre>computed</code> хранилища, путем распространения в <code v-pre>computed</code> свойстве
-компонента, с использованием <code v-pre>options api</code>. В качестве первого аргумента принимает <code v-pre>useStore</code> функцию, возвращающую хранилище, вторым аргументом необходимо
-передать либо объект, либо массив ключей.</p>
+<p>Позволяет получить доступ к свойствам <code v-pre>state</code> и <code v-pre>computed</code> хранилища, путем распространения в <code v-pre>computed</code>
+свойстве компонента, с использованием <code v-pre>options api</code>. В качестве первого аргумента принимает <code v-pre>useStore</code> функцию,
+возвращающую хранилище, вторым аргументом необходимо передать либо объект, либо массив ключей.</p>
 <p>В качестве примера возьмем все то же хранилище, которое мы определили ранее в качестве базового примера:</p>
 <div class="language-typescript" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> defineStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
 
@@ -73,7 +74,7 @@ app<span class="token punctuation">.</span><span class="token function">use</spa
   <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
   <span class="token comment">// определяем действия</span>
   actions<span class="token operator">:</span> <span class="token punctuation">{</span>
-    <span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
       <span class="token keyword">this</span><span class="token punctuation">.</span>count <span class="token operator">+=</span> <span class="token number">1</span>
     <span class="token punctuation">}</span>
   <span class="token punctuation">}</span>
@@ -85,7 +86,7 @@ app<span class="token punctuation">.</span><span class="token function">use</spa
   <span class="token keyword">import</span> <span class="token punctuation">{</span> useCounterStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./store/counter-store'</span>
 
   <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
-    <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
       <span class="token keyword">return</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
     <span class="token literal-property property">computed</span><span class="token operator">:</span> <span class="token punctuation">{</span>
@@ -96,15 +97,14 @@ app<span class="token punctuation">.</span><span class="token function">use</spa
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
 
     <span class="token literal-property property">methods</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-      <span class="token function">decrement</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+      <span class="token function">decrement</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token keyword">this</span><span class="token punctuation">.</span>counterValue <span class="token operator">-=</span> <span class="token number">1</span>
       <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
   <span class="token punctuation">}</span>
 
 </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
-</code></pre></div><div class="custom-container tip"><p class="custom-container-title">Примечание</p>
-<p>Нет необходимости использовать <code v-pre>mapState</code> при использовании <code v-pre>composition api</code>.</p>
+</code></pre></div><div class="custom-container tip"><p class="custom-container-title">Примечание Нет необходимости использовать ```mapState``` при использовании ```composition api```.</p>
 </div>
 <h2 id="mapactions" tabindex="-1"><a class="header-anchor" href="#mapactions" aria-hidden="true">#</a> mapActions</h2>
 <p>В процессе...</p>
@@ -112,6 +112,22 @@ app<span class="token punctuation">.</span><span class="token function">use</spa
 <p>В процессе...</p>
 <h2 id="subscribe" tabindex="-1"><a class="header-anchor" href="#subscribe" aria-hidden="true">#</a> $subscribe</h2>
 <p>В процессе...</p>
-</div></template>
+<h2 id="wrapref" tabindex="-1"><a class="header-anchor" href="#wrapref" aria-hidden="true">#</a> wrapRef</h2>
+<p>Это функция, которая возвращает <code v-pre>ref</code> обернутый в функциональную оболочку с сохранением предыдущего <code v-pre>prev</code> и
+следующего <code v-pre>next</code> состояния реактивной переменной</p>
+<div class="language-typescript" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> wrapRef <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nervue'</span>
+
+<span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token function">wrapRef</span><span class="token punctuation">(</span><span class="token string">'Alex'</span><span class="token punctuation">)</span>
+
+name<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'John'</span><span class="token punctuation">)</span>
+
+<span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">.</span><span class="token function">prev</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// Alex</span>
+<span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// John</span>
+<span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">.</span><span class="token function">value</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// Alex</span>
+
+name<span class="token punctuation">.</span><span class="token function">effect</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">.</span>value<span class="token punctuation">)</span> <span class="token comment">// John</span>
+</code></pre></div></div></template>
 
 
