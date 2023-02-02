@@ -30,7 +30,8 @@ import {
 
 import { useNervue } from './createNervue'
 
-function setupStore<Id extends string,
+function setupStore<
+  Id extends string,
   S extends StateTree = {},
   G /*extends GuardsTree*/ = {},
   C extends ComputedTree<S> = {},
@@ -298,7 +299,8 @@ function setupStore<Id extends string,
  * @param {StoreOptions} options - store definition options object
  * @returns {StoreDefinition} useStore function
  */
-export function defineStore<Id extends string,
+export function defineStore<
+  Id extends string,
   S extends StateTree = {},
   G /*extends GuardsTree*/ = {},
   C extends ComputedTree<S> = {},
