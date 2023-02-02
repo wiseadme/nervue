@@ -24,17 +24,23 @@ export function wrapRef<S = any>(initialValue: S): WrappedRef<S> {
   }
 
   function set(val: any) {
-    if (typeOf(val) === 'string') {
+    const valType = typeOf(val)
+
+    console.log(nextValue, val)
+
+    if (nextValue === val) {
+      return
+    }
+
+    if (
+      valType === 'string'
+      || valType === 'number'
+      || valType === 'symbol'
+    ) {
       return nextValue = val
     }
 
-    if (typeOf(val) === 'object'){
-      return nextValue = { ...prevValue, ...val }
-    }
-
-    if (typeOf(val) === 'array') {
-      return nextValue = [ ...prevValue, ...val ]
-    }
+    return nextValue = { ...prevValue, ...val }
   }
 
   function effect() {
