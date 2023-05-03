@@ -7,12 +7,15 @@ import {
   toRaw,
   markRaw,
   onUnmounted,
+  unref,
   getCurrentInstance,
   UnwrapRef,
   UnwrapNestedRefs,
 } from 'vue-demi'
+
+import { useNervue } from './createNervue'
 // Helpers
-import { logWarning, merge } from './helpers'
+import { merge, warning } from './helpers'
 // Types
 import {
   StateTree,
@@ -27,8 +30,6 @@ import {
   SubscribersLists,
   _StoreWithProperties,
 } from './types'
-
-import { useNervue } from './createNervue'
 
 function setupStore<Id extends string,
   S extends StateTree = {},
@@ -81,9 +82,9 @@ function setupStore<Id extends string,
           result.value = value
 
           if (__DEV__ && !result.next) {
-            logWarning(
-              `{guards}: ${ stringify(value) } is invalid value for the`,
-              `${ stringify(prop) } of the ${ stringify(storeId) } store state`
+            warning(
+              `{guards}: ${ stringify(value) } is invalid value for the property`,
+              `${ stringify(prop) } of the ${ stringify(storeId) } store state`,
             )
 
             break
@@ -255,7 +256,7 @@ function setupStore<Id extends string,
   _storeProperties.$subscribe = $subscribe
 
   Object.defineProperty(_storeProperties, '$state', {
-    get: () => toRaw(stateRef.value),
+    get: () => toRaw(unref(stateRef)),
     set: (val) => {
       $patch(val)
     }
@@ -273,13 +274,18 @@ function setupStore<Id extends string,
     value: Object.keys($computed! || {})
   })
 
+  /**
+   * create the store and wrapping
+   * into reactive for unwrapping the refs
+   */
   const store = reactive(assign(
     _storeProperties,
-    toRefs(stateRef.value),
+    toRefs(unref(stateRef)),
     actions,
     Object.keys($computed || {}).reduce((mods, key) => {
       // @ts-ignore
       mods[key] = markRaw(computed(() => $computed![key].call(store, store)))
+
       return mods
     }, {})
   )) as UnwrapNestedRefs<Store<Id, S, G, C, A>>
@@ -311,10 +317,6 @@ export function defineStore<Id extends string,
 
   const nervue = useNervue()
 
-  /**
-   * create the store and wrapping
-   * into reactive for unwrapping the refs
-   */
   const store = nervue._e.run(() => {
     const scope = effectScope()
     /**

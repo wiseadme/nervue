@@ -1,6 +1,9 @@
 <script setup lang="ts">
   import { useStore } from '../../nervue/src'
   import { wrapRef } from '../../nervue/src/wrapRef'
+  import {createNervue} from '../../nervue/src'
+
+  const nervue = createNervue()
 
   const user = wrapRef({
     name: 'alex',
@@ -24,7 +27,7 @@
     newName.effect()
   }
 
-  // nervue._e.stop()
+  console.log(nervue, )
 
   console.log(user.prev(), user.next(), user.value())
 </script>

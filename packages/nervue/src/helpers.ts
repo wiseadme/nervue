@@ -1,12 +1,12 @@
-export function logWarning(...args: string[]){
+export function warning(...args: string[]) {
   console.warn(`[nervue]:`, ...args)
 }
 
-export function logError(...args: string[]){
+export function assert(...args: any[]) {
   console.error(`[nervue]:`, ...args)
 }
 
-export function typeOf(arg){
+export function typeOf(arg) {
   return Object.prototype.toString.call(arg).slice(8, -1).toLowerCase()
 }
 
@@ -14,7 +14,7 @@ export function typeOf(arg){
  * @param target - state of store
  * @param patch - object to merge
  */
-export function merge(target, patch){
+export function merge(target, patch) {
   if (typeOf(target) === 'map') {
     patch.forEach((it, key) => target.set(key, it))
   }

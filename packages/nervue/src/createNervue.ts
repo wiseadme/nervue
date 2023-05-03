@@ -4,7 +4,7 @@ import {
   Vue2,
   isVue3,
 } from 'vue-demi'
-import { logWarning } from './helpers'
+import { warning } from './helpers'
 import { Nervue, nervueSymbol } from './root'
 
 let root: Nervue | null = null
@@ -76,11 +76,11 @@ export function useStore(id: string){
   const nervue = useNervue()!
 
   if (!nervue.installed) {
-    return logWarning('[nervue]: You should to create Nervue instance')
+    return warning('[nervue]: You should to create Nervue instance')
   }
 
   if (!nervue?._s[id!]) {
-    logWarning(`"${ id }" store doesn't exist in the root object`)
+    warning(`"${ id }" store doesn't exist in the root object`)
   } else {
     return nervue._s[id]()
   }

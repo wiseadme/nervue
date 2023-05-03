@@ -46,10 +46,6 @@ export const useProductStore = defineStore({
       })
     }
   },
-
-  expose: {
-    items: true
-  }
 })
 
 // const store = useProductStore()
