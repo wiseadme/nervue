@@ -29,7 +29,7 @@ describe('Guards', () => {
     expect(useStore().age).toEqual(null)
     expect(stub).toHaveBeenCalledWith(
       '[nervue]:',
-      '{guards}: 15 is invalid value for the',
+      '{guards}: 15 is invalid value for the property',
       '\"age\" of the \"GUARDS\" store state'
     )
   })
